@@ -24,17 +24,21 @@ from pyang.error import err_add
 smi_module_name = 'ietf-yang-smiv2'
 
 re_smi_oid = re.compile("^(([0-1](\.[1-3]?[0-9]))|(2\.(0|([1-9]\d*))))"
-                          + "(\.(0|([1-9]\d*)))*$")
+                        + "(\.(0|([1-9]\d*)))*$")
+
 
 class SMIPlugin(plugin.PyangPlugin):
     pass
 
+
 def _chk_smi_oid(s):
     return re_smi_oid.search(s) is not None
+
 
 def _chk_smi_max_access(s):
     return s in ['not-accessible', 'accessible-for-notify', 'read-only',
                  'read-write', 'read-create']
+
 
 def pyang_plugin_init():
     """Called by pyang plugin framework at to initialize the plugin."""
@@ -69,6 +73,7 @@ def pyang_plugin_init():
                          "subid needs an oid or subid statement in an ancestor")
     error.add_error_code('SMIv2_SUBID_AND_OID', 1,
                          "subid and oid cannot be given at the same time")
+
 
 smi_stmts = [
 
@@ -111,9 +116,11 @@ smi_stmts = [
 
 re_sub = re.compile("[0-9]+")
 
+
 def v_set_oid(ctx, stmt):
     oid = [int(s) for s in re_sub.findall(stmt.arg)]
     stmt.parent.i_smi_oid = oid
+
 
 def v_set_subid(ctx, stmt):
     if stmt.parent.search_one((smi_module_name, 'oid')) is not None:
