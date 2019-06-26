@@ -1,11 +1,9 @@
-import sys
-from xml.parsers import expat
 import copy
+from xml.parsers import expat
 
-from . import syntax
-from . import grammar
 from . import error
 from . import statements
+from . import syntax
 from . import util
 
 yin_namespace = "urn:ietf:params:xml:ns:yang:yin:1"

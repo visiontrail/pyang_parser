@@ -2,9 +2,10 @@
 
 import optparse
 
+from .. import grammar
 from .. import plugin
 from .. import util
-from .. import grammar
+
 
 def pyang_plugin_init():
     plugin.register_plugin(YANGPlugin())

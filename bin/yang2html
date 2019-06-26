@@ -6,13 +6,11 @@
 # Works on the syntax level and does thus not include any intelligent
 # links or anything.
 
-import sys
 import optparse
+import sys
 from xml.sax.saxutils import escape
 
-import pyang
 import pyang.syntax
-
 
 usage = """%prog [-d] [-c] [<filename>]
 
@@ -34,7 +32,7 @@ optlist = [
     # use capitalized versions of std options help and version
     optparse.make_option("-h", "--help",
                          action="help",
-                         help="Show this help message and exit"),
+                         help="Show this help message and exit ha"),
     optparse.make_option("-v", "--version",
                          action="version",
                          help="Show version number and exit"),

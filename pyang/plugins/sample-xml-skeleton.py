@@ -30,10 +30,11 @@ document containing sample elements for all data nodes.
   --sample-xml-skeleton-defaults option).
 """
 
-import sys
-import optparse
-from lxml import etree
 import copy
+import optparse
+import sys
+
+from lxml import etree
 
 from pyang import plugin, error
 

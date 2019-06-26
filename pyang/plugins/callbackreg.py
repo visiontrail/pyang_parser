@@ -1,6 +1,6 @@
 # -- coding: utf-8 --
 
-"""Tree output plugin
+"""callbackreg output plugin
 
 Compatible with RFC 8340.
 
@@ -16,63 +16,18 @@ from pyang import statements
 
 
 def pyang_plugin_init():
-    plugin.register_plugin(TreePlugin())
+    print('callbackreg pyang_plugin_init')
+    plugin.register_plugin(CallbackReg())
 
 
-class TreePlugin(plugin.PyangPlugin):
+class CallbackReg(plugin.PyangPlugin):
     def __init__(self):
-        plugin.PyangPlugin.__init__(self, 'tree')
+        print('callbackreg init')
+        plugin.PyangPlugin.__init__(self, 'callbackreg')
 
     def add_output_format(self, fmts):
         self.multiple_modules = True
-        fmts['tree'] = self
-
-    def add_opts(self, optparser):
-        optlist = [
-            optparse.make_option("--tree-help",
-                                 dest="tree_help",
-                                 action="store_true",
-                                 help="Print help on tree symbols and exit"),
-            optparse.make_option("--tree-depth",
-                                 type="int",
-                                 dest="tree_depth",
-                                 help="Number of levels to print"),
-            optparse.make_option("--tree-line-length",
-                                 type="int",
-                                 dest="tree_line_length",
-                                 help="Maximum line length"),
-            optparse.make_option("--tree-path",
-                                 dest="tree_path",
-                                 help="Subtree to print"),
-            optparse.make_option("--tree-print-groupings",
-                                 dest="tree_print_groupings",
-                                 action="store_true",
-                                 help="Print groupings"),
-            optparse.make_option("--tree-no-expand-uses",
-                                 dest="tree_no_expand_uses",
-                                 action="store_true",
-                                 help="Do not expand uses of groupings"),
-            optparse.make_option("--tree-module-name-prefix",
-                                 dest="modname_prefix",
-                                 action="store_true",
-                                 help="Prefix with module names instead of " +
-                                 "prefixes"),
-        ]
-        if plugin.is_plugin_registered('restconf'):
-            optlist.append(
-                optparse.make_option("--tree-print-yang-data",
-                                     dest="tree_print_yang_data",
-                                     action="store_true",
-                                     help="Print ietf-restconf:yang-data " +
-                                     "structures")
-            )
-        g = optparser.add_option_group("Tree output specific options")
-        g.add_options(optlist)
-
-    def setup_ctx(self, ctx):
-        if ctx.opts.tree_help:
-            print_help()
-            sys.exit(0)
+        fmts['callbackreg'] = self
 
     def setup_fmt(self, ctx):
         ctx.implicit_errors = False
@@ -87,62 +42,19 @@ class TreePlugin(plugin.PyangPlugin):
         emit_tree(ctx, modules, fd, ctx.opts.tree_depth,
                   ctx.opts.tree_line_length, path)
 
-
-def print_help():
-    print("""
-        Each node is printed as:
-
-        <status>--<flags> <name><opts> <type> <if-features>
-
-        <status> is one of:
-            +  for current
-            x  for deprecated
-            o  for obsolete
-
-        <flags> is one of:
-            rw  for configuration data
-            ro  for non-configuration data, output parameters to rpcs
-                and actions, and notification parameters
-            -w  for input parameters to rpcs and actions
-            -u  for uses of a grouping
-            -x  for rpcs and actions
-            -n  for notifications
-
-        <name> is the name of the node
-            (<name>) means that the node is a choice node
-        :(<name>) means that the node is a case node
-
-        If the node is augmented into the tree from another module, its
-        name is printed as <prefix>:<name>.
-
-        <opts> is one of:
-            ?  for an optional leaf, choice, anydata or anyxml
-            !  for a presence container
-            *  for a leaf-list or list
-            [<keys>] for a list's keys
-
-            <type> is the name of the type for leafs and leaf-lists, or
-                "<anydata>" or "<anyxml>" for anydata and anyxml, respectively
-
-            If the type is a leafref, the type is printed as "-> TARGET", where
-            TARGET is the leafref path, with prefixes removed if possible.
-
-        <if-features> is the list of features this node depends on, printed
-            within curly brackets and a question mark "{...}?"
-""")
-
-# modules：输入文件的所有包含的module
+# modules: the yang module
+# fd: the output file
 def emit_tree(ctx, modules, fd, depth, llen, path):
-    print('emit_tree: ')
+    print('callback reg emit_tree')
     for module in modules:
         printed_header = False
-
+        
         def print_header():
             bstr = ""
             b = module.search_one('belongs-to')
             if b is not None:
                 bstr = " (belongs-to %s)" % b.arg
-            fd.write("%s: %s%s\n" % (module.keyword, module.arg, bstr))
+            fd.write("// %s: %s%s\n" % (module.keyword, module.arg, bstr))
             printed_header = True
 
         chs = [ch for ch in module.i_children
@@ -153,6 +65,7 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
         else:
             chpath = path
 
+        # get the container and leaf
         if len(chs) > 0:
             if not printed_header:
                 print_header()
@@ -205,6 +118,7 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
                 print_header()
                 printed_header = True
             fd.write("\n  rpcs:\n")
+            
             print_children(rpcs, module, fd, '  ', rpath, 'rpc', depth, llen,
                            ctx.opts.tree_no_expand_uses,
                            prefix_with_modname=ctx.opts.modname_prefix)
@@ -311,11 +225,14 @@ def print_path(pre, post, path, fd, llen):
         pre += " "
         print_comps(pre, p, True)
 
-# i_children一个container或者list等容器节点下的所有孩子节点
-# - i_children[-1] : 递归调用打印孩子节点的最后一个节点
+# print_children在printnode中被递归调用
+# i_children : 一个module下的其中一个孩子节点，其中container或者list等容器节点下的所有孩子节点也都包括着
+# i_children[-1] : 递归调用打印孩子节点的最后一个节点
+# children.arg 当前遍历到的节点的名称
 # prefix : 前序节点的路径
 def print_children(i_children, module, fd, prefix, path, mode, depth,
                    llen, no_expand_uses, width=0, prefix_with_modname=False):
+    regfinish = False
     if depth == 0:
         if i_children:
             fd.write(prefix + '     ...\n')
@@ -340,35 +257,65 @@ def print_children(i_children, module, fd, prefix, path, mode, depth,
     if width == 0:
         width = get_width(0, i_children)
 
+    # 遍历这个孩子节点中的所有孩子节点
     for ch in i_children:
+        regfinish = False
+        noleaf = False
         if ((ch.keyword == 'input' or ch.keyword == 'output') and
                 len(ch.i_children) == 0):
             pass
         else:
-            print('print_children ' + ch.arg)
+            print("1 " + ch.keyword  + " " + ch.arg)
+
+            # 当遍历到这个容器的最后一个节点的时候
             if (ch == i_children[-1] or
-                (i_children[-1].keyword == 'output' and
-                 len(i_children[-1].i_children) == 0)):
-                # the last test is to detect if we print input, and the
-                # next node is an empty output node; then don't add the |
-                newprefix = prefix + '   '
-            else:
-                newprefix = prefix + '  |'
-            if ch.keyword == 'input':
-                mode = 'input'
-            elif ch.keyword == 'output':
-                mode = 'output'
+                (ch.keyword == 'container')):
+                newprefix = prefix.upper() + '_' + ch.arg.upper()
+                regfinish = True 
+            else :
+                newprefix = prefix.upper() + '_' + ch.arg.upper()
+                regfinish = False 
+
+            newprefix = newprefix.replace('-','')
+            if (prefix is not None):
+                #print('pre node is ' + prefix)
+                ch.prenode = prefix
+            
+            if (judge_container_have_leaf(ch) == False):
+                print('the node no leaf ' + ch.arg)
+                noleaf = True
+
             print_node(ch, module, fd, newprefix, path, mode, depth, llen,
-                       no_expand_uses, width,
+                       no_expand_uses, width, regfinish, noleaf,
                        prefix_with_modname=prefix_with_modname)
 
+# s.i_module.i_modulename : 当前节点所属的module名称
+# s.arg : 当前节点的名称
+# s.keyword : 当前节点的类型
+# module : 当前遍历到的module
+# get_flags_str(s, mode) : 当前节点的读写权限
+# t = get_typename(s, prefix_with_modname) : 当前节点的数据类型
 def print_node(s, module, fd, prefix, path, mode, depth, llen,
-               no_expand_uses, width, prefix_with_modname=False):
-
-    line = "%s%s--" % (prefix[0:-1], get_status_str(s))
+               no_expand_uses, width, regfinish, noleaf, prefix_with_modname=False):
+    allreadyfinish = False
+    line = ''
+    # 如果遍历到了container，则证明上一个container或list已经完成
+    if(s.keyword == 'container'):
+        line = '    ); \n' 
+        line += '    xconfd_reg_conf_container_m('
+        allreadyfinish = True
+    # 如果遍历到了list，则证明上一个container或list已经完成
+    elif(s.keyword == 'list'):
+        line = '    ); \n' 
+        line += '    xconfd_reg_conf_list_m('
+        allreadyfinish = True
 
     brcol = len(line) + 4
 
+    print(s.prenode.replace('_','/').lower())
+    prenodetree = s.prenode.replace('_','/').lower()
+
+    # 
     if s.i_module.i_modulename == module.i_modulename:
         name = s.arg
     else:
@@ -378,60 +325,40 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
             name = s.i_module.i_prefix + ':' + s.arg
     flags = get_flags_str(s, mode)
 
-    #print(name)
+    # 以下组合一行的宏定义值
+    if s.keyword == 'list' or s.keyword == 'container':
+         # line += " \"%s/%s\" " % (prenodetree, name)
+         line += "%s_change ," % (name)
 
-    if s.keyword == 'list':
-        name += '*'
-        line += flags + " " + name
-    elif s.keyword == 'container':
-        p = s.search_one('presence')
-        if p is not None:
-            name += '!'
-        line += flags + " " + name
     elif s.keyword == 'choice':
         m = s.search_one('mandatory')
         if m is None or m.arg == 'false':
             line += flags + ' (' + name + ')?'
         else:
             line += flags + ' (' + name + ')'
+    
     elif s.keyword == 'case':
         line += ':(' + name + ')'
         brcol += 1
+    
     else:
-        if s.keyword == 'leaf-list':
-            name += '*'
-        elif (s.keyword == 'leaf' and not hasattr(s, 'i_is_key')
-              or s.keyword == 'anydata' or s.keyword == 'anyxml'):
-            m = s.search_one('mandatory')
-            if m is None or m.arg == 'false':
-                name += '?'
-        t = get_typename(s, prefix_with_modname)
-        if t == '':
-            line += "%s %s" % (flags, name)
-        elif (llen is not None and
-              len(line) + len(flags) + width+1 + len(t) + 4 > llen):
-            # there's no room for the type name
-            if (get_leafref_path(s) is not None and
-                    len(t) + brcol > llen):
-                # there's not even room for the leafref path; skip it
-                line += "%s %-*s   leafref" % (flags, width+1, name)
-            else:
-                line += "%s %s" % (flags, name)
-                fd.write(line + '\n')
-                line = prefix + ' ' * (brcol - len(prefix)) + ' ' + t
-        else:
-            line += "%s %-*s   %s" % (flags, width+1, name, t)
+        # t = get_typename(s, prefix_with_modname)
+        line += '        ' + prefix[1:] + ','
+        if regfinish == True:
+            line = line[0:-1]
+            if allreadyfinish != True:
+                line += ');'
 
-    if s.keyword == 'list':
-        if s.search_one('key') is not None:
-            keystr = " [%s]" % re.sub('\s+', ' ', s.search_one('key').arg)
-            if (llen is not None and
-                    len(line) + len(keystr) > llen):
-                fd.write(line + '\n')
-                line = prefix + ' ' * (brcol - len(prefix))
-            line += keystr
-        else:
-            line += " []"
+    # if s.keyword == 'list':
+    #     if s.search_one('key') is not None:
+    #         keystr = " [%s]" % re.sub('\s+', ' ', s.search_one('key').arg)
+    #         if (llen is not None and
+    #                 len(line) + len(keystr) > llen):
+    #             fd.write(line + '\n')
+    #             line = prefix + ' ' * (brcol - len(prefix))
+    #         line += keystr
+    #     else:
+    #         line += " []"
 
     features = s.search('if-feature')
     featurenames = [f.arg for f in features]
@@ -446,6 +373,10 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
             fd.write(line + '\n')
             line = prefix + ' ' * (brcol - len(prefix))
         line += fstr
+    
+    # 如果这个container 或者 list不包含leaf，则不用管它
+    if(noleaf == True):
+        line = ''
 
     fd.write(line + '\n')
     if hasattr(s, 'i_children') and s.keyword != 'uses':
@@ -464,6 +395,20 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
             print_children(chs, module, fd, prefix, path, mode, depth, llen,
                            no_expand_uses,
                            prefix_with_modname=prefix_with_modname)
+
+def judge_container_have_leaf(s):
+    if(s.keyword != 'container'):
+        return True
+
+    chs = s.i_children
+    nodes = [ch for ch in chs
+            if ch.keyword in ['leaf', 'leaf-list', 'choice', 'anyxml', 'anydata']]
+    
+
+    if len(nodes) == 0:
+        return False
+    else:
+        return True
 
 
 def get_status_str(s):

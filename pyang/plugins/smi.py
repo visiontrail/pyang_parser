@@ -13,12 +13,11 @@ i_smi_oid built from the smiv2:oid and smiv2:subid statements.
 
 import re
 
-import pyang
-from pyang import plugin
-from pyang import syntax
-from pyang import grammar
-from pyang import statements
 from pyang import error
+from pyang import grammar
+from pyang import plugin
+from pyang import statements
+from pyang import syntax
 from pyang.error import err_add
 
 smi_module_name = 'ietf-yang-smiv2'

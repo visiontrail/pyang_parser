@@ -1,21 +1,19 @@
 """The pyang library for parsing, validating, and converting YANG modules"""
 
-import os
-import string
-import sys
-import zlib
-import re
 import io
+import os
+import re
+import sys
 
 from . import error
-from . import yang_parser
-from . import yin_parser
 from . import grammar
-from . import util
 from . import statements
 from . import syntax
+from . import util
+from . import yang_parser
+from . import yin_parser
 
-__version__ = '2.0-devel'
+__version__ = '2.1-devel'
 __date__ = '2019-01-21'
 
 class Context(object):

@@ -6,6 +6,7 @@ import optparse
 
 from pyang import plugin
 
+
 def pyang_plugin_init():
     plugin.register_plugin(NamePlugin())
 

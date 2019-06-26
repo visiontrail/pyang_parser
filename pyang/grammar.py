@@ -3,9 +3,9 @@
 import copy
 import re
 
-from . import util
 from . import error
 from . import syntax
+from . import util
 
 module_header_stmts = [
     ('yang-version', '?'),

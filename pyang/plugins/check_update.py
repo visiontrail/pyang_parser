@@ -3,18 +3,19 @@ This plugin checks if an updated version of a module follows
 the rules defined in Section 10 of RFC 6020 and Section 11 of RFC 7950.
 """
 
-import optparse
-import sys
-import os
 import io
+import optparse
+import os
+import sys
 
 import pyang
+from pyang import error
 from pyang import plugin
 from pyang import statements
-from pyang import error
-from pyang import util
 from pyang import types
+from pyang import util
 from pyang.error import err_add
+
 
 def pyang_plugin_init():
     plugin.register_plugin(CheckUpdatePlugin())

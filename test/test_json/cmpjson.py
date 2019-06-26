@@ -3,8 +3,8 @@
 # This program compares two JSON files given as parameters
 
 import codecs
-import sys
 import json
+import sys
 
 if len(sys.argv) != 3:
     sys.stderr.write("Usage: cmpjson.py json_file_1 json_file_2\n")

@@ -6,8 +6,9 @@ References are to rules in:
 http://www.w3.org/TR/1999/REC-xpath-19991116
 """
 
-from . import yacc
 from . import xpath_lexer
+from . import yacc
+
 
 def parse(s):
     return parser.parse(s, lexer = lexer, debug = False)

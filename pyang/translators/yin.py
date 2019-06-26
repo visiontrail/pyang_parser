@@ -1,16 +1,15 @@
 """YIN output plugin"""
 
-from xml.sax.saxutils import quoteattr
-from xml.sax.saxutils import escape
-
 import optparse
 import re
+from xml.sax.saxutils import escape
+from xml.sax.saxutils import quoteattr
 
-from .. import plugin
-from .. import util
 from .. import grammar
-from .. import syntax
+from .. import plugin
 from .. import statements
+from .. import syntax
+from .. import util
 
 yin_namespace = "urn:ietf:params:xml:ns:yang:yin:1"
 

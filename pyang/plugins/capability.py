@@ -3,11 +3,10 @@
 """
 
 import optparse
-import sys
-import os.path
 
 from pyang import plugin
 from pyang import util
+
 
 def pyang_plugin_init():
     plugin.register_plugin(CapabilityPlugin())

@@ -6,13 +6,13 @@ to IETF-specific values.
 """
 
 import optparse
-import sys
 
-from pyang import plugin
-from pyang import statements
 from pyang import error
 from pyang import grammar
+from pyang import plugin
+from pyang import statements
 from pyang.error import err_add
+
 
 def pyang_plugin_init():
     plugin.register_plugin(LintPlugin())

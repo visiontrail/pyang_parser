@@ -3,9 +3,8 @@
 <!-- source file: nc-base-server.rng -->
 
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
-	 ns="urn:ietf:params:xml:ns:netconf:base:1.0"
-	 xmlns:dc="http://purl.org/dc/terms"
-	 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+         ns="urn:ietf:params:xml:ns:netconf:base:1.0"
+         xmlns:dc="http://purl.org/dc/terms"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
 
   <dc:title>RELAX NG Schema for NETCONF Server's hello message</dc:title>

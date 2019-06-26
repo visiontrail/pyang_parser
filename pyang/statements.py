@@ -1,15 +1,15 @@
 import copy
 import re
-import sys
 
-from . import util
-from .util import attrsearch, keysearch, prefix_to_module, \
-    prefix_to_modulename_and_revision
-from .error import err_add
-from . import types
-from . import syntax
 from . import grammar
+from . import syntax
+from . import types
+from . import util
 from . import xpath
+from .error import err_add
+from .util import attrsearch, prefix_to_module, \
+    prefix_to_modulename_and_revision
+
 
 ### Functions that plugins can use
 

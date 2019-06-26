@@ -21,11 +21,11 @@ that can be used by the *json2xml* script for translating a valid JSON
 configuration or state data to XML.
 """
 
-import os
 import json
 
-from pyang import plugin, statements, error
+from pyang import plugin, error
 from pyang.util import unique_prefixes
+
 
 def pyang_plugin_init():
     plugin.register_plugin(JtoXPlugin())

@@ -60,13 +60,13 @@
 # consider to be good Python "coding style."   Modify the code at your
 # own risk!
 # ----------------------------------------------------------------------------
-from __future__ import absolute_import # mbj: handle 'types' name collision
+from __future__ import absolute_import  # mbj: handle 'types' name collision
 
-import re
-import types
-import sys
-import os.path
 import inspect
+import os.path
+import re
+import sys
+import types
 import warnings
 
 __version__    = '3.11'

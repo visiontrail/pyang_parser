@@ -1,11 +1,12 @@
 """YANG built-in types"""
 
-from .error import err_add
-from . import util
-from . import syntax
 import base64
-from xml.sax.saxutils import quoteattr
 from xml.sax.saxutils import escape
+from xml.sax.saxutils import quoteattr
+
+from . import syntax
+from . import util
+from .error import err_add
 
 try:
     # python 2

@@ -4,10 +4,10 @@ to the YANG module(s).
 """
 
 import optparse
-import sys
 
 from pyang import plugin
 from pyang import statements
+
 
 def pyang_plugin_init():
     plugin.register_plugin(JSTreePlugin())

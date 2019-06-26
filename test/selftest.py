@@ -2,15 +2,15 @@
 
 # check that some internal data structures are conistent
 
-import sys
 import glob
 import subprocess
+import sys
 
-
-from pyang import util
 from pyang import error
 from pyang import grammar
 from pyang import syntax
+from pyang import util
+
 
 def oscmd(cmd):
     p = subprocess.Popen(cmd, shell=True,

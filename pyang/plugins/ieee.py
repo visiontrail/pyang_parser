@@ -3,14 +3,14 @@ See http://standards.ieee.org/develop/regauth/tut/ieeeurn.pdf
 """
 
 import optparse
-import sys
 import re
 
+from pyang import error
 from pyang import plugin
 from pyang import statements
-from pyang import error
 from pyang.error import err_add
 from pyang.plugins import lint
+
 
 def pyang_plugin_init():
     plugin.register_plugin(IEEEPlugin())

@@ -1,12 +1,12 @@
-from setuptools import setup
-from setuptools import Distribution
-from os.path import join
-import pyang
 import glob
 import os
 import re
-import sys
 import tempfile
+
+from setuptools import Distribution
+from setuptools import setup
+
+import pyang
 
 modules_iana = glob.glob(os.path.join('modules', 'iana', '*.yang'))
 modules_ietf = glob.glob(os.path.join('modules', 'ietf', '*.yang'))
@@ -50,6 +50,8 @@ class PyangDist(Distribution):
                   self.preprocess_files(opts["install"].get("prefix",
                                                             ("", None))[1])
             Distribution.run_commands(self)
+
+print('Start to setup pyang version is ' + pyang.__version__)
 
 # If the installation is on windows, place pyang.bat file in Scripts directory
 script_files = []

@@ -42,14 +42,13 @@ Three classes are defined in this module:
 
 __docformat__ = "reStructuredText"
 
-import sys
 import optparse
+import sys
 import time
 
-
 from pyang import plugin, error, xpath_lexer, util, statements, types
-
 from .schemanode import SchemaNode
+
 
 def pyang_plugin_init():
     plugin.register_plugin(DSDLPlugin())

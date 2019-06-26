@@ -2,12 +2,13 @@
 
 The parser does not check any keywords or grammar.
 """
+import collections
+
 from . import error
-from . import util
 from . import statements
 from . import syntax
-import collections
-import sys
+from . import util
+
 
 class YangTokenizer(object):
     def __init__(self, text, pos, errors,

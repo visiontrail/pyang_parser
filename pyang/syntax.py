@@ -1,9 +1,9 @@
 """Description of YANG & YIN syntax."""
 
+import datetime
 import re
 import shlex
 import sys
-import datetime
 
 ### Regular expressions - constraints on arguments
 

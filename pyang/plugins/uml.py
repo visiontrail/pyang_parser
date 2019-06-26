@@ -13,17 +13,15 @@ For huge models Java might spit out memory exceptions, increase heap with e.g. -
 # -elements with same name at same level, we assume the path is unique
 # cleanup choice and case with function
 
-import optparse
-import sys
 import datetime
+import optparse
 import re
+import sys
 
-from pyang import plugin
-from pyang import util
-from pyang import grammar
 from pyang import error
-from pyang import syntax
+from pyang import plugin
 from pyang import statements
+from pyang import syntax
 from pyang.error import err_add
 from pyang.statements import find_target_node
 

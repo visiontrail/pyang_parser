@@ -5,11 +5,10 @@ Verifies RESTCONF YANG statements as defined in RFC 8040.
 Verifies the grammar of the restconf extension statements.
 """
 
-import pyang
-from pyang import plugin
-from pyang import grammar
-from pyang import statements
 from pyang import error
+from pyang import grammar
+from pyang import plugin
+from pyang import statements
 from pyang.error import err_add
 
 restconf_module_name = 'ietf-restconf'
