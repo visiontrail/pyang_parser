@@ -71,7 +71,7 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
                 print_header()
                 printed_header = True
             print_children(chs, module, fd, '', chpath, 'data', depth, llen,
-                           ctx.opts.tree_no_expand_uses,
+                           ctx.opts.tree_no_expand_uses, '',
                            prefix_with_modname=ctx.opts.modname_prefix)
 
         mods = [module]
@@ -101,7 +101,7 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
                         mode = 'notification'
                     print_children(augment.i_children, m, fd,
                                    '  ', path, mode, depth, llen,
-                                   ctx.opts.tree_no_expand_uses,
+                                   ctx.opts.tree_no_expand_uses, '',
                                    prefix_with_modname=ctx.opts.modname_prefix)
 
         rpcs = [ch for ch in module.i_children
@@ -120,7 +120,7 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
             fd.write("\n  rpcs:\n")
             
             print_children(rpcs, module, fd, '  ', rpath, 'rpc', depth, llen,
-                           ctx.opts.tree_no_expand_uses,
+                           ctx.opts.tree_no_expand_uses, '',
                            prefix_with_modname=ctx.opts.modname_prefix)
 
         notifs = [ch for ch in module.i_children
@@ -139,7 +139,7 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
             fd.write("\n  notifications:\n")
             print_children(notifs, module, fd, '  ', npath,
                            'notification', depth, llen,
-                           ctx.opts.tree_no_expand_uses,
+                           ctx.opts.tree_no_expand_uses, '',
                            prefix_with_modname=ctx.opts.modname_prefix)
 
         if ctx.opts.tree_print_groupings:
@@ -155,7 +155,7 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
                     fd.write("  grouping %s\n" % g.arg)
                     print_children(g.i_children, m, fd,
                                    '  ', path, 'grouping', depth, llen,
-                                   ctx.opts.tree_no_expand_uses,
+                                   ctx.opts.tree_no_expand_uses, '',
                                    prefix_with_modname=ctx.opts.modname_prefix)
 
         if ctx.opts.tree_print_yang_data:
@@ -172,7 +172,7 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
                     fd.write("  yang-data %s:\n" % yd.arg)
                     print_children(yd.i_children, module, fd, '  ', path,
                                    'yang-data', depth, llen,
-                                   ctx.opts.tree_no_expand_uses,
+                                   ctx.opts.tree_no_expand_uses, '',
                                    prefix_with_modname=ctx.opts.modname_prefix)
 
 
@@ -225,14 +225,17 @@ def print_path(pre, post, path, fd, llen):
         pre += " "
         print_comps(pre, p, True)
 
+
 # print_children在printnode中被递归调用
 # i_children : 一个module下的其中一个孩子节点，其中container或者list等容器节点下的所有孩子节点也都包括着
 # i_children[-1] : 递归调用打印孩子节点的最后一个节点
 # children.arg 当前遍历到的节点的名称
 # prefix : 前序节点的路径
 def print_children(i_children, module, fd, prefix, path, mode, depth,
-                   llen, no_expand_uses, width=0, prefix_with_modname=False):
+                   llen, no_expand_uses, recursivenode, width=0,  prefix_with_modname=False):
     regfinish = False
+    endofcontainer = False
+    
     if depth == 0:
         if i_children:
             fd.write(prefix + '     ...\n')
@@ -258,35 +261,49 @@ def print_children(i_children, module, fd, prefix, path, mode, depth,
         width = get_width(0, i_children)
 
     # 遍历这个孩子节点中的所有孩子节点
-    for ch in i_children:
+    for idx, ch in enumerate(i_children):
         regfinish = False
         noleaf = False
+
         if ((ch.keyword == 'input' or ch.keyword == 'output') and
                 len(ch.i_children) == 0):
             pass
         else:
-            print("1 " + ch.keyword  + " " + ch.arg)
-
-            # 当遍历到这个容器的最后一个节点的时候
+            
+            if ((ch.keyword == 'container') or (ch.keyword == 'list')):
+                recursivenode = ch.keyword
+            
+            # 组合#define以及后续全路径树型结构
             if (ch == i_children[-1] or
-                (ch.keyword == 'container')):
+                (ch.keyword == 'container') or
+                (ch.keyword == 'list')):
                 newprefix = prefix.upper() + '_' + ch.arg.upper()
-                regfinish = True 
+                regfinish = True
             else :
                 newprefix = prefix.upper() + '_' + ch.arg.upper()
-                regfinish = False 
+                regfinish = False
+
+            print("nodes: " + ch.keyword  + " " + ch.arg + ' rec:' + recursivenode)
 
             newprefix = newprefix.replace('-','')
+
             if (prefix is not None):
-                #print('pre node is ' + prefix)
                 ch.prenode = prefix
             
             if (judge_container_have_leaf(ch) == False):
-                print('the node no leaf ' + ch.arg)
                 noleaf = True
+            if ((idx + 1) < len(i_children)):
+                if ((i_children[idx + 1].keyword == 'container')) or ((i_children[idx + 1].keyword == 'list')):
+                    endofcontainer = True
+            
+            # 组合#define以及后续全路径树型结构
+            if (ch == i_children[-1] and
+                ((recursivenode == 'container') or
+                (recursivenode == 'list'))):
+                endofcontainer = True
 
             print_node(ch, module, fd, newprefix, path, mode, depth, llen,
-                       no_expand_uses, width, regfinish, noleaf,
+                       no_expand_uses, width, regfinish, noleaf, endofcontainer, recursivenode,
                        prefix_with_modname=prefix_with_modname)
 
 # s.i_module.i_modulename : 当前节点所属的module名称
@@ -296,23 +313,22 @@ def print_children(i_children, module, fd, prefix, path, mode, depth,
 # get_flags_str(s, mode) : 当前节点的读写权限
 # t = get_typename(s, prefix_with_modname) : 当前节点的数据类型
 def print_node(s, module, fd, prefix, path, mode, depth, llen,
-               no_expand_uses, width, regfinish, noleaf, prefix_with_modname=False):
+               no_expand_uses, width, regfinish, noleaf, endofcontainer, 
+               recursivenode, prefix_with_modname=False):
     allreadyfinish = False
     line = ''
     # 如果遍历到了container，则证明上一个container或list已经完成
     if(s.keyword == 'container'):
-        line = '    ); \n' 
         line += '    xconfd_reg_conf_container_m('
         allreadyfinish = True
     # 如果遍历到了list，则证明上一个container或list已经完成
     elif(s.keyword == 'list'):
-        line = '    ); \n' 
         line += '    xconfd_reg_conf_list_m('
         allreadyfinish = True
 
     brcol = len(line) + 4
 
-    print(s.prenode.replace('_','/').lower())
+    #print(s.prenode.replace('_','/').lower())
     prenodetree = s.prenode.replace('_','/').lower()
 
     # 
@@ -325,10 +341,11 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
             name = s.i_module.i_prefix + ':' + s.arg
     flags = get_flags_str(s, mode)
 
-    # 以下组合一行的宏定义值
+    # 如果是list或者container,则生成注册函数
     if s.keyword == 'list' or s.keyword == 'container':
          # line += " \"%s/%s\" " % (prenodetree, name)
-         line += "%s_change ," % (name)
+         funcname = name.replace('-','')
+         line += "%s_change ," % (funcname)
 
     elif s.keyword == 'choice':
         m = s.search_one('mandatory')
@@ -341,13 +358,21 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
         line += ':(' + name + ')'
         brcol += 1
     
+    # leaf类型节点
     else:
         # t = get_typename(s, prefix_with_modname)
-        line += '        ' + prefix[1:] + ','
-        if regfinish == True:
-            line = line[0:-1]
-            if allreadyfinish != True:
-                line += ');'
+        if (endofcontainer == True):
+            line += '        ' + prefix[1:] + ');'
+        else:
+            line += '        ' + prefix[1:] + ','
+
+
+        if recursivenode == 'list':
+            if (endofcontainer == True):
+                line = '        "' + s.arg + '");'
+            else:
+                line = '        "' + s.arg + '",'
+
 
     # if s.keyword == 'list':
     #     if s.search_one('key') is not None:
@@ -389,11 +414,11 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
             path = path[1:]
         if s.keyword in ['choice', 'case']:
             print_children(chs, module, fd, prefix, path, mode, depth,
-                           llen, no_expand_uses, width - 3,
+                           llen, no_expand_uses, recursivenode, width - 3, 
                            prefix_with_modname=prefix_with_modname)
         else:
             print_children(chs, module, fd, prefix, path, mode, depth, llen,
-                           no_expand_uses,
+                           no_expand_uses, recursivenode,
                            prefix_with_modname=prefix_with_modname)
 
 def judge_container_have_leaf(s):
@@ -404,12 +429,10 @@ def judge_container_have_leaf(s):
     nodes = [ch for ch in chs
             if ch.keyword in ['leaf', 'leaf-list', 'choice', 'anyxml', 'anydata']]
     
-
     if len(nodes) == 0:
         return False
     else:
         return True
-
 
 def get_status_str(s):
     status = s.search_one('status')
