@@ -1,6 +1,6 @@
 # -- coding: utf-8 --
 
-"""PathHeader output plugin
+"""xTypeDef output plugin
 
 Compatible with RFC 8340.
 
@@ -16,18 +16,18 @@ from pyang import statements
 
 
 def pyang_plugin_init():
-    print('pathheader pyang_plugin_init')
-    plugin.register_plugin(PathHeader())
+    print('xtypedef pyang_plugin_init')
+    plugin.register_plugin(xTypeDef())
 
 
-class PathHeader(plugin.PyangPlugin):
+class xTypeDef(plugin.PyangPlugin):
     def __init__(self):
-        print('pathheader init')
-        plugin.PyangPlugin.__init__(self, 'pathheader')
+        print('xtypedef init')
+        plugin.PyangPlugin.__init__(self, 'xtypedef')
 
     def add_output_format(self, fmts):
         self.multiple_modules = True
-        fmts['pathheader'] = self
+        fmts['xtypedef'] = self
 
     def setup_fmt(self, ctx):
         ctx.implicit_errors = False
