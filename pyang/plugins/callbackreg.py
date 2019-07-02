@@ -16,13 +16,13 @@ from pyang import statements
 
 
 def pyang_plugin_init():
-    print('callbackreg pyang_plugin_init')
+    #print('callbackreg pyang_plugin_init')
     plugin.register_plugin(CallbackReg())
 
 
 class CallbackReg(plugin.PyangPlugin):
     def __init__(self):
-        print('callbackreg init')
+        #print('callbackreg init')
         plugin.PyangPlugin.__init__(self, 'callbackreg')
 
     def add_output_format(self, fmts):

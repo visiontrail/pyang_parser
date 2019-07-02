@@ -16,13 +16,13 @@ from pyang import statements
 
 
 def pyang_plugin_init():
-    print('pathheader pyang_plugin_init')
+    #print('pathheader pyang_plugin_init')
     plugin.register_plugin(PathHeader())
 
 
 class PathHeader(plugin.PyangPlugin):
     def __init__(self):
-        print('pathheader init')
+        #print('pathheader init')
         plugin.PyangPlugin.__init__(self, 'pathheader')
 
     def add_output_format(self, fmts):

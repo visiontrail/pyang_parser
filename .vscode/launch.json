@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "xtype debug schd",
+            "type": "python",
+            "request": "launch",
+            "program": "/home/guoliang/Desktop/WorkSpace/CertusNet/Tools/pyang/pyang.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-f",
+                "xtypedef",
+                "/home/guoliang/Desktop/WorkSpace/CertusNet/oam_du/5gran/radisys-du/src/du_app/oam_agent/yang/cell/certus-5gnr-du-cell-schd-cfg@2019-06-20.yang",
+                "-o",
+                "~/Desktop/WorkSpace/113.tree"
+            ],
+        },
+        {
+            "name": "xtype debug",
+            "type": "python",
+            "request": "launch",
+            "program": "/home/guoliang/Desktop/WorkSpace/CertusNet/Tools/pyang/pyang.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-f",
+                "xtypedef",
+                "/home/guoliang/Desktop/WorkSpace/CertusNet/oam_du/5gran/radisys-du/src/du_app/oam_agent/yang/cell/certus-5gnr-du-cell-base-cfg@2019-06-20.yang",
+                "-o",
+                "~/Desktop/WorkSpace/113.tree"
+            ],
+        }
+    ]
+}

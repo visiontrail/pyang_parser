@@ -1,4 +1,7 @@
 # -- coding: utf-8 --
+###############################
+# 用于生成所有回调函数生命的模块
+###############################
 
 """callbackregheader output plugin
 
@@ -16,13 +19,13 @@ from pyang import statements
 
 
 def pyang_plugin_init():
-    print('callbackregheader pyang_plugin_init')
+    #print('callbackregheader pyang_plugin_init')
     plugin.register_plugin(CallbackRegHeader())
 
 
 class CallbackRegHeader(plugin.PyangPlugin):
     def __init__(self):
-        print('callbackregheader init')
+        #print('callbackregheader init')
         plugin.PyangPlugin.__init__(self, 'callbackregheader')
 
     def add_output_format(self, fmts):

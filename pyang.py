@@ -1,3 +1,4 @@
+# -- coding: utf-8 --
 #!/usr/bin/env python
 
 import io
@@ -17,7 +18,6 @@ from pyang import statements
 from pyang import syntax
 
 def run():
-    
     usage = """%prog [options] [<filename>...]
             Validates the YANG module in <filename> (or stdin), and all its dependencies."""
 
@@ -458,6 +458,7 @@ def run():
             else:
                 fd = io.open(tmpfile, "w+", encoding="utf-8")
         try:
+            # 调用具体模块的实现
             emit_obj.emit(ctx, modules, fd)
         except error.EmitError as e:
             if e.msg != "":
