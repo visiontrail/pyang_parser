@@ -47,22 +47,56 @@ class xTypeDef(plugin.PyangPlugin):
 
 
 def emit_tree(ctx, modules, fd, depth, llen, path):
+    alreadyGen = []
+
     for module in modules:
+        mod_name = module.arg.replace(
+            'certus-5gnr-du-', 'gnb_du_oam_agent_').replace('-', '_')
+        headerline = "/*\n" + " * filename: " + mod_name + ".h \n"
+        headerline += " * This header file contains implementation of OAM Agent RConfD Generate by Tools \n"
+        headerline += "*/ \n\n"
+
+        headerline += "#ifndef " + "__" + mod_name.upper() + "__\n"
+        headerline += "#define " + "__" + mod_name.upper() + "__\n\n"
+
+        headerline += """#include "gnb_du_oam_agent_rcfd_cell_types.h"\n\n"""
+
+        headerline += "namespace gnb_du \n"
+        headerline += "{\n"
+        headerline += "namespace rcfd_cell\n"
+        headerline += "{\n"
+
+        fd.write(headerline + "\n")
         print(module.keyword)
-        # 第一遍循环 输出所有的typedef struct
+        # 第一遍循环 输出所有首级container和list的typedef
         for groupname in module.i_groupings:
             chs = [ch for ch in module.i_groupings[groupname].i_children
-                   if ch.keyword in statements.data_definition_keywords]
+                   if ch.keyword in statements.type_definition_keywords
+                   and ch.arg not in alreadyGen]
             if path is not None and len(path) > 0:
                 chs = [ch for ch in chs if ch.arg == path[0]]
                 chpath = path[1:]
             else:
                 chpath = path
-
             if len(chs) > 0:
                 print_children(chs, module, fd, '', chpath, 'data', depth, llen,
-                               ctx.opts.tree_no_expand_uses, 0,
+                               ctx.opts.tree_no_expand_uses, 0, alreadyGen,
                                prefix_with_modname=ctx.opts.modname_prefix)
+        # 第二次遍历 则遍历所有节点，找出非首级的container和list
+        for groupname in module.i_groupings:
+            chs_ctn = [ch for ch in module.i_groupings[groupname].i_children
+                       if ch.keyword in statements.data_definition_keywords]
+            
+            if path is not None and len(path) > 0:
+                chs_ctn = [ch for ch in chs_ctn if ch.arg == path[0]]
+                chpath = path[1:]
+            else:
+                chpath = path
+
+            if len(chs_ctn) > 0:
+                print_children2(chs_ctn, module, fd, '', chpath, 'data', depth, llen,
+                                ctx.opts.tree_no_expand_uses, 0, alreadyGen,
+                                prefix_with_modname=ctx.opts.modname_prefix)
 
 
 def unexpand_uses(i_children):
@@ -114,6 +148,7 @@ def print_path(pre, post, path, fd, llen):
         pre += " "
         print_comps(pre, p, True)
 
+
 def get_struct_name(struname):
     ret = ""
     temp = struname.split('-')
@@ -121,6 +156,7 @@ def get_struct_name(struname):
         ret += each.title()
 
     return ret
+
 
 def switch_comm_type(t):
     if t == "string":
@@ -131,8 +167,11 @@ def switch_comm_type(t):
 # i_children[-1] : 递归调用打印孩子节点的最后一个节点
 # children.arg 当前遍历到的节点的名称
 # prefix : 前序节点的路径
+
+
 def print_children(i_children, module, fd, prefix, path, mode, depth,
-                   llen, no_expand_uses, level, width=0, prefix_with_modname=False):
+                   llen, no_expand_uses, level, alreadyGen, width=0, prefix_with_modname=False):
+
     if depth == 0:
         if i_children:
             fd.write(prefix + '     ...\n')
@@ -164,28 +203,26 @@ def print_children(i_children, module, fd, prefix, path, mode, depth,
                 len(ch.i_children) == 0):
             pass
         else:
-            # 无论是否遍历到最后一个节点，#define名称必须是全路径
-            if (ch == i_children[-1] 
-                or (i_children[-1].keyword == 'output' 
-                and len(i_children[-1].i_children) == 0)):
+            # 当遍历到该节点所有子节点的最后一个节点时
+            if (ch == i_children[-1]
+                or (i_children[-1].keyword == 'output'
+                    and len(i_children[-1].i_children) == 0)):
                 newprefix = prefix.upper() + '__' + ch.arg.upper()
                 if level != 0:
                     endofvec = True
-                    if (ch.keyword == "list"):
-                        line = "    std::vector<std::shared_ptr<" + get_struct_name(ch.arg) + "> " + ch.arg.replace('-','_') + ";"
-                        fd.write(line + '\n')
             else:
                 newprefix = prefix.upper() + '__' + ch.arg.upper()
 
             # 将yang模型中的中划线删除
-            newprefix = newprefix.replace('-','_')
+            newprefix = newprefix.replace('-', '_')
+
+            # 记录该节点的父节点
             if (prefix is not None):
-                #print('pre node is ' + prefix)
                 ch.prenode = prefix
-            
+
             # 输出当前节点
             print_node(ch, module, fd, newprefix, path, mode, depth, llen,
-                       no_expand_uses, level, width, endofvec,
+                       no_expand_uses, level, width, endofvec, alreadyGen,
                        prefix_with_modname=prefix_with_modname)
 
 # s.i_module.i_modulename : 当前节点所属的module名称
@@ -194,22 +231,22 @@ def print_children(i_children, module, fd, prefix, path, mode, depth,
 # module : 当前遍历到的module
 # get_flags_str(s, mode) : 当前节点的读写权限
 # t = get_typename(s, prefix_with_modname) : 当前节点的数据类型
+
+
 def print_node(s, module, fd, prefix, path, mode, depth, llen,
-               no_expand_uses, level, width, endofvec, prefix_with_modname=False):
+               no_expand_uses, level, width, endofvec, alreadyGen, prefix_with_modname=False):
 
     line = ""
     endflag = False
-
     #line += str(level) + "---"
 
     strname = get_struct_name(str(s.parent.arg))
-
-    # 当遍历到的节点为list或者container,且为第一级，则认为它是一个可能包含其他list的struct
+    # 第一次遍历的时候，先将所有的顶级的container或者list写出来
     if ((s.keyword == "container") and level == 0):
-        line += "typedef struct struct" + s.arg.replace("-","") + " {"
-    
+        line += "typedef struct struct" + s.arg.replace("-", "") + " {"
+
     if ((s.keyword == "list") and level == 0):
-        line += "typedef struct struct" + s.arg.replace("-","") + " {"
+        line += "typedef struct struct" + s.arg.replace("-", "") + " {"
 
     # 检查遍历到的节点是否是当前的module
     if s.i_module.i_modulename == module.i_modulename:
@@ -219,44 +256,32 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
             name = s.i_module.i_modulename + ':' + s.arg
         else:
             name = s.i_module.i_prefix + ':' + s.arg
-    
-    # flags : 当前节点的读写权限，即ro\rw等等
-    flags = get_flags_str(s, mode)
+
     # t : 当前节点的数据类型
     t = get_typename(s, prefix_with_modname)
-
     if t.find(':') > 0:
         t = t[(t.find(':') + 1):]
         t = get_struct_name(t)
-    
+
     # 以下组合一行的宏定义值
     if (s.keyword == 'list' or s.keyword == 'container') and (level == 0):
         line += ""
     # 第一次遍历，只要这个container不是第一级，则它就是其他container的节点
     elif ((s.keyword == "container") and level != 0):
-        line += "    %s %s; " % (get_struct_name(s.arg), name.replace('-','_'))
+        line += "    %s %s; " % (get_struct_name(s.arg),
+                                 name.replace('-', '_'))
     elif ((s.keyword == "list") and level != 0):
-        line += "    std::vector<std::shared_ptr<" + get_struct_name(s.arg) + "> " + name.replace('-','_') + ";"
+        line += "    std::vector<std::shared_ptr<" + \
+            get_struct_name(s.arg) + "> " + name.replace('-', '_') + ";"
     else:
         if s.parent.keyword == "list" or s.parent.keyword == "container":
-            line += "    %s %s; " % (t, name.replace('-','_'))
+            line += "    %s %s; " % (t, name.replace('-', '_'))
 
-    features = s.search('if-feature')
-    featurenames = [f.arg for f in features]
-    if hasattr(s, 'i_augment'):
-        afeatures = s.i_augment.search('if-feature')
-        featurenames.extend([f.arg for f in afeatures
-                             if f.arg not in featurenames])
+    # 如果一个container或者list结束了，则结束该typedef
+    if endofvec == True and endflag == False:
+        line += "\n}" + strname + "; \n"
+        alreadyGen.append(s.parent.arg)
 
-    if len(featurenames) > 0:
-        fstr = " {%s}?" % ",".join(featurenames)
-        if (llen is not None and len(line) + len(fstr) > llen):
-            fd.write(line + '\n')
-            line = prefix + ' ' * (brcol - len(prefix))
-        line += fstr
-
-    if endofvec == True and endflag == False :
-        line += "\n }" + strname + ";"
     # 将当前的节点写入文件中
     fd.write(line + '\n')
 
@@ -271,14 +296,16 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
             path = path[1:]
         if s.keyword in ['choice', 'case']:
             print_children(chs, module, fd, prefix, path, mode, depth,
-                           llen, no_expand_uses, level + 1,  width - 3,
+                           llen, no_expand_uses, level + 1,  width - 3, alreadyGen,
                            prefix_with_modname=prefix_with_modname)
         else:
             print_children(chs, module, fd, prefix, path, mode, depth, llen,
-                           no_expand_uses, level + 1, 
+                           no_expand_uses, level + 1, alreadyGen,
                            prefix_with_modname=prefix_with_modname)
 
-
+def judge_next_ctn(i_children, level):
+    if (i_children.keyword == "container" or i_children.keyword == "list") and level > 0:
+        return True
 
 # print_children在printnode中被递归调用
 # i_children一个module下的其中一个孩子节点，其中container或者list等容器节点下的所有孩子节点也都包括着
@@ -286,7 +313,7 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
 # children.arg 当前遍历到的节点的名称
 # prefix : 前序节点的路径
 def print_children2(i_children, module, fd, prefix, path, mode, depth,
-                   llen, no_expand_uses, level, width=0, prefix_with_modname=False):
+                    llen, no_expand_uses, level, alreadyGen, width=0, prefix_with_modname=False):
     if depth == 0:
         if i_children:
             fd.write(prefix + '     ...\n')
@@ -314,33 +341,36 @@ def print_children2(i_children, module, fd, prefix, path, mode, depth,
     # 遍历这个孩子节点中的所有孩子节点
     for ch in i_children:
         endofvec = False
-        if ((ch.keyword == 'input' or ch.keyword == 'output') and
-                len(ch.i_children) == 0):
-            pass
-        else:
-            # 无论是否遍历到最后一个节点，#define名称必须是全路径
-            if (ch == i_children[-1] 
-                or (i_children[-1].keyword == 'output' 
+        chs = []
+        # 当遍历到该节点所有子节点的最后一个节点时
+        if (ch == i_children[-1]
+            or (i_children[-1].keyword == 'output'
                 and len(i_children[-1].i_children) == 0)):
-                newprefix = prefix.upper() + '__' + ch.arg.upper()
-                if level != 0:
-                    endofvec = True
-                    if (ch.keyword == "list"):
-                        line = "    std::vector<std::shared_ptr<" + get_struct_name(ch.arg) + "> " + ch.arg.replace('-','_') + ";"
-                        fd.write(line + '\n')
-            else:
-                newprefix = prefix.upper() + '__' + ch.arg.upper()
+            newprefix = prefix.upper() + '__' + ch.arg.upper()
+            if level != 0:
+                endofvec = True
+        else:
+            newprefix = prefix.upper() + '__' + ch.arg.upper()
 
-            # 将yang模型中的中划线删除
-            newprefix = newprefix.replace('-','_')
-            if (prefix is not None):
-                #print('pre node is ' + prefix)
-                ch.prenode = prefix
-            
-            # 输出当前节点
-            print_node(ch, module, fd, newprefix, path, mode, depth, llen,
-                       no_expand_uses, level, width, endofvec,
-                       prefix_with_modname=prefix_with_modname)
+        # 将yang模型中的中划线删除
+        newprefix = newprefix.replace('-', '_')
+        if (prefix is not None):
+            #print('pre node is ' + prefix)
+            ch.prenode = prefix
+
+        # if (ch):
+        #     continue
+        if ch.keyword == "container" or ch.keyword == "list":
+            for cht in ch.i_children:
+                if cht.keyword in statements.type_definition_keywords and cht.arg not in alreadyGen:
+                    print(cht)
+
+        #print("--------------" + ch.arg + "=" + str(level) + " " + ch.keyword)
+
+        # 输出当前节点
+        print_node2(ch, module, fd, newprefix, path, mode, depth, llen,
+                    no_expand_uses, level, width, endofvec, alreadyGen,
+                    prefix_with_modname=prefix_with_modname)
 
 
 # s.i_module.i_modulename : 当前节点所属的module名称
@@ -350,29 +380,22 @@ def print_children2(i_children, module, fd, prefix, path, mode, depth,
 # get_flags_str(s, mode) : 当前节点的读写权限
 # t = get_typename(s, prefix_with_modname) : 当前节点的数据类型
 def print_node2(s, module, fd, prefix, path, mode, depth, llen,
-               no_expand_uses, level, width, endofvec, prefix_with_modname=False):
+                no_expand_uses, level, width, endofvec, alreadyGen, prefix_with_modname=False):
 
-    line = ""
+    line = "=====" + str(level) + " " + s.arg
     endflag = False
 
-    #line += str(level) + "---"
-
+    # 结构体名称
     strname = get_struct_name(str(s.parent.arg))
 
-    if (((s.keyword == "list") or (s.keyword == "container")) and level != 0):
-        line += "}" + strname + ";" + "\n"
-        endflag = True
-
     # 当遍历到的节点为list或者container,且为第一级，则认为它是一个可能包含其他list的struct
-    if ((s.keyword == "container")):
-        line += "typedef struct struct" + s.arg.replace("-","") + " {"
-    
-    if ((s.keyword == "list")):
-        line += "typedef struct struct" + s.arg.replace("-","") + " {"
+    if ((s.keyword == "container") and level > 0):
+        if s.arg not in alreadyGen:
+            line += "+++++typedef struct struct" + s.arg.replace("-", "") + " {"
 
-    # 打印所有节点的全路径
-    # print(s.prenode.replace('_','/').lower() + '/' + s.arg)
-    prenodetree = s.prenode.replace('__','/').lower()
+    if ((s.keyword == "list" and level > 0)):
+        if s.arg not in alreadyGen:
+            line += "+++++typedef struct struct" + s.arg.replace("-", "") + " {"
 
     # 检查遍历到的节点是否是当前的module
     if s.i_module.i_modulename == module.i_modulename:
@@ -382,24 +405,19 @@ def print_node2(s, module, fd, prefix, path, mode, depth, llen,
             name = s.i_module.i_modulename + ':' + s.arg
         else:
             name = s.i_module.i_prefix + ':' + s.arg
-    
-    # flags : 当前节点的读写权限，即ro\rw等等
-    flags = get_flags_str(s, mode)
+
     # t : 当前节点的数据类型
     t = get_typename(s, prefix_with_modname)
-
     if t.find(':') > 0:
         t = t[(t.find(':') + 1):]
         t = get_struct_name(t)
-    
-
 
     # 以下组合一行的宏定义值
     if s.keyword == 'list' or s.keyword == 'container':
-         line += ""
+        line += ""
     else:
         if s.parent.keyword == "list" or s.parent.keyword == "container":
-            line += "    %s %s; " % (t, name.replace('-','_'))
+            line += "    %s %s; " % (t, name.replace('-', '_'))
 
     features = s.search('if-feature')
     featurenames = [f.arg for f in features]
@@ -408,15 +426,8 @@ def print_node2(s, module, fd, prefix, path, mode, depth, llen,
         featurenames.extend([f.arg for f in afeatures
                              if f.arg not in featurenames])
 
-    if len(featurenames) > 0:
-        fstr = " {%s}?" % ",".join(featurenames)
-        if (llen is not None and len(line) + len(fstr) > llen):
-            fd.write(line + '\n')
-            line = prefix + ' ' * (brcol - len(prefix))
-        line += fstr
-
-    if endofvec == True and endflag == False :
-        line += "\n }" + strname + ";"
+    # if endofvec == True and endflag == False:
+    #     line += "\n }" + strname + ";"
     # 将当前的节点写入文件中
     fd.write(line + '\n')
 
@@ -430,13 +441,14 @@ def print_node2(s, module, fd, prefix, path, mode, depth, llen,
                    if ch.arg == path[0]]
             path = path[1:]
         if s.keyword in ['choice', 'case']:
-            print_children(chs, module, fd, prefix, path, mode, depth,
-                           llen, no_expand_uses, level + 1,  width - 3,
+            print_children2(chs, module, fd, prefix, path, mode, depth,
+                           llen, no_expand_uses, level + 1,  width - 3, alreadyGen,
                            prefix_with_modname=prefix_with_modname)
         else:
-            print_children(chs, module, fd, prefix, path, mode, depth, llen,
-                           no_expand_uses, level + 1, 
+            print_children2(chs, module, fd, prefix, path, mode, depth, llen,
+                           no_expand_uses, level + 1, alreadyGen,
                            prefix_with_modname=prefix_with_modname)
+
 
 def get_status_str(s):
     status = s.search_one('status')

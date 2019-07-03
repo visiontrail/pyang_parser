@@ -120,6 +120,8 @@ re_and_or = re.compile(r'\band\b|\bor\b')
 data_definition_keywords = ['container', 'leaf', 'leaf-list', 'list',
                             'choice', 'anyxml', 'anydata', 'uses', 'augment']
 
+type_definition_keywords = ['container', 'list', 'uses']
+
 _validation_phases = [
     # init phase:
     #   initalizes the module/submodule statement, and maps
