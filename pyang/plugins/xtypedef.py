@@ -86,7 +86,7 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
         for groupname in module.i_groupings:
             chs_ctn = [ch for ch in module.i_groupings[groupname].i_children
                        if ch.keyword in statements.data_definition_keywords]
-            
+
             if path is not None and len(path) > 0:
                 chs_ctn = [ch for ch in chs_ctn if ch.arg == path[0]]
                 chpath = path[1:]
@@ -97,6 +97,32 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
                 print_children2(chs_ctn, module, fd, '', chpath, 'data', depth, llen,
                                 ctx.opts.tree_no_expand_uses, 0, alreadyGen,
                                 prefix_with_modname=ctx.opts.modname_prefix)
+
+        classname = mod_name.replace('gnb_du_', '')
+        classline = "class " + classname + " : public allocator\n{\nprivate:\n    XCONFD_YANGTREE_T* yt_;\n\n"
+
+        fd.write(classline)
+
+        # 第三次遍历 将与submodule与group名称相同的grouping取出，并生成成员变量
+        for groupname in module.i_groupings:
+            if groupname != module.arg.replace('certus-5gnr-du-', ''):
+                continue
+            else:
+                chs_ctn = [ch for ch in module.i_groupings[groupname].i_children
+                           if ch.keyword in statements.mem_definition_keywords]
+            if len(chs_ctn) > 0:
+                print_mem(chs_ctn, module, fd, '', chpath, 'data', depth, llen,
+                          ctx.opts.tree_no_expand_uses, 0, alreadyGen,
+                          prefix_with_modname=ctx.opts.modname_prefix)
+        
+        classline = "\npublic:\n"
+        classline += "    " + classname + "(XCONFD_YANGTREE_T* yt) {}\n"
+        classline += "    vritual ~" + classname + "() {}\n};\n\n"
+        classline += "} //" + "end of namespace rcfd_cell\n"
+        classline += "} //" + "end of namespace gnb_du\n"
+        classline += "#endif /* __" + mod_name.upper() + "__ */"
+
+        fd.write(classline)
 
 
 def unexpand_uses(i_children):
@@ -149,6 +175,36 @@ def print_path(pre, post, path, fd, llen):
         print_comps(pre, p, True)
 
 
+def refine_type_name(typename):
+    if typename.find(':') > 0:
+        typename = typename[(typename.find(':') + 1):]
+        typename = get_struct_name(typename)
+        return typename
+
+    if typename == "string":
+        return "std::string"
+    if typename == "int8":
+        return "int8_t"
+    if typename == "int16":
+        return "int16_t"
+    if typename == "int32":
+        return "int32_t"
+    if typename == "int64":
+        return "uint64_t"
+    if typename == "uint8":
+        return "uint8_t"
+    if typename == "uint16":
+        return "uint16_t"
+    if typename == "uint32":
+        return "uint32_t"
+    if typename == "uint64":
+        return "uint64_t"
+    if typename == "empty":
+        return "bool"
+
+    return typename
+
+
 def get_struct_name(struname):
     ret = ""
     temp = struname.split('-')
@@ -158,9 +214,25 @@ def get_struct_name(struname):
     return ret
 
 
-def switch_comm_type(t):
-    if t == "string":
-        return "std::string"
+def print_mem(i_children, module, fd, prefix, path, mode, depth,
+              llen, no_expand_uses, level, alreadyGen, width=0, prefix_with_modname=False):
+    for child in i_children:
+        if ((child.keyword == "container")):
+            line = "    %s %s; " % (get_struct_name(child.arg),
+                                    child.arg.replace('-', '_'))
+        elif ((child.keyword == "list")):
+            line = "    std::vector<std::shared_ptr<" + \
+                get_struct_name(child.arg) + "> " + \
+                child.arg.replace('-', '_') + ";"
+        elif child.keyword == "leaf-list":
+            line = "    std::vector<std::shared_ptr<" + \
+                refine_type_name(get_typename(
+                    child, prefix_with_modname)) + ">> " + child.arg.replace('-', '_') + ";"
+        else:
+            line = "    %s %s; " % (refine_type_name(
+                (get_typename(child, prefix_with_modname))), child.arg.replace('-', '_'))
+
+        fd.write(line + '\n')
 
 # print_children在printnode中被递归调用
 # i_children一个module下的其中一个孩子节点，其中container或者list等容器节点下的所有孩子节点也都包括着
@@ -243,10 +315,10 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
     strname = get_struct_name(str(s.parent.arg))
     # 第一次遍历的时候，先将所有的顶级的container或者list写出来
     if ((s.keyword == "container") and level == 0):
-        line += "typedef struct struct" + s.arg.replace("-", "") + " {"
+        line += "typedef struct struct" + s.arg.replace("-", "").title() + "\n{"
 
     if ((s.keyword == "list") and level == 0):
-        line += "typedef struct struct" + s.arg.replace("-", "") + " {"
+        line += "typedef struct struct" + s.arg.replace("-", "").title() + "\n{"
 
     # 检查遍历到的节点是否是当前的module
     if s.i_module.i_modulename == module.i_modulename:
@@ -259,9 +331,6 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
 
     # t : 当前节点的数据类型
     t = get_typename(s, prefix_with_modname)
-    if t.find(':') > 0:
-        t = t[(t.find(':') + 1):]
-        t = get_struct_name(t)
 
     # 以下组合一行的宏定义值
     if (s.keyword == 'list' or s.keyword == 'container') and (level == 0):
@@ -270,16 +339,17 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
     elif ((s.keyword == "container") and level != 0):
         line += "    %s %s; " % (get_struct_name(s.arg),
                                  name.replace('-', '_'))
-    elif ((s.keyword == "list") and level != 0):
+    elif ((s.keyword == "list" or s.keyword == "leaf-list") and level != 0):
         line += "    std::vector<std::shared_ptr<" + \
-            get_struct_name(s.arg) + "> " + name.replace('-', '_') + ";"
+            get_struct_name(s.arg) + ">> " + name.replace('-', '_') + ";"
     else:
         if s.parent.keyword == "list" or s.parent.keyword == "container":
-            line += "    %s %s; " % (t, name.replace('-', '_'))
+            line += "    %s %s; " % (refine_type_name(t),
+                                     name.replace('-', '_'))
 
     # 如果一个container或者list结束了，则结束该typedef
     if endofvec == True and endflag == False:
-        line += "\n}" + strname + "; \n"
+        line += "\n} " + strname + "; \n"
         alreadyGen.append(s.parent.arg)
 
     # 将当前的节点写入文件中
@@ -303,6 +373,7 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
                            no_expand_uses, level + 1, alreadyGen,
                            prefix_with_modname=prefix_with_modname)
 
+
 def judge_next_ctn(i_children, level):
     if (i_children.keyword == "container" or i_children.keyword == "list") and level > 0:
         return True
@@ -312,6 +383,8 @@ def judge_next_ctn(i_children, level):
 # i_children[-1] : 递归调用打印孩子节点的最后一个节点
 # children.arg 当前遍历到的节点的名称
 # prefix : 前序节点的路径
+
+
 def print_children2(i_children, module, fd, prefix, path, mode, depth,
                     llen, no_expand_uses, level, alreadyGen, width=0, prefix_with_modname=False):
     if depth == 0:
@@ -342,6 +415,7 @@ def print_children2(i_children, module, fd, prefix, path, mode, depth,
     for ch in i_children:
         endofvec = False
         chs = []
+
         # 当遍历到该节点所有子节点的最后一个节点时
         if (ch == i_children[-1]
             or (i_children[-1].keyword == 'output'
@@ -358,19 +432,23 @@ def print_children2(i_children, module, fd, prefix, path, mode, depth,
             #print('pre node is ' + prefix)
             ch.prenode = prefix
 
-        # if (ch):
-        #     continue
+        # 查找所有非第一级的container和list
         if ch.keyword == "container" or ch.keyword == "list":
             for cht in ch.i_children:
                 if cht.keyword in statements.type_definition_keywords and cht.arg not in alreadyGen:
+                    # 此时这个cht一定是一个list或者container
                     print(cht)
+                    line = "typedef struct struct" + \
+                        cht.arg.replace("-", "").title() + "\n{"
+                    fd.write(line + "\n")
+                    print_node2(cht, module, fd, newprefix, path, mode, depth, llen,
+                                no_expand_uses, level, width, endofvec, alreadyGen,
+                                prefix_with_modname=prefix_with_modname)
 
-        #print("--------------" + ch.arg + "=" + str(level) + " " + ch.keyword)
-
-        # 输出当前节点
-        print_node2(ch, module, fd, newprefix, path, mode, depth, llen,
-                    no_expand_uses, level, width, endofvec, alreadyGen,
-                    prefix_with_modname=prefix_with_modname)
+        # 遍历孩子节点
+        recursive_child(ch, module, fd, newprefix, path, mode, depth, llen,
+                        no_expand_uses, level, width, endofvec, alreadyGen,
+                        prefix_with_modname=prefix_with_modname)
 
 
 # s.i_module.i_modulename : 当前节点所属的module名称
@@ -379,58 +457,8 @@ def print_children2(i_children, module, fd, prefix, path, mode, depth,
 # module : 当前遍历到的module
 # get_flags_str(s, mode) : 当前节点的读写权限
 # t = get_typename(s, prefix_with_modname) : 当前节点的数据类型
-def print_node2(s, module, fd, prefix, path, mode, depth, llen,
-                no_expand_uses, level, width, endofvec, alreadyGen, prefix_with_modname=False):
-
-    line = "=====" + str(level) + " " + s.arg
-    endflag = False
-
-    # 结构体名称
-    strname = get_struct_name(str(s.parent.arg))
-
-    # 当遍历到的节点为list或者container,且为第一级，则认为它是一个可能包含其他list的struct
-    if ((s.keyword == "container") and level > 0):
-        if s.arg not in alreadyGen:
-            line += "+++++typedef struct struct" + s.arg.replace("-", "") + " {"
-
-    if ((s.keyword == "list" and level > 0)):
-        if s.arg not in alreadyGen:
-            line += "+++++typedef struct struct" + s.arg.replace("-", "") + " {"
-
-    # 检查遍历到的节点是否是当前的module
-    if s.i_module.i_modulename == module.i_modulename:
-        name = s.arg
-    else:
-        if prefix_with_modname:
-            name = s.i_module.i_modulename + ':' + s.arg
-        else:
-            name = s.i_module.i_prefix + ':' + s.arg
-
-    # t : 当前节点的数据类型
-    t = get_typename(s, prefix_with_modname)
-    if t.find(':') > 0:
-        t = t[(t.find(':') + 1):]
-        t = get_struct_name(t)
-
-    # 以下组合一行的宏定义值
-    if s.keyword == 'list' or s.keyword == 'container':
-        line += ""
-    else:
-        if s.parent.keyword == "list" or s.parent.keyword == "container":
-            line += "    %s %s; " % (t, name.replace('-', '_'))
-
-    features = s.search('if-feature')
-    featurenames = [f.arg for f in features]
-    if hasattr(s, 'i_augment'):
-        afeatures = s.i_augment.search('if-feature')
-        featurenames.extend([f.arg for f in afeatures
-                             if f.arg not in featurenames])
-
-    # if endofvec == True and endflag == False:
-    #     line += "\n }" + strname + ";"
-    # 将当前的节点写入文件中
-    fd.write(line + '\n')
-
+def recursive_child(s, module, fd, prefix, path, mode, depth, llen,
+                    no_expand_uses, level, width, endofvec, alreadyGen, prefix_with_modname=False):
     # 如果当前节点有孩子
     if hasattr(s, 'i_children') and s.keyword != 'uses':
         if depth is not None:
@@ -442,12 +470,42 @@ def print_node2(s, module, fd, prefix, path, mode, depth, llen,
             path = path[1:]
         if s.keyword in ['choice', 'case']:
             print_children2(chs, module, fd, prefix, path, mode, depth,
-                           llen, no_expand_uses, level + 1,  width - 3, alreadyGen,
-                           prefix_with_modname=prefix_with_modname)
+                            llen, no_expand_uses, level + 1,  width - 3, alreadyGen,
+                            prefix_with_modname=prefix_with_modname)
         else:
             print_children2(chs, module, fd, prefix, path, mode, depth, llen,
-                           no_expand_uses, level + 1, alreadyGen,
-                           prefix_with_modname=prefix_with_modname)
+                            no_expand_uses, level + 1, alreadyGen,
+                            prefix_with_modname=prefix_with_modname)
+
+
+def print_node2(s, module, fd, prefix, path, mode, depth, llen,
+                no_expand_uses, level, width, endofvec, alreadyGen, prefix_with_modname=False):
+
+    line = ""
+    strname = get_struct_name(str(s.arg))
+
+    for children in s.i_children:
+        if ((children.keyword == "container")):
+            line = "    %s %s; " % (get_struct_name(children.arg),
+                                    children.arg.replace('-', '_'))
+        elif ((children.keyword == "list")):
+            line = "    std::vector<std::shared_ptr<" + \
+                get_struct_name(children.arg) + "> " + \
+                children.arg.replace('-', '_') + ";"
+        elif children.keyword == "leaf-list":
+            line = "    std::vector<std::shared_ptr<" + \
+                refine_type_name(get_typename(
+                    children, prefix_with_modname)) + ">> " + children.arg.replace('-', '_') + ";"
+        else:
+            line = "    %s %s; " % (refine_type_name(
+                (get_typename(children, prefix_with_modname))), children.arg.replace('-', '_'))
+
+        fd.write(line + '\n')
+
+    line = "} " + strname + "; \n"
+    alreadyGen.append(s.parent.arg)
+
+    fd.write(line + '\n')
 
 
 def get_status_str(s):
