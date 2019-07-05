@@ -42,6 +42,17 @@ class xTypeDef(plugin.PyangPlugin):
         emit_tree(ctx, modules, fd, ctx.opts.tree_depth,
                   ctx.opts.tree_line_length, path)
 
+def get_output_filepath(fd):
+    filepath = ""
+
+    tempfilepath = fd.stream.name.split('/')
+    for tempfp in tempfilepath:
+        if tempfp == tempfilepath[-1]:
+            continue
+        filepath += "/" + tempfp
+    
+    return (filepath[1:])
+
 # modules: the yang module
 # fd: 输出文件句柄
 
@@ -68,6 +79,10 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
 
         fd.write(headerline + "\n")
         #print(module.keyword)
+
+        filename = module.arg.replace(
+            'certus-5gnr-du-', 'gnb_du_oam_agent_').replace('-', '_')
+        fdcpp = open((get_output_filepath(fd) + "/" + filename + ".cpp" ), "w")
 
         # 第一次遍历 将所有的grouping都生成typedef
         for groupname in module.i_groupings:
@@ -149,7 +164,7 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
                               if ch.keyword in statements.type_definition_keywords]
 
             if len(chs_func_1) > 0:
-                print_children_read_func_first(chs_func_1, module, fd, '', chpath, 'data', depth, llen,
+                print_children_read_func_first(chs_func_1, module, fd, fdcpp, '', chpath, 'data', depth, llen,
                                                ctx.opts.tree_no_expand_uses, 0, alreadyGen,
                                                prefix_with_modname=ctx.opts.modname_prefix)
 
@@ -450,7 +465,7 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
                            prefix_with_modname=prefix_with_modname)
 
 
-def print_children_read_func_first(i_children, module, fd, prefix, path, mode, depth,
+def print_children_read_func_first(i_children, module, fd, fdcpp, prefix, path, mode, depth,
                                    llen, no_expand_uses, level, alreadyGen, width=0, prefix_with_modname=False):
     endofvec = False
     # 遍历这个孩子节点中的所有container或list节点
@@ -464,7 +479,7 @@ def print_children_read_func_first(i_children, module, fd, prefix, path, mode, d
             ch.prenode = prefix
 
         # 输出当前节点
-        print_read_func_first(ch, module, fd, newprefix, path, mode, depth, llen,
+        print_read_func_first(ch, module, fd, fdcpp, newprefix, path, mode, depth, llen,
                               no_expand_uses, level, width, endofvec, alreadyGen,
                               prefix_with_modname=prefix_with_modname)
 
@@ -476,7 +491,7 @@ def print_children_read_func_first(i_children, module, fd, prefix, path, mode, d
 # t = get_typename(s, prefix_with_modname) : 当前节点的数据类型
 
 
-def print_read_func_first(s, module, fd, prefix, path, mode, depth, llen,
+def print_read_func_first(s, module, fd, fdcpp, prefix, path, mode, depth, llen,
                           no_expand_uses, level, width, endofvec, alreadyGen, prefix_with_modname=False):
 
     line = ""
@@ -487,6 +502,9 @@ def print_read_func_first(s, module, fd, prefix, path, mode, depth, llen,
         # 将当前的节点写入文件中
         fd.write(line + '\n')
     
+    # 将该函数的实现写入到cpp中
+    fdcpp.write(line[:-1] + '\n')
+
     chs = [ch for ch in s.i_children
             if ch.keyword in ['container', 'list']
             and judge_if_uses_state(s) == 4]
