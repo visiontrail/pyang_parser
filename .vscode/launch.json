@@ -14,6 +14,8 @@
                 "-f",
                 "xtypedef",
                 "/home/guoliang/Desktop/WorkSpace/CertusNet/oam_du/5gran/radisys-du/src/du_app/oam_agent/yang/cell/certus-5gnr-du-cell-schd-cfg@2019-06-20.yang",
+                "-p",
+                "/home/guoliang/Desktop/WorkSpace/CertusNet/oam_du/5gran/radisys-du/src/du_app/oam_agent/yang/cell",
                 "-o",
                 "~/Desktop/WorkSpace/113.c"
             ],
@@ -28,6 +30,8 @@
                 "-f",
                 "xtypedef",
                 "/home/guoliang/Desktop/WorkSpace/CertusNet/oam_du/5gran/radisys-du/src/du_app/oam_agent/yang/cell/certus-5gnr-du-cell-base-cfg@2019-06-20.yang",
+                "-p",
+                "/home/guoliang/Desktop/WorkSpace/CertusNet/oam_du/5gran/radisys-du/src/du_app/oam_agent/yang/cell",
                 "-o",
                 "~/Desktop/WorkSpace/113.c"
             ],
