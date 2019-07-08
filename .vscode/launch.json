@@ -17,7 +17,7 @@
                 "-p",
                 "/home/guoliang/Desktop/WorkSpace/CertusNet/oam_du/5gran/radisys-du/src/du_app/oam_agent/yang/cell",
                 "-o",
-                "~/Desktop/WorkSpace/113.c"
+                "~/Desktop/WorkSpace/schd.h"
             ],
         },
         {
