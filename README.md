@@ -5,9 +5,10 @@
   - 当前版本生成的头文件中的read函数，最多支持两级。所以当前设计的yang，需要注意以下几点：
     - 一个container或者list中只要包含了uses，就不要再包含同级的container，这种场景最好再单独写一个grouping
     - 主grouping可以包含两级container或list嵌套
+    - 主grouping的第一级不能是list
     - 除主grouping外，一个grouping中，只支持一级container或list，如果多于两级，则这种场景再单独编写一个grouping
 
-  - 暂不支持vaildate函数
+  - 暂不支持vaildate函数(Check函数)
 
 ---
 

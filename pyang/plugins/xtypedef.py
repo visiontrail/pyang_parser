@@ -75,7 +75,7 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
     # 首先将import中的typedef取出
     for typedefmd in ctx.modules:
         md = ctx.modules[typedefmd]
-        if md.arg == "certus-5gnr-types-for-cell":
+        if md.arg == "certus-5gnr-types-for-cell" or md.arg == "certus-5gnr-types-for-du":
             #print(222)
             for tdname in md.i_typedefs:
                 typedef = md.i_typedefs[tdname]
@@ -97,14 +97,14 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
 
         headerline += "namespace gnb_du \n"
         headerline += "{\n"
-        headerline += "namespace rcfd_cell\n"
+        headerline += "namespace rcfd\n"
         headerline += "{\n"
 
         fd.write(headerline + "\n")
         #print(module.keyword)
 
         filename = module.arg.replace(
-            'certus-5gnr-du-', 'gnb_du_oam_agent_').replace('-', '_')
+            'certus-5gnr-du-', 'gnb_du_oam_agent_rcfd_').replace('-', '_')
         fdcpp = open((get_output_filepath(fd) + "/" + filename + ".cpp" ), "w")
 
         print_cppfile_header(modules, fdcpp)
@@ -204,19 +204,19 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
                                 prefix_with_modname=ctx.opts.modname_prefix)
 
         classline = "\npublic:\n"
-        classline += "    " + classname + "(XCONFD_YANGTREE_T* yt) {}\n"
+        classline += "    " + classname + "(XCONFD_YANGTREE_T* yt);\n"
         classline += "    vritual ~" + classname + "() {}\n};\n\n"
-        classline += "} //" + "end of namespace rcfd_cell\n"
+        classline += "} //" + "end of namespace rcfd\n"
         classline += "} //" + "end of namespace gnb_du\n"
         classline += "#endif /* __" + mod_name.upper() + "__ */"
 
         fd.write(classline)
-        fdcpp.write("\n} // namespace rcfd_cell \n} // namespace gnb_du")
+        fdcpp.write("\n} // namespace rcfd \n} // namespace gnb_du")
 
 def print_cppfile_header(modules, fdcpp):
     for module in modules:
         mod_name = module.arg.replace(
-            'certus-5gnr-du-', 'gnb_du_oam_agent_').replace('-', '_')
+            'certus-5gnr-du-', 'gnb_du_oam_agent_rcfd_').replace('-', '_')
         headerline = "/*\n" + " * filename: " + mod_name + ".cpp \n"
         headerline += " * This header file contains implementation of OAM Agent RConfD Generate by Tools \n"
         headerline += "*/ \n\n"
@@ -225,7 +225,7 @@ def print_cppfile_header(modules, fdcpp):
 
         headerline += "namespace gnb_du \n"
         headerline += "{\n"
-        headerline += "namespace rcfd_cell\n"
+        headerline += "namespace rcfd\n"
         headerline += "{\n"
 
         fdcpp.write(headerline + "\n")
@@ -290,14 +290,18 @@ def refine_type_name_cpp(typename):
         return "bool"
     if typename == "enumeration":
         return "enum"
+    if typename == "ip-address" or typename == "ipv4-address":
+        return "ipv4"
 
     return typename
 
 def refine_type_name(typename):
     if typename.find(':') > 0:
         typename = typename[(typename.find(':') + 1):]
-        typename = get_struct_name(typename)
-        return typename
+        if typename in all_typedef:
+            typename = all_typedef[typename]
+        else:
+            typename = get_struct_name(typename)
 
     if typename == "string":
         return "std::string"
@@ -319,6 +323,10 @@ def refine_type_name(typename):
         return "uint64_t"
     if typename == "empty":
         return "bool"
+    if typename == "IpAddress" or typename == "Ipv4Address":
+        return "in_addr"
+    if typename == "enumeration":
+        return "uint8_t"
 
     return typename
 
@@ -592,14 +600,14 @@ def print_structure_func_realize(fdcpp, s, module, line, level):
             if cppch.keyword == "leaf":
                 if get_typename(cppch) == "empty":
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg.replace('-','_') + "\"" + ", yt);\n"
+                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
                     cppline = "    xconfd_get(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg.replace('-','_') + "\"" + ", yt);\n"
+                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
                 cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg.replace('-','_') + "\"" + ", yt);\n"
+                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 fdcpp.write(cppline)
             elif cppch.keyword in ['container', 'list'] and judge_if_uses_state(s) == 4:
                 ytname = cppch.arg.replace('-','_') + "_yt"
@@ -651,14 +659,14 @@ def print_read_func_realize(fdcpp, s, module, line, level):
             if cppch.keyword == "leaf":
                 if get_typename(cppch) == "empty":
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg.replace('-','_') + "\"" + ", yt);\n"
+                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
                     cppline = "    xconfd_get(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg.replace('-','_') + "\"" + ", yt);\n"
+                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
                 cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg.replace('-','_') + "\"" + ", yt);\n"
+                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 fdcpp.write(cppline)
             elif cppch.keyword in ['container', 'list'] and judge_if_uses_state(s) == 4:
                 ytname = cppch.arg.replace('-','_') + "_yt"
@@ -701,14 +709,14 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
             if cppch.keyword == "leaf":
                 if get_typename(cppch) == "empty":
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg.replace('-','_') + "\"" + ", yt);\n"
+                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
                     cppline = "    xconfd_get(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg.replace('-','_') + "\"" + ", yt);\n"
+                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
                 cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg.replace('-','_') + "\"" + ", yt);\n"
+                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 fdcpp.write(cppline)
             elif cppch.keyword == "container" and judge_if_uses_state(s) == 4:
                 ytname = cppch.arg.replace('-','_') + "_yt"
