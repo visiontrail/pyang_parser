@@ -1,0 +1,679 @@
+submodule certus-5gnr-du-cell-schd {
+    belongs-to certus-5gnr-du-cells {
+        prefix cgdcs;
+    }
+    
+    import tailf-common {
+        prefix tailf;
+    }
+    import certus-5gnr-types-for-cell {
+        prefix cgtfc;
+        revision-date 2019-06-20;
+    }
+
+    organization "CertusNet";
+    description "This module defines du cell scheduled configuration.";
+    
+    revision 2019-06-20 {
+        description  "Initial revision.";
+    }
+    
+    
+    grouping scs-spec-carrier {
+        leaf offset-to-carrier {
+            type cgtfc:offset-point-a-carrier-t;
+            description "Offset To Carrier";
+        }
+        leaf scs {
+            type cgtfc:scs-e;
+            description "Subcarrier Spacing";
+        }
+    }
+    grouping rach-gen {
+        leaf prach-cfg-idx {
+            type uint8 { range "0..255"; }
+            description "PRACH Configuration Index";
+        }
+        leaf msg1-fdm {
+            type cgtfc:msg1-fdm-e;
+            description "Transmission Occasion Number FDMed Per Time Instance";
+        }
+        leaf msg1-freq-start {
+            type uint16 { range "0..274"; }
+            description "Offset Of Lowest PRACH Transmission Occasion";
+        }
+        leaf zero-corre-zone {
+            type uint8 { range "0..15"; }
+            description "Zero Correlation Zone Configuration";
+        }
+        leaf preamble-rx-tpower {
+            type int16 { range "-202..-60"; }
+            description "Preamble Received Target Power";
+        }
+        leaf preamble-trans-max {
+            type cgtfc:preamble-trans-max-e;
+            description "Max Preamble Transmission";
+        }
+        leaf power-ramp-step {
+            type cgtfc:power-ramp-step-e;
+            description "Power Ramping Steps";
+        }
+        leaf ra-rsp-win {
+            type cgtfc:ra-rsp-win-e;
+            description "RAR Window Length";
+        }
+        
+        description "RACH Generic Configuration";
+    }
+    grouping rach-grpb {
+        leaf ra-msg3-size-grp-a {
+            type cgtfc:ra-msg3-size-grp-a-e;
+            description "Msg3 Size With GroupA Preamble";
+        }
+        leaf num-ra-preamble-grp-a {
+            type uint8 { range "1..64"; }
+            description "Number Of CB Preambles Per SSB In Group A";
+        }
+        leaf msg-power-offset-grp-b {
+            type cgtfc:msg-power-offset-grp-b-e;
+            description "Threshold For Preamble Selection";
+        }
+    }
+    grouping coreset {
+        leaf id {
+            type cgtfc:coreset-id-t;
+            description "Control Resource Set ID";
+        }
+        leaf freq-domain-res {
+            type uint64 { range "0..281474976710648"; } // BIT STRING (45)
+            tailf:validate "freq-domain-res-check" {
+                tailf:dependency ".";
+            }
+            description "Frequency Domain Resources";
+        }
+        leaf duration {
+            type uint8 { range "1..3"; }
+        }
+        container cce-reg-mapping-interleaved {
+            if-feature optional;
+            leaf reg-bndl-size {
+                type cgtfc:reg-bndl-size-e;
+                description "Resource Element Groups Bundled Size";
+            }
+            leaf interlvr-size {
+                type cgtfc:interlvr-size-e;
+                description "Interleaver Size";
+            }
+            leaf shift-idx {
+                type uint16 { range "0..274"; }
+            }
+            
+            description "Mapping Of Control CCEs To REGs Is Interleaved";
+        }
+        leaf precoder-granularity { type cgtfc:precoder-granularity-e; }
+        leaf dmrs-scramble-id {
+            if-feature optional;
+            type uint16;
+            description "PDCCH DMRS Scrambling ID";
+        }
+        container tci-state-info {
+            if-feature optional;
+            leaf-list to-add {
+                type cgtfc:tci-state-id-t;
+                min-elements 1;
+                max-elements 64;
+                description "TCI State IDs To Add";
+            }
+            leaf-list to-rel {
+                type cgtfc:tci-state-id-t;
+                min-elements 1;
+                max-elements 64;
+                description "TCI State IDs To Release";
+            }
+            leaf present-in-dci {
+                type empty;
+                description "Present In DCI";
+            }
+            description "Transmission Configuration Indication States Information";
+        }
+        description "Control Resource Set Configuration";
+    }
+    grouping search-space {
+        leaf id {
+            type cgtfc:ss-id-t;
+            description "Search Space ID";
+        }
+        leaf coreset-id {
+            type cgtfc:coreset-id-t;
+            description "CORESET ID";
+        }
+        leaf mon-slot-perd-offset-type {
+            type cgtfc:mon-slot-perd-offset-type-e;
+        }
+        leaf mon-slot-perd-offset {
+            type uint16 { range "0..2559"; }
+            default 0;
+            description "Monitoring Slot Periodicity And Offset";
+        }
+        leaf mon-slot-syms {
+            type uint16;
+            description "Monitoring Symbols Within Slot";
+        }
+        container aggr-lvl-candidates-num {
+            leaf aggr-lvl1 { type cgtfc:candidates-num-e; }
+            leaf aggr-lvl2 { type cgtfc:candidates-num-e; }
+            leaf aggr-lvl4 { type cgtfc:candidates-num-e; }
+            leaf aggr-lvl8 { type cgtfc:candidates-num-e; }
+            leaf aggr-lvl16 { type cgtfc:candidates-num-e; }
+            
+            description "Number Of PDCCH Candidates Per Aggregation Level";
+        }
+        leaf dci-format {
+            if-feature optional;
+            type cgtfc:dci-format-e;
+        }
+    }
+    
+    
+    grouping freq-info-cmn {
+        leaf abs-freq-point-a {
+            type uint32;
+            description "Absolute Frequency PointA";
+        }
+        leaf abs-arfcn-point-a {
+            type cgtfc:arfcn-t;
+            description "Absolute ARFCN PointA";
+        }
+        leaf nr-arfcn {
+            type cgtfc:arfcn-t;
+            description "NR ARFCN";
+        }
+        leaf channel-bw {
+            type cgtfc:channel-bw-e;
+            description "Channel Bandwidth";
+        }
+        leaf-list nr-freq-bands {
+            type uint16 { range "1..1024"; }
+            max-elements 8;
+            description "NR Frequency Bands";
+        }
+        list scs-spec-carriers {
+            key "scs";
+            uses scs-spec-carrier;
+            min-elements 1;
+            max-elements 5;
+            description "Subcarrier Spacing Specific Carrier List";
+        }
+    }
+    grouping bwp-gen {
+        leaf start-rb { type uint16; }
+        leaf rb-num { type uint16; }
+        leaf scs { type cgtfc:scs-e; }
+        leaf cp-extended {
+            type empty;
+            description "Cyclic Prefix Extended";
+        }
+        description "Generic BWP";
+    }
+    grouping rach-cfg-cmn {
+        container rach-gen {
+            uses rach-gen;
+        }
+        leaf total-num-ra-preamble {
+            type uint8 { range "1..63"; }
+            description "Total Number Of Preambles For RA";
+        }
+        leaf ssb-per-rach-occ {
+            type cgtfc:ssb-per-rach-occ-e;
+            description "SSBs Number Per RACH Occasion";
+        }
+        leaf cb-preamble-per-ssb {
+            type uint8 { range "0..16"; }
+            description "Contention Based Preambles Number Per SSB";
+        }
+        container rach-grpb {
+            if-feature optional;
+            uses rach-grpb;
+        }
+        leaf ra-cont-res-tmr {
+            type cgtfc:ra-cont-res-tmr-e;
+            description "RA Contention Resolution Timer";
+        }
+        leaf prach-root-seq-idx-type {
+            type cgtfc:prach-root-seq-idx-type-e;
+            description "PRACH Root Sequence Index Type L839/L139";
+        }
+        leaf prach-root-seq-idx {
+            type uint16 { range "0..837"; }
+            description "PRACH Root Sequence Index";
+        }
+        leaf msg1-scs {
+            type cgtfc:scs-e;
+            description "Msg1 Subcarrier Spacing";
+        }
+        leaf restr-set {
+            type cgtfc:restr-set-e;
+            description "Restricted Set Configuration";
+        }
+        leaf msg3-tran-precoding {
+            type empty;
+            description "Msg3 Transform Precoding";
+        }
+        leaf max-msg3-trans {
+            type uint8;
+            description "Max Msg3 Transmission";
+        }
+        leaf rsrp-thres-ssb {
+            type uint8 { range "0..127"; }
+            description "RSRP Threshold SSB";
+        }
+        leaf rsrp-thres-ssb-sul {
+            type uint8 { range "0..127"; }
+            description "RSRP Threshold SSB For SUL";
+        }
+        
+        description "RACH Common Configuration";
+    }
+    grouping pusch-cfg-cmn {
+        leaf grp-hopping-trans-precoding {
+            type empty;
+            description "Group Hopping Enabled Transform Precoding";
+        }
+        leaf msg3-delta-preamble {
+            if-feature optional;
+            type int8 { range "-1..6"; }
+            description "Power Offset Between Msg3 And RACH Preamble Transmission";
+        }
+        leaf p0-nominal-with-grant {
+            if-feature optional;
+            type int16 { range "-202..24"; }
+            description "P0 Value For PUSCH With Grant";
+        }
+        
+        description "PUSCH Common Configuration";
+    }
+    grouping pucch-cfg-cmn {
+        leaf res-cmn {
+            if-feature optional;
+            type uint8 { range "0..15"; }
+            description "PUCCH Resource Common";
+        }
+        leaf grp-hopping {
+            type cgtfc:pucch-grp-hopping-e;
+            description "PUCCH Group Hopping";
+        }
+        leaf hopping-id {
+            if-feature optional;
+            type uint16 { range "0..1023"; }
+        }
+        leaf p0-nominal {
+            if-feature optional;
+            type int16 { range "-202..24"; }
+        }
+        
+        description "PUCCH Common Configuration";
+    }
+    grouping pdcch-cfg-cmn {
+        container coreset {
+            if-feature optional;
+            uses coreset;
+        }
+        list search-spaces {
+            key id;
+            uses search-space;
+        }
+        leaf ss-sib1 {
+            if-feature optional;
+            type cgtfc:ss-id-t;
+            description "Search Space SIB1";
+        }
+        leaf ss-other-si {
+            if-feature optional;
+            type cgtfc:ss-id-t;
+            description "Search Space Other SI";
+        }
+        leaf ss-paging {
+            if-feature optional;
+            type cgtfc:ss-id-t;
+            description "Paging Search Space";
+        }
+        leaf ss-ra {
+            if-feature optional;
+            type cgtfc:ss-id-t;
+            description "RA Search Space";
+        }
+        leaf coreset-zero {
+            if-feature optional;
+            type cgtfc:coreset-zero-t;
+            description "Control Resource Set With ID #0";
+        }
+        leaf ss-zero {
+            if-feature optional;
+            type cgtfc:ss-zero-t;
+            description "Search Space With ID #0";
+        }
+        description "PDCCH Common Configuration";
+    }
+    
+    
+    grouping ul-freq-info {
+        container freq-info-cmn {
+            uses freq-info-cmn;
+        }
+        leaf addtl-spectrum-emi {
+            type uint8 { range "0..7"; }
+            description "Additional Spectrum Emission";
+        }
+        leaf p-max {
+            type int8 { range "-30..33"; }
+            description "Max Transmit Power";
+        }
+        leaf freq-shift-7p5khz {
+            type empty;
+            description "Shift With 7.5kHz To LTE Raster";
+        }
+    }
+    grouping ul-bwp-cmn {
+        container bwp-gen {
+            uses bwp-gen;
+        }
+        container rach-cfg-cmn {
+            if-feature optional;
+            uses rach-cfg-cmn;
+        }
+        container pusch-cfg-cmn {
+            if-feature optional;
+            uses pusch-cfg-cmn;
+        }
+        container pucch-cfg-cmn {
+            if-feature optional;
+            uses pucch-cfg-cmn;
+        }
+        
+        description "Bandwidth Part UL Common Configuration";
+    }
+    grouping dl-freq-info {
+        container freq-info-cmn {
+            uses freq-info-cmn;
+        }
+        leaf abs-freq-ssb {
+            if-feature optional;
+            type uint32;
+            description "Absolute Frequency Of The SSB";
+        }
+        leaf abs-arfcn-ssb {
+            if-feature optional;
+            type cgtfc:arfcn-t;
+            description "Absolute ARFCN Of The SSB";
+        }
+        leaf offset-to-point-a {
+            type cgtfc:offset-point-a-carrier-t;
+            description "Offset To PointA";
+        }
+    }
+    grouping dl-bwp-cmn {
+        container bwp-gen {
+            if-feature optional;
+            uses bwp-gen;
+        }
+        container pdcch-cfg-cmn {
+            if-feature optional;
+            uses pdcch-cfg-cmn;
+        }
+        leaf pdsch-present {
+            type empty;
+        }
+    }
+    grouping ul-bwp {
+        leaf bwp-id {
+            type cgtfc:bwp-id-t;
+            description "Bandwidth Part ID";
+        }
+        uses ul-bwp-cmn;
+    }
+    grouping dl-bwp {
+        leaf bwp-id {
+            type cgtfc:bwp-id-t;
+            description "Bandwidth Part ID";
+        }
+        uses dl-bwp-cmn;
+    }
+    grouping tdd-ul-dl-pattern {
+        leaf dl-syms-num {
+            type cgtfc:syms-num-t;
+            description "Number Of Downlink Symbols";
+        }
+        leaf dl-slots-num {
+            type cgtfc:slots-num-t;
+            description "Number Of Downlink Slots";
+        }
+        leaf ul-syms-num {
+            type cgtfc:syms-num-t;
+            description "Number Of Uplink Symbols";
+        }
+        leaf ul-slots-num {
+            type cgtfc:slots-num-t;
+            description "Number Of Uplink Slots";
+        }
+        leaf trans-perd {
+            type cgtfc:trans-perd-e;
+            description 'Dl/UL Transmission Periodicity';
+        }
+        leaf trans-perd-v1530 {
+            if-feature optional;
+            type cgtfc:trans-perd-v1530-e;
+            description 'Dl/UL Transmission Periodicity-v1530';
+        }
+    }
+    
+    
+    grouping ul-cfg-cmn {
+        leaf present-in-sib1 {
+            type empty;
+            description "Is UL Common Configuration present In Sib1";
+        }
+        container freq-info {
+            if-feature optional;
+            uses ul-freq-info;
+        }
+        container initial-bwp {
+            uses ul-bwp-cmn;
+        }
+        leaf time-alignment-timer {
+            type cgtfc:alignment-timer-e;
+        }
+        container ue-harq-info {
+            leaf max-harq { type uint8; }
+            leaf delta-harq-offset { type uint8; }
+        }
+        
+        description "UL Common Configuration";
+    }
+    grouping dl-cfg-cmn {
+        container freq-info {
+            uses dl-freq-info;
+        }
+        container initial-bwp {
+            if-feature optional;
+            uses dl-bwp-cmn;            
+            description "Bandwidth Part DL Common Configuration";
+        }
+
+        description "DL Common Configuration";
+    }
+    grouping sul {
+        leaf max-ue-per-ul-tti {
+            type uint32;
+            description "Max Ue Number Per UL TTI";
+        }
+        leaf tar-cqi {
+            type uint8 { range "1..15"; }
+            description "Target UL CQI";
+        }
+        leaf ccch-cqi { type uint8; }
+        container freq-info {
+            if-feature optional;
+            uses ul-freq-info;
+        }
+        container initial-bwp {
+            uses ul-bwp-cmn;
+        }
+        list addtl-bwps {
+            key bwp-id;
+            uses ul-bwp;
+            description "Additional UL BWPs";
+        }
+        leaf harmonic {
+            type empty;
+            description "Harmonic Enabled";
+        }
+    }
+    grouping ss-pbch {
+        leaf scs {
+            type cgtfc:scs-e;
+        }
+        leaf ssb-sc-offset {
+            type cgtfc:ssb-sc-offset-t;
+            default 0;
+            description "SSB Subcarrier Offset";
+        }
+        leaf burst-set-size {
+            type uint8;
+            default 1;
+            description 'SS/PBCH Burst Number Per Set';
+        }
+        leaf ssb-scell-perd{
+            type cgtfc:ssb-scell-perd-e;
+            default SSP-MS20;
+         }
+        leaf ssb-power {
+            type int8 { range "-60..50"; }
+            default -12;
+            description "SSB Power";
+        }
+        description "SSB PBCH Configuration";
+    }
+    grouping tdd-cfg-cmn {
+        leaf ref-scs {
+            type cgtfc:scs-e;
+            description "Reference Subcarrier Spacing";
+        }
+        container pattern1 {
+            uses tdd-ul-dl-pattern;
+            description "TDD UL DL Pattern";
+        }
+        container pattern2 {
+            if-feature optional;
+            uses tdd-ul-dl-pattern;
+            description "TDD UL DL Pattern";
+        }
+        description "TDD UL DL Common Configuration";
+    }
+    
+    
+    grouping cell-schd {
+        leaf max-ue-per-ul-tti {
+            type uint32;
+            description "Max Ue Number Per UL TTI";
+        }
+        leaf max-ue-per-dl-tti {
+            type uint32;
+            description "Max Ue Number Per DL TTI";
+        }
+        leaf max-dl-harq-tx {
+            type uint8;
+            default 1;
+            description "Max DL Harq TX Number";
+        }
+        leaf max-msg4-harq-tx {
+            type uint32;
+            default 1;
+            description "Max Msg4 Harq TX Number";
+        }
+        leaf duration {
+            type uint16;
+            description "Duration";
+        }
+        leaf cmn-lcs-num {
+            type uint8;
+            default 6;
+            description "Common Location Center Service";
+        }
+        leaf cp-ul-extended {
+            type empty;
+            description "Cyclic Prefix UL Extended";
+        }
+        leaf scs {
+            type cgtfc:scs-e;
+            description "Subcarrier Spacing";
+        }
+        leaf dmrs-type-a-pos {
+            type cgtfc:dmrs-type-a-pos-e;
+            description "DMRS TypeA Position";
+        }
+        leaf slot-format {
+            type uint8 { range "0..6"; }
+        }
+        leaf harq-ack-cb-type {
+            type cgtfc:harq-ack-cb-type-e;
+            description "HARQ-ACK Codebook Type";
+        }
+        leaf bwp-inactive-timer {
+            type cgtfc:bwp-inactive-timer-e;
+            description "BWP Inactive Timer";
+        }
+        leaf scell-cmn-cfg-in-sib1 {
+            type empty;
+            description "Serving Cell Common Configuration Present In SIB1";
+        }
+        container preamble-id-range {
+            leaf start { type uint16; }
+            leaf size { type uint16; }
+            description "Preamble ID Range";
+        }
+        container fdd-cfg-cmn {
+            if-feature optional;
+            container ul-cfg-cmn {
+                uses ul-cfg-cmn;
+            }
+            container dl-cfg-cmn {
+                uses dl-cfg-cmn;
+            }
+        }
+        container tdd-cfg-cmn {
+            if-feature optional;
+            uses tdd-cfg-cmn;
+        }
+        container sul {
+            if-feature optional;
+            uses sul;
+        }
+        container ss-pbch {
+            uses ss-pbch;
+        }
+        container addtl-bwps {
+            if-feature optional;
+            list ul-bwps {
+                key bwp-id;
+                uses ul-bwp;
+            }
+            list dl-bwps {
+                key bwp-id;
+                uses dl-bwp;
+            }
+            description "Additional BWP Configuration";
+        }
+        container ue-bsr-timer {
+            leaf perd-bsr-timer {
+                if-feature optional;
+                type cgtfc:perd-bsr-timer-e;
+                description "Periodic BSR Timer";
+            }
+            leaf retx-bsr-timer {
+                type cgtfc:retx-bsr-timer-e;
+                description "Retransmission BSR Timer";
+            }
+            description "UE BSR Configuration";
+        }
+    }
+}

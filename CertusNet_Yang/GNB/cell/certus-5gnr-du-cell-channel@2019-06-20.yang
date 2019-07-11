@@ -1,0 +1,94 @@
+submodule certus-5gnr-du-cell-channel {
+    belongs-to certus-5gnr-du-cells {
+        prefix cgdcs;
+    }
+
+    import tailf-common {
+        prefix tailf;
+    }
+    import certus-5gnr-types-for-cell {
+        prefix cgtfc;
+        revision-date 2019-06-20;
+    }
+
+    organization "CertusNet";
+    description "This module defines du cell channel configuration.";
+    
+    revision 2019-06-20 {
+        description  "Initial revision.";
+    }
+    
+   
+    grouping cell-channel {
+        container pcch {
+            leaf default-paging-cycle {
+                type cgtfc:paging-cycle-e;
+            }
+            leaf paging-frame-offset-type {
+                type cgtfc:paging-frame-offset-type-e;
+            }
+            leaf paging-frame-offset {
+                type uint8 { range "0..15"; }
+                description "Total Paging Frames And Paging Frame Offset";
+            }
+            leaf ns {
+                type cgtfc:ns-e;
+                description "Number Of Paging Occasions Per Paging Frame";
+            }
+            leaf f-pdcch-mon-occ-of-po-present {
+                type empty;
+                description "First PDCCH Monitoring Occasion For Paging Of Each PO";
+            }
+        }
+        container bcch {
+            leaf modi-perd-coeff {
+                type cgtfc:modi-perd-coeff-e;
+                description "Modification Period Coeff";
+            }
+            leaf si-win-len {
+                 type cgtfc:si-win-len-e;
+                 description "SI Window Length";
+            }
+        }
+        container pusch-scell {
+            leaf max-cbgs-per-tb {
+                if-feature optional;
+                type cgtfc:max-cbgs-per-tb-e;
+                description "Max Code Block Groups Per Transport Block";
+            }
+            leaf limited-buf-rm {
+                type empty;
+                description "Limited Buffer Rate Matching";
+            }
+            leaf x-overhead {
+                if-feature optional;
+                type cgtfc:x-overhead-e;
+            }
+        }
+        container pdsch-scell {
+            leaf max-cbgs-per-tb {
+                if-feature optional;
+                type cgtfc:max-cbgs-per-tb-e;
+                description "Max Code Block Groups Per Transport Block";
+            }
+            leaf cbg-flush-ind {
+                type empty;
+                description "Code Block Group Flush Indicator";
+            }
+            leaf x-overhead {
+                if-feature optional;
+                type cgtfc:x-overhead-e;
+            }
+            leaf harq-processes-num {
+                if-feature optional;
+                type cgtfc:pdsch-harq-processes-num-e;
+                description "The Number Of HARQ Processes";
+            }
+            leaf pucch-cell-idx {
+                if-feature optional;
+                type uint8 { range "0..31"; }
+                description "Serving Cell ID For PUCCH";
+            }
+        }
+    }
+}

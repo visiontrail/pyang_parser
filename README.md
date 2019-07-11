@@ -6,6 +6,7 @@
     - 一个container或者list中只要包含了uses，就不要再包含同级的container，这种场景最好再单独写一个grouping
     - 主grouping可以包含两级container或list嵌套
     - 主grouping的第一级不能是list
+    - 主groupinglist嵌套list的时候，那个子list只能包含叶子节点
     - 除主grouping外，一个grouping中，只支持一级container或list，如果多于两级，则这种场景再单独编写一个grouping
 
   - 暂不支持vaildate函数(Check函数)

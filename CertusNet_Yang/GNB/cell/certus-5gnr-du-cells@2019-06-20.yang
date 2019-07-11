@@ -1,0 +1,81 @@
+module certus-5gnr-du-cells {
+    namespace "http://certusnet.com/5gnr/du/certus-5gnr-du-cells";
+    prefix cgdcs;
+    
+    import certus-5gnr-types-for-cell {
+        prefix cgtfc;
+        revision-date 2019-06-20;
+    }
+    include certus-5gnr-du-cell-base {
+        revision-date 2019-06-20;
+    }
+    include certus-5gnr-du-cell-schd {
+        revision-date 2019-06-20;
+    }
+    include certus-5gnr-du-cell-l1 {
+        revision-date 2019-06-20;
+    }
+    include certus-5gnr-du-cell-channel {
+        revision-date 2019-06-20;
+    }
+    
+    organization "CertusNet";
+    description "This module defines du cells.";
+    
+    revision 2019-06-20 {
+        description  "Initial revision.";
+    }
+    
+    feature optional {
+        description "The auto-generated node is std::optional type.";
+
+    }
+    
+    grouping state {
+        leaf admin-state {
+            type cgtfc:admin-state-e;
+            default BLOCKED;
+            
+            description "Admininstration State";
+        }
+        leaf oper-state {
+            type cgtfc:oper-state-e;
+            default UNACTIVATED;
+            config false;
+            
+            description "Operation State";
+        }
+        leaf avail-state {
+            type cgtfc:avail-state-e;
+            default UNAVAILABLE;
+            config false;
+            
+            description "Availability State";
+        }
+    }
+    
+    
+    list du-cells {
+        key "cell-id";
+        
+        leaf cell-id {
+            type uint32;
+            description "Cell ID";
+        }
+        uses state;
+
+        container cell-base {
+            uses cell-base;
+        }
+        container cell-schd {
+            uses cell-schd;
+        }
+        container cell-l1 {
+            uses cell-l1;
+        }
+        container cell-channel {
+            uses cell-channel;
+        }
+        description "Cells In This DU";
+    }
+}

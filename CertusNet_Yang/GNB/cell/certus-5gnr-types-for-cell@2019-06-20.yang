@@ -1,0 +1,694 @@
+module certus-5gnr-types-for-cell {
+    namespace "http://certusnet.com/5gnr/certus-5gnr-types-for-cell";
+    prefix cgtfc;
+    
+    organization "CertusNet";
+    description "This module defines types used by 5gnr cell.";
+    
+    revision 2019-06-20 {
+        description  "Initial revision.";
+    }
+    
+    typedef admin-state-e {
+        type enumeration {
+            enum BLOCKED;
+            enum UNBLOCKED;
+        }
+    }
+    
+    typedef oper-state-e {
+        type enumeration {
+            enum DEACTIVATING;
+            enum UNACTIVATED;
+            enum ACTIVATING;
+            enum ACTIVATED;
+        }
+    }
+    
+    typedef avail-state-e {
+        type enumeration {
+            enum UNAVAILABLE;
+            enum DEGRADED;
+            enum AVAILABLE;
+        }
+    }
+
+    typedef nr-mode-type-e {
+        type enumeration {
+            enum NR-FDD;
+            enum NR-TDD;
+        }
+    }
+    
+    typedef nr-cell-id-t {
+        type uint64 { range "0..1099511627760"; } // BIT STRING (36)
+    }
+
+    typedef nr-pci-t {
+        type uint16 { range "0..1007"; }
+        description "Physical Cell ID";
+    }
+    
+    typedef tac-5gs-t {
+        type uint32 { range "0..16777215"; } // BIT STRING (24)
+        description "5GS Tracking Area Code";
+    }
+    
+    typedef cfgrd-eps-tac-t {
+        type uint16;
+        description "Configured EPS TAC";
+    }
+    
+    typedef sst-t {
+        type uint8;  // BIT STRING (8)
+        description 'Slice/Service Type';
+    }
+    typedef sd-t {
+        type uint32; // BIT STRING (32)
+        description "Slice Differentiator";
+    }
+    
+    typedef si-perd-e {
+        type enumeration {
+            enum SI-RF8;
+            enum SI-RF16;
+            enum SI-RF32;
+            enum SI-RF64;
+            enum SI-RF128;
+            enum SI-RF256;
+            enum SI-RF512;
+        }
+        description "Radio Frame Number";
+    }
+
+    typedef scs-e {
+        type enumeration {
+            enum SCS-KHZ15;
+            enum SCS-KHZ30;
+            enum SCS-KHZ60;
+            enum SCS-KHZ120;
+            enum SCS-KHZ240;
+            enum SCS-KHZ320;
+            enum SCS-SPARE2;
+            enum SCS-SPARE1;
+        }
+        description "Sub-carrier Spacing Type";
+    }
+    
+    typedef dmrs-type-a-pos-e {
+        type enumeration {
+            enum DMRS-POS2;
+            enum DMRS-POS3;
+        }
+        description "DMRS TypeA Position";
+    }
+    
+    typedef harq-ack-cb-type-e {
+        type enumeration {
+            enum CB-SS { description "Semi-static"; }
+            enum CB-DYN { description "Dynamic"; }
+        }
+    }
+    
+    typedef bwp-inactive-timer-e {
+        type enumeration {
+            enum BWP-MS2;
+            enum BWP-MS3;
+            enum BWP-MS4;
+            enum BWP-MS5;
+            enum BWP-MS6;
+            enum BWP-MS8;
+            enum BWP-MS10;
+            enum BWP-MS20;
+            enum BWP-MS30;
+            enum BWP-MS40;
+            enum BWP-MS50;
+            enum BWP-MS60;
+            enum BWP-MS80;
+            enum BWP-MS100;
+            enum BWP-MS200;
+            enum BWP-MS300;
+            enum BWP-MS500;
+            enum BWP-MS750;
+            enum BWP-MS1280;
+            enum BWP-MS1920;
+            enum BWP-MS2560;
+            enum BWP-SPARE10;
+            enum BWP-SPARE9;
+            enum BWP-SPARE8;
+            enum BWP-SPARE7;
+            enum BWP-SPARE6;
+            enum BWP-SPARE5;
+            enum BWP-SPARE4;
+            enum BWP-SPARE3;
+            enum BWP-SPARE2;
+            enum BWP-SPARE1;
+        }
+    }
+    
+    typedef offset-point-a-carrier-t {
+        type uint16 { range "0..2199"; }
+        description "Offset Between Point A And The Lowest Subcarrier";
+    }
+
+    typedef channel-bw-e {
+        type enumeration {
+            enum BW-MHZ5;
+            enum BW-MHZ10;
+            enum BW-MHZ15;
+            enum BW-MHZ20;
+            enum BW-MHZ25;
+            enum BW-MHZ30;
+            enum BW-MHZ40;
+            enum BW-MHZ50;
+            enum BW-MHZ60;
+            enum BW-MHZ80;
+            enum BW-MHZ100;
+            enum BW-MHZ200;
+            enum BW-MHZ400;
+        }
+    }
+    
+    typedef arfcn-t {
+        type uint32 { range "0..3279165"; }
+        description "ARFCN Value";
+    }
+
+    typedef msg1-fdm-e {
+        type enumeration {
+            enum FDM-F1;
+            enum FDM-F2;
+            enum FDM-F4;
+            enum FDM-F8;
+        }
+    }
+    
+    typedef preamble-trans-max-e {
+        type enumeration {
+            enum TRANS-N3;
+            enum TRANS-N4;
+            enum TRANS-N5;
+            enum TRANS-N6;
+            enum TRANS-N7;
+            enum TRANS-N8;
+            enum TRANS-N10;
+            enum TRANS-N20;
+            enum TRANS-N50;
+            enum TRANS-N100;
+            enum TRANS-N200;
+        }
+    }
+    
+    typedef power-ramp-step-e {
+        type enumeration {
+            enum STEP-DB0;
+            enum STEP-DB2;
+            enum STEP-DB4;
+            enum STEP-DB6;
+        }
+    }
+    
+    typedef ra-rsp-win-e {
+        type enumeration {
+            enum RA-RSP-SL1;
+            enum RA-RSP-SL2;
+            enum RA-RSP-SL4;
+            enum RA-RSP-SL8;
+            enum RA-RSP-SL10;
+            enum RA-RSP-SL20;
+            enum RA-RSP-SL40;
+            enum RA-RSP-SL80;
+        }
+    }
+
+    typedef ssb-per-rach-occ-e {
+        type enumeration {
+            enum SSB-ONE-EIGHT;
+            enum SSB-ONE-FOURTH;
+            enum SSB-ONE-HALF;
+            enum SSB-ONE;
+            enum SSB-TWO;
+            enum SSB-FOUR;
+            enum SSB-EIGHT;
+            enum SSB-SIXTEEN;
+        }
+    }
+    
+    typedef ra-msg3-size-grp-a-e {
+        type enumeration {
+            enum RA-B56;
+            enum RA-B144;
+            enum RA-B208;
+            enum RA-B256;
+            enum RA-B282;
+            enum RA-B480;
+            enum RA-B640;
+            enum RA-B800;
+            enum RA-B1000;
+            enum RA-B72;
+            enum RA-SPARE6;
+            enum RA-SPARE5;
+            enum RA-SPARE4;
+            enum RA-SPARE3;
+            enum RA-SPARE2;
+            enum RA-SPARE1;
+        }
+    }
+    
+    typedef msg-power-offset-grp-b-e {
+        type enumeration {
+            enum OFFSET-MINUS-INFINITY;
+            enum OFFSET-DB0;
+            enum OFFSET-DB5;
+            enum OFFSET-DB8;
+            enum OFFSET-DB10;
+            enum OFFSET-DB12;
+            enum OFFSET-DB15;
+            enum OFFSET-DB18;
+        }
+    }
+
+    typedef ra-cont-res-tmr-e {
+        type enumeration {
+            enum CONT-SF8;
+            enum CONT-SF16;
+            enum CONT-SF24;
+            enum CONT-SF32;
+            enum CONT-SF40;
+            enum CONT-SF48;
+            enum CONT-SF56;
+            enum CONT-SF64;
+        }
+    }
+    
+    typedef prach-root-seq-idx-type-e {
+        type enumeration {
+            enum SEQ-L839;
+            enum SEQ-L139;
+        }
+    }
+    
+    typedef restr-set-e {
+        type enumeration {
+            enum RESTR-UNRESTRICTED-SET;
+            enum RESTR-TYPE-A;
+            enum RESTR-TYPE-B;
+        }
+    }
+
+    typedef pucch-grp-hopping-e {
+        type enumeration {
+            enum HOPPING-NEITHER;
+            enum HOPPING-ENABLE;
+            enum HOPPING-DISABLE;
+        }
+    }
+
+    typedef alignment-timer-e {
+        type enumeration {
+            enum ALIGN-MS500;
+            enum ALIGN-MS750;
+            enum ALIGN-MS1280;
+            enum ALIGN-MS1920;
+            enum ALIGN-MS2560;
+            enum ALIGN-MS5120;
+            enum ALIGN-MS10240;
+            enum ALIGN-INFINITY;
+        }
+    }
+    
+    typedef bwp-id-t {
+        type uint8 { range "1..4"; }
+    }
+    
+    typedef reg-bndl-size-e {
+        type enumeration {
+            enum BNDL-N2;
+            enum BNDL-N3;
+            enum BNDL-N6;
+        }
+        description "Resource Element Groups Bundled Size";
+    }
+    
+    typedef interlvr-size-e {
+        type reg-bndl-size-e;
+        description "Interleaver Size";
+    }
+    
+    typedef precoder-granularity-e {
+        type enumeration {
+            enum SAME-AS-REG-BUNDLE;
+            enum ALL-CONTIGUOUS-RBS;
+        }
+    }
+    
+    typedef tci-state-id-t {
+        type uint8 { range "0..127"; }
+        description "Transmission Configuration Indication State ID";
+    }
+    
+    typedef coreset-id-t {
+        type uint8 { range "0..11"; }
+    }
+
+    typedef ss-id-t {
+        type uint8 { range "0..39"; }
+        description "Search Space ID";
+    }
+    
+    typedef mon-slot-perd-offset-type-e {
+        type enumeration {
+            enum SPO-SL1;
+            enum SPO-SL2;
+            enum SPO-SL4;
+            enum SPO-SL5;
+            enum SPO-SL8;
+            enum SPO-SL10;
+            enum SPO-SL16;
+            enum SPO-SL20;
+            enum SPO-SL40;
+            enum SPO-SL80;
+            enum SPO-SL160;
+            enum SPO-SL320;
+            enum SPO-SL640;
+            enum SPO-SL1280;
+            enum SPO-SL2560;
+        }
+    }
+    
+    typedef candidates-num-e {
+        type enumeration {
+            enum CANDIDATE-N0;
+            enum CANDIDATE-N1;
+            enum CANDIDATE-N2;
+            enum CANDIDATE-N3;
+            enum CANDIDATE-N4;
+            enum CANDIDATE-N5;
+            enum CANDIDATE-N6;
+            enum CANDIDATE-N8;
+        }
+    }
+    
+    typedef dci-format-e {
+        type enumeration {
+            enum FORMATS0-0-AND-1-0;
+            enum FORMATS0-1-And-1-1;
+        }
+    }
+
+    typedef coreset-zero-t {
+        type uint8 { range "0..15"; }
+        description "Type Of Control Resource Set With ID #0";
+    }
+    
+    typedef ss-zero-t {
+        type uint8 { range "0..15"; }
+        description "Type Of Search Space With ID #0";
+    }
+
+    typedef ssb-sc-offset-t {
+        type uint8 { range "0..15"; }
+        description "SSB Subcarrier Offset Type";
+    }
+    
+    typedef ssb-scell-perd-e {
+        type enumeration {
+            enum SSP-MS5;
+            enum SSP-MS10;
+            enum SSP-MS20;
+            enum SSP-MS40;
+            enum SSP-MS80;
+            enum SSP-MS160;
+        }
+    }
+
+    typedef slots-num-t {
+        type uint16 { range "0..320"; }
+    }
+    
+    typedef syms-num-t {
+        type uint8 { range "0..13"; }
+    }
+    
+    typedef trans-perd-e {
+        type enumeration {
+            enum TRANS-MS0P5;
+            enum TRANS-MS0P625;
+            enum TRANS-MS1;
+            enum TRANS-MS1P25;
+            enum TRANS-MS2;
+            enum TRANS-MS2P5;
+            enum TRANS-MS5;
+            enum TRANS-MS10;
+        }
+    }
+    
+    typedef trans-perd-v1530-e {
+        type enumeration {
+            enum TRANS-MS3-V1530;
+            enum TRANS-MS4-V1530;
+        }
+    }
+
+    typedef perd-bsr-timer-e {
+        type enumeration {
+            enum BSR-SF1;
+            enum BSR-SF5;
+            enum BSR-SF10;
+            enum BSR-SF16;
+            enum BSR-SF20;
+            enum BSR-SF32;
+            enum BSR-SF40;
+            enum BSR-SF64;
+            enum BSR-SF80;
+            enum BSR-SF128;
+            enum BSR-SF160;
+            enum BSR-SF320;
+            enum BSR-SF640;
+            enum BSR-SF1280;
+            enum BSR-SF2560;
+            enum BSR-INFINITY;
+        }
+    }
+    
+    typedef retx-bsr-timer-e {
+        type enumeration {
+            enum RETX-BSR-SF10;
+            enum RETX-BSR-SF20;
+            enum RETX-BSR-SF40;
+            enum RETX-BSR-SF80;
+            enum RETX-BSR-SF160;
+            enum RETX-BSR-SF320;
+            enum RETX-BSR-SF640;
+            enum RETX-BSR-SF1280;
+            enum RETX-BSR-SF2560;
+            enum RETX-BSR-SF5120;
+            enum RETX-BSR-SF10240;
+            enum RETX-BSR-SPARE5;
+            enum RETX-BSR-SPARE4;
+            enum RETX-BSR-SPARE3;
+            enum RETX-BSR-SPARE2;
+            enum RETX-BSR-SPARE1;
+        }
+    }
+    
+    typedef scs-cmn-e {
+        type enumeration {
+            enum SCS15OR60;
+            enum SCS30OR120;
+        }
+    }
+    
+    typedef q-rx-lvl-min-t {
+        type int8 { range "-70..-22"; }
+        description "Minimum Received RSRP Level Type";
+    }
+    
+    typedef q-qual-min-t {
+        type int8 { range "-43..-12"; }
+        description "Minimum Received RSRQ Level Type";
+    }
+    
+    typedef t300-e {
+        type enumeration {
+            enum T300-MS100;
+            enum T300-MS200;
+            enum T300-MS300;
+            enum T300-MS400;
+            enum T300-MS600;
+            enum T300-MS1000;
+            enum T300-MS1500;
+            enum T300-MS2000;
+        }
+    }
+    
+    typedef t301-e {
+        type enumeration {
+            enum T301-MS100;
+            enum T301-MS200;
+            enum T301-MS300;
+            enum T301-MS400;
+            enum T301-MS600;
+            enum T301-MS1000;
+            enum T301-MS1500;
+            enum T301-MS2000;
+        }
+    }
+    
+    typedef t310-e {
+        type enumeration {
+            enum T310-MS0;
+            enum T310-MS50;
+            enum T310-MS100;
+            enum T310-MS200;
+            enum T310-MS500;
+            enum T310-MS1000;
+            enum T310-MS2000;
+        }
+    }
+    
+    typedef n310-e {
+        type enumeration {
+            enum N310-N1;
+            enum N310-N2;
+            enum N310-N3;
+            enum N310-N4;
+            enum N310-N6;
+            enum N310-N8;
+            enum N310-N10;
+            enum N310-N20;
+        }
+    }
+    
+    typedef t311-e {
+        type enumeration {
+            enum T311-MS1000;
+            enum T311-MS3000;
+            enum T311-MS5000;
+            enum T311-MS10000;
+            enum T311-MS15000;
+            enum T311-MS20000;
+            enum T311-MS30000;
+        }
+    }
+    
+    typedef n311-e {
+        type enumeration {
+            enum N311-N1;
+            enum N311-N2;
+            enum N311-N3;
+            enum N311-N4;
+            enum N311-N5;
+            enum N311-N6;
+            enum N311-N8;
+            enum N311-N10;
+        }
+    }
+    
+    typedef t319-e {
+        type enumeration {
+            enum T319-MS100;
+            enum T319-MS200;
+            enum T319-MS300;
+            enum T319-MS400;
+            enum T319-MS600;
+            enum T319-MS1000;
+            enum T319-MS1500;
+            enum T319-MS2000;
+        }
+    }
+    
+    typedef paging-cycle-e {
+        type enumeration {
+            enum PAGING-RF32;
+            enum PAGING-RF64;
+            enum PAGING-RF128;
+            enum PAGING-RF256;
+        }
+    }
+    
+    typedef paging-frame-offset-type-e {
+        type enumeration {
+            enum ONE-T;
+            enum HALF-T;
+            enum QUARTER-T;
+            enum ONE-EIGHTH-T;
+            enum ONE-SIXTEENTH-T;
+        }
+    }
+    
+    typedef ns-e {
+        type enumeration {
+            enum NS-FOUR;
+            enum NS-TWO;
+            enum NS-ONE;
+        }
+    }
+    
+    typedef modi-perd-coeff-e {
+        type enumeration {
+            enum COEFF-N2;
+            enum COEFF-N4;
+            enum COEFF-N8;
+            enum COEFF-N16;
+        }
+    }
+    
+    typedef si-win-len-e {
+        type enumeration {
+            enum SI-SL5;
+            enum SI-SL10;
+            enum SI-SL20;
+            enum SI-SL40;
+            enum SI-SL80;
+            enum SI-SL160;
+            enum SI-SL320;
+            enum SI-SL640;
+            enum SI-SL1280;
+        }
+    }
+    
+    typedef max-cbgs-per-tb-e {
+        type enumeration {
+            enum CBGS-N2;
+            enum CBGS-N4;
+            enum CBGS-N6;
+            enum CBGS-N8;
+        }
+        description "Max Code Block Groups Per Transport Block";
+    }
+    
+    typedef x-overhead-e {
+        type enumeration {
+            enum XOH6;
+            enum XOH12;
+            enum XOH18;
+        }
+    }
+    
+    typedef pdsch-harq-processes-num-e {
+        type enumeration {
+            enum HARQ-PROC-N2;
+            enum HARQ-PROC-N4;
+            enum HARQ-PROC-N6;
+            enum HARQ-PROC-N10;
+            enum HARQ-PROC-N12;
+            enum HARQ-PROC-N16;
+        }
+    }
+    
+    grouping plmn-id {
+        leaf mcc {
+            type string {
+                length 3;
+                pattern "[0-9]*";
+            }
+        }
+        leaf mnc {
+            type string {
+                length "2..3";
+                pattern "[0-9]*";
+            }
+        }
+    }
+}
