@@ -868,6 +868,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
             
             fdcpp.write(cppline)
 
+    # 如果使用了uses，且存在其他节点
     if judge_if_uses_state(s) == 2:
         # 以下场景为grouping直接使用了uses
         # 提取有效的叶子节点
@@ -910,7 +911,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
     elif judge_if_uses_state(s) == 4:
         if judge_if_optional_state(s) == 1:
             cppline = "    if (!yt) return;\n"
-            cppline += "    " + s.arg.replace('-','_') + "_ = std::make_shared<" + get_struct_name(s.arg) + ">();\n"
+            cppline += "    " + s.arg.replace('-','_') + " = std::make_shared<" + get_struct_name(s.arg) + ">();\n"
             fdcpp.write(cppline + "\n")
         for cppch in s.i_children:
             if cppch.keyword == "leaf":
@@ -919,7 +920,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
                         ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
                     cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "." + cppch.arg.replace('-','_'))
-                fdcpp.write(cppline)
+                    fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
                 cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
                         ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
@@ -1091,12 +1092,12 @@ def print_read_grp_next_func(groupname, module, fd, fdcpp, level):
             line = "    void read_grp_" + groupname.replace('-', '_') + "__" + prt_ch.arg.replace('-', '_') + "(XCONFD_YANGTREE_T* yt, std::vector<std::shared_ptr<" + get_struct_name(
                 judge_if_uses(prt_ch)) + ">>& " + prt_ch.arg.replace('-','_') + ");"
             fd.write(line + '\n')
-            print_read_grp_func_realize(fdcpp, prt_ch, module, line, 0)
+            print_read_grp_func_realize(fdcpp, prt_ch, module, line, 1)
         else:
             line = "    void read_grp_" + groupname.replace('-', '_') + "__" + prt_ch.arg.replace('-', '_') + "(XCONFD_YANGTREE_T* yt, " + get_struct_name(
                 judge_if_uses(prt_ch)) + "& " + prt_ch.arg.replace('-','_') + ");"
             fd.write(line + '\n')
-            print_read_grp_func_realize(fdcpp, prt_ch, module, line, 0)
+            print_read_grp_func_realize(fdcpp, prt_ch, module, line, 1)
     #else:
         #read_grp_next_func(prt_ch, groupname, fd, 0)
 

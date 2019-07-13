@@ -142,7 +142,7 @@ void oam_agent_rcfd_cell_schd::read_grp_coreset(XCONFD_YANGTREE_T* yt, Coreset& 
 void oam_agent_rcfd_cell_schd::read_grp_coreset__cce_reg_mapping_interleaved(XCONFD_YANGTREE_T* yt, CceRegMappingInterleaved& cce_reg_mapping_interleaved)
 {
     if (!yt) return;
-    cce_reg_mapping_interleaved_ = std::make_shared<CceRegMappingInterleaved>();
+    cce_reg_mapping_interleaved = std::make_shared<CceRegMappingInterleaved>();
 
     xconfd_get(cce_reg_mapping_interleaved.reg_bndl_size, enum, "reg-bndl-size", yt);
     xconfd_get(cce_reg_mapping_interleaved.interlvr_size, reg-bndl-size-e, "interlvr-size", yt);
@@ -152,11 +152,10 @@ void oam_agent_rcfd_cell_schd::read_grp_coreset__cce_reg_mapping_interleaved(XCO
 void oam_agent_rcfd_cell_schd::read_grp_coreset__tci_state_info(XCONFD_YANGTREE_T* yt, TciStateInfo& tci_state_info)
 {
     if (!yt) return;
-    tci_state_info_ = std::make_shared<TciStateInfo>();
+    tci_state_info = std::make_shared<TciStateInfo>();
 
     xconfd_yang_tree_get_leaf_list(tci_state_info.to_add, uint8, "to-add", yt);
     xconfd_yang_tree_get_leaf_list(tci_state_info.to_rel, uint8, "to-rel", yt);
-    xconfd_get_empty_value(tci_state_info.present_in_dci, "present-in-dci", yt);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_rach_gen(XCONFD_YANGTREE_T* yt, RachGen& rach_gen)
@@ -206,7 +205,6 @@ void oam_agent_rcfd_cell_schd::read_grp_rach_cfg_cmn(XCONFD_YANGTREE_T* yt, Rach
     xconfd_get(rach_cfg_cmn.prach_root_seq_idx, uint16, "prach-root-seq-idx", yt);
     xconfd_get(rach_cfg_cmn.msg1_scs, enum, "msg1-scs", yt);
     xconfd_get(rach_cfg_cmn.restr_set, enum, "restr-set", yt);
-    xconfd_get_empty_value(rach_cfg_cmn.msg3_tran_precoding, "msg3-tran-precoding", yt);
     xconfd_get(rach_cfg_cmn.max_msg3_trans, uint8, "max-msg3-trans", yt);
     xconfd_get(rach_cfg_cmn.rsrp_thres_ssb, uint8, "rsrp-thres-ssb", yt);
     xconfd_get(rach_cfg_cmn.rsrp_thres_ssb_sul, uint8, "rsrp-thres-ssb-sul", yt);
@@ -323,7 +321,6 @@ void oam_agent_rcfd_cell_schd::read_grp_dl_bwp_cmn(XCONFD_YANGTREE_T* yt, DlBwpC
     read_grp_dl_bwp_cmn__bwp_gen(bwp_gen_yt, dl_bwp_cmn.bwp_gen);
     auto pdcch_cfg_cmn_yt = xconfd_yang_tree_get_node(yt, "pdcch-cfg-cmn");
     read_grp_dl_bwp_cmn__pdcch_cfg_cmn(pdcch_cfg_cmn_yt, dl_bwp_cmn.pdcch_cfg_cmn);
-    xconfd_get_empty_value(dl_bwp_cmn.pdsch_present, "pdsch-present", yt);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_dl_bwp_cmn__bwp_gen(XCONFD_YANGTREE_T* yt, BwpGen& bwp_gen)
@@ -361,7 +358,6 @@ void oam_agent_rcfd_cell_schd::read_grp_sul(XCONFD_YANGTREE_T* yt, Sul& sul)
     read_grp_sul__initial_bwp(initial_bwp_yt, sul.initial_bwp);
     auto addtl_bwps_yt = xconfd_yang_tree_get_node(yt, "addtl-bwps");
     read_grp_sul__addtl_bwps(addtl_bwps_yt, sul.addtl_bwps);
-    xconfd_get_empty_value(sul.harmonic, "harmonic", yt);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_sul__freq_info(XCONFD_YANGTREE_T* yt, UlFreqInfo& freq_info)
@@ -393,7 +389,6 @@ void oam_agent_rcfd_cell_schd::read_grp_ul_freq_info(XCONFD_YANGTREE_T* yt, UlFr
     read_grp_ul_freq_info__freq_info_cmn(freq_info_cmn_yt, ul_freq_info.freq_info_cmn);
     xconfd_get(ul_freq_info.addtl_spectrum_emi, uint8, "addtl-spectrum-emi", yt);
     xconfd_get(ul_freq_info.p_max, int8, "p-max", yt);
-    xconfd_get_empty_value(ul_freq_info.freq_shift_7p5khz, "freq-shift-7p5khz", yt);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_ul_freq_info__freq_info_cmn(XCONFD_YANGTREE_T* yt, FreqInfoCmn& freq_info_cmn)
@@ -523,7 +518,6 @@ void oam_agent_rcfd_cell_schd::read_grp_bwp_gen(XCONFD_YANGTREE_T* yt, BwpGen& b
     xconfd_get(bwp_gen.start_rb, uint16, "start-rb", yt);
     xconfd_get(bwp_gen.rb_num, uint16, "rb-num", yt);
     xconfd_get(bwp_gen.scs, enum, "scs", yt);
-    xconfd_get_empty_value(bwp_gen.cp_extended, "cp-extended", yt);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_tdd_cfg_cmn(XCONFD_YANGTREE_T* yt, TddCfgCmn& tdd_cfg_cmn)
@@ -550,7 +544,6 @@ void oam_agent_rcfd_cell_schd::read_grp_tdd_cfg_cmn__pattern2(XCONFD_YANGTREE_T*
 
 void oam_agent_rcfd_cell_schd::read_grp_ul_cfg_cmn(XCONFD_YANGTREE_T* yt, UlCfgCmn& ul_cfg_cmn)
 {
-    xconfd_get_empty_value(ul_cfg_cmn.present_in_sib1, "present-in-sib1", yt);
     auto freq_info_yt = xconfd_yang_tree_get_node(yt, "freq-info");
     read_grp_ul_cfg_cmn__freq_info(freq_info_yt, ul_cfg_cmn.freq_info);
     auto initial_bwp_yt = xconfd_yang_tree_get_node(yt, "initial-bwp");
@@ -581,7 +574,6 @@ void oam_agent_rcfd_cell_schd::read_grp_ul_cfg_cmn__ue_harq_info(XCONFD_YANGTREE
 
 void oam_agent_rcfd_cell_schd::read_grp_pusch_cfg_cmn(XCONFD_YANGTREE_T* yt, PuschCfgCmn& pusch_cfg_cmn)
 {
-    xconfd_get_empty_value(pusch_cfg_cmn.grp_hopping_trans_precoding, "grp-hopping-trans-precoding", yt);
     xconfd_get_optional(pusch_cfg_cmn.msg3_delta_preamble, int8_t, int8, "msg3-delta-preamble", yt);
     xconfd_get_optional(pusch_cfg_cmn.p0_nominal_with_grant, int16_t, int16, "p0-nominal-with-grant", yt);
 }
