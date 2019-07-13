@@ -60,12 +60,12 @@ void oam_agent_rcfd_cell_schd::read_fdd_cfg_cmn(XCONFD_YANGTREE_T* yt)
 
 void oam_agent_rcfd_cell_schd::read_fdd_cfg_cmn__ul_cfg_cmn(XCONFD_YANGTREE_T* yt, UlCfgCmn& ul_cfg_cmn)
 {
-    read_grp_ul_cfg_cmn(yt, *ul_cfg_cmn);
+    read_grp_ul_cfg_cmn(yt, ul_cfg_cmn);
 }
 
 void oam_agent_rcfd_cell_schd::read_fdd_cfg_cmn__dl_cfg_cmn(XCONFD_YANGTREE_T* yt, DlCfgCmn& dl_cfg_cmn)
 {
-    read_grp_dl_cfg_cmn(yt, *dl_cfg_cmn);
+    read_grp_dl_cfg_cmn(yt, dl_cfg_cmn);
 }
 
 void oam_agent_rcfd_cell_schd::read_tdd_cfg_cmn(XCONFD_YANGTREE_T* yt)
