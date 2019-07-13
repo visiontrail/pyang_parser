@@ -12,9 +12,9 @@ namespace rcfd
 
 oam_agent_rcfd_cell_l1::oam_agent_rcfd_cell_l1(XCONFD_YANGTREE_T* yt)
 {
-    xconfd_get(dl_central_freq, uint32, "dl-central-freq", yt);
-    xconfd_get(ul_central_freq, uint32, "ul-central-freq", yt);
-    xconfd_get(ca_lvl, uint8, "ca-lvl", yt);
+    xconfd_get(dl_central_freq_, uint32, "dl-central-freq", yt);
+    xconfd_get(ul_central_freq_, uint32, "ul-central-freq", yt);
+    xconfd_get(ca_lvl_, uint8, "ca-lvl", yt);
     auto prach_yt = xconfd_yang_tree_get_node(yt, "prach");
     read_prach(prach_yt);
     auto mib_yt = xconfd_yang_tree_get_node(yt, "mib");
@@ -53,7 +53,7 @@ void oam_agent_rcfd_cell_l1::read_grp_cell_access_info__plmn_id_infos(XCONFD_YAN
     XCONFD_YANG_TREE_LIST_FOREACH(yt, plmn_id_info_yt)
     {
         auto plmn_id_info = std::make_shared<PlmnIdInfo>();
-        read_grp_plmn_id_info(plmn_id_info_yt, plmn_id_info);
+        read_grp_plmn_id_info(plmn_id_info_yt, *plmn_id_info);
         plmn_id_infos.push_back(plmn_id_info);
     }
 }
@@ -73,7 +73,7 @@ void oam_agent_rcfd_cell_l1::read_grp_plmn_id_info__plmn_ids(XCONFD_YANGTREE_T* 
     XCONFD_YANG_TREE_LIST_FOREACH(yt, plmn_id_yt)
     {
         auto plmn_id = std::make_shared<PlmnId>();
-        read_grp_plmn_id(plmn_id_yt, plmn_id);
+        read_grp_plmn_id(plmn_id_yt, *plmn_id);
         plmn_ids.push_back(plmn_id);
     }
 }

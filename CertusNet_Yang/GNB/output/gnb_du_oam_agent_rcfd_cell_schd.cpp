@@ -12,18 +12,18 @@ namespace rcfd
 
 oam_agent_rcfd_cell_schd::oam_agent_rcfd_cell_schd(XCONFD_YANGTREE_T* yt)
 {
-    xconfd_get(max_ue_per_ul_tti, uint32, "max-ue-per-ul-tti", yt);
-    xconfd_get(max_ue_per_dl_tti, uint32, "max-ue-per-dl-tti", yt);
-    xconfd_get(max_dl_harq_tx, uint8, "max-dl-harq-tx", yt);
-    xconfd_get(max_msg4_harq_tx, uint32, "max-msg4-harq-tx", yt);
-    xconfd_get(duration, uint16, "duration", yt);
-    xconfd_get(cmn_lcs_num, uint8, "cmn-lcs-num", yt);
+    xconfd_get(max_ue_per_ul_tti_, uint32, "max-ue-per-ul-tti", yt);
+    xconfd_get(max_ue_per_dl_tti_, uint32, "max-ue-per-dl-tti", yt);
+    xconfd_get(max_dl_harq_tx_, uint8, "max-dl-harq-tx", yt);
+    xconfd_get(max_msg4_harq_tx_, uint32, "max-msg4-harq-tx", yt);
+    xconfd_get(duration_, uint16, "duration", yt);
+    xconfd_get(cmn_lcs_num_, uint8, "cmn-lcs-num", yt);
     xconfd_get_empty_value(cp_ul_extended_ , "cp-ul-extended", yt);
-    xconfd_get(scs, enum, "scs", yt);
-    xconfd_get(dmrs_type_a_pos, enum, "dmrs-type-a-pos", yt);
-    xconfd_get(slot_format, uint8, "slot-format", yt);
-    xconfd_get(harq_ack_cb_type, enum, "harq-ack-cb-type", yt);
-    xconfd_get(bwp_inactive_timer, enum, "bwp-inactive-timer", yt);
+    xconfd_get(scs_, enum, "scs", yt);
+    xconfd_get(dmrs_type_a_pos_, enum, "dmrs-type-a-pos", yt);
+    xconfd_get(slot_format_, uint8, "slot-format", yt);
+    xconfd_get(harq_ack_cb_type_, enum, "harq-ack-cb-type", yt);
+    xconfd_get(bwp_inactive_timer_, enum, "bwp-inactive-timer", yt);
     xconfd_get_empty_value(scell_cmn_cfg_in_sib1_ , "scell-cmn-cfg-in-sib1", yt);
     auto preamble_id_range_yt = xconfd_yang_tree_get_node(yt, "preamble-id-range");
     read_preamble_id_range(preamble_id_range_yt);
@@ -187,7 +187,7 @@ void oam_agent_rcfd_cell_schd::read_grp_freq_info_cmn__scs_spec_carriers(XCONFD_
     XCONFD_YANG_TREE_LIST_FOREACH(yt, scs_spec_carrier_yt)
     {
         auto scs_spec_carrier = std::make_shared<ScsSpecCarrier>();
-        read_grp_scs_spec_carrier(scs_spec_carrier_yt, scs_spec_carrier);
+        read_grp_scs_spec_carrier(scs_spec_carrier_yt, *scs_spec_carrier);
         scs_spec_carriers.push_back(scs_spec_carrier);
     }
 }
@@ -382,7 +382,7 @@ void oam_agent_rcfd_cell_schd::read_grp_sul__addtl_bwps(XCONFD_YANGTREE_T* yt, s
     XCONFD_YANG_TREE_LIST_FOREACH(yt, ul_bwp_yt)
     {
         auto ul_bwp = std::make_shared<UlBwp>();
-        read_grp_ul_bwp(ul_bwp_yt, ul_bwp);
+        read_grp_ul_bwp(ul_bwp_yt, *ul_bwp);
         addtl_bwps.push_back(ul_bwp);
     }
 }
@@ -485,7 +485,7 @@ void oam_agent_rcfd_cell_schd::read_grp_pdcch_cfg_cmn__search_spaces(XCONFD_YANG
     XCONFD_YANG_TREE_LIST_FOREACH(yt, search_space_yt)
     {
         auto search_space = std::make_shared<SearchSpace>();
-        read_grp_search_space(search_space_yt, search_space);
+        read_grp_search_space(search_space_yt, *search_space);
         search_spaces.push_back(search_space);
     }
 }
