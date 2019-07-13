@@ -441,7 +441,7 @@ def print_mem(i_children, module, fd, fdcpp, prefix, path, mode, depth,
             if get_typename(child, prefix_with_modname) == "empty":
                 cppline = "    xconfd_get_empty_value(" + child.arg.replace('-', '_') + "_ " + ", \"" + child.arg + "\", yt);\n"
             else:
-                cppline = print_get_leaf_realize(child, child.arg.replace('-', '_'))
+                cppline = print_get_leaf_realize(child, child.arg.replace('-', '_') + "_")
             fdcpp.write(cppline)
 
         fd.write(line + '\n')
@@ -861,7 +861,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
         elif s.keyword == "list":
             cppline = "    XCONFD_YANG_TREE_LIST_FOREACH(yt, " + judge_if_uses(s).replace('-','_') + "_yt)\n    {\n"
             cppline += "        auto " + judge_if_uses(s).replace('-','_') + " = " + "std::make_shared<" + get_struct_name(judge_if_uses(s)) +">();\n"
-            cppline += "        read_grp_" + judge_if_uses(s).replace('-','_') + "(" + judge_if_uses(s).replace('-','_') + "_yt, " + \
+            cppline += "        read_grp_" + judge_if_uses(s).replace('-','_') + "(" + judge_if_uses(s).replace('-','_') + "_yt, *" + \
                 judge_if_uses(s).replace('-','_') + ");\n"
             cppline += "        " + s.arg.replace('-','_') + ".push_back(" + judge_if_uses(s).replace('-','_') + ");\n    }\n"
             
