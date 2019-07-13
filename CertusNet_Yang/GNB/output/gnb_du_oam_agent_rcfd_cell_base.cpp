@@ -12,12 +12,12 @@ namespace rcfd
 
 oam_agent_rcfd_cell_base::oam_agent_rcfd_cell_base(XCONFD_YANGTREE_T* yt)
 {
-    xconfd_get(nr_mode_type_, , enum, "nr-mode-type", yt);
+    xconfd_get(nr_mode_type, enum, "nr-mode-type", yt);
     auto nr_cgi_yt = xconfd_yang_tree_get_node(yt, "nr-cgi");
     read_nr_cgi(nr_cgi_yt);
-    xconfd_get(nr_pci_, , uint16, "nr-pci", yt);
-    xconfd_get(tac_5gs_, , uint32, "tac-5gs", yt);
-    xconfd_get(cfgrd_eps_tac_, , uint16, "cfgrd-eps-tac", yt);
+    xconfd_get(nr_pci, uint16, "nr-pci", yt);
+    xconfd_get(tac_5gs, uint32, "tac-5gs", yt);
+    xconfd_get(cfgrd_eps_tac, uint16, "cfgrd-eps-tac", yt);
     auto served_plmns_yt = xconfd_yang_tree_get_node(yt, "served-plmns");
     read_served_plmns(served_plmns_yt);
     auto si_perd_yt = xconfd_yang_tree_get_node(yt, "si-perd");
@@ -63,7 +63,7 @@ void oam_agent_rcfd_cell_base::read_grp_served_plmn__s_nssais(XCONFD_YANGTREE_T*
     XCONFD_YANG_TREE_LIST_FOREACH(yt, s_nssai_yt)
     {
         auto s_nssai = std::make_shared<SNssai>();
-        read_grp_s_nssai(s_nssai_yt, *s_nssai);
+        read_grp_s_nssai(s_nssai_yt, s_nssai);
         s_nssais.push_back(s_nssai);
     }
 }

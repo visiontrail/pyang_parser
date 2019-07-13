@@ -441,7 +441,7 @@ def print_mem(i_children, module, fd, fdcpp, prefix, path, mode, depth,
             if get_typename(child, prefix_with_modname) == "empty":
                 cppline = "    xconfd_get_empty_value(" + child.arg.replace('-', '_') + "_ " + ", \"" + child.arg + "\", yt);\n"
             else:
-                cppline = print_get_leaf_realize(child, child.arg.replace('-', '_') + "_, ")
+                cppline = print_get_leaf_realize(child, child.arg.replace('-', '_'))
             fdcpp.write(cppline)
 
         fd.write(line + '\n')
@@ -671,7 +671,7 @@ def print_structure_func_realize(fdcpp, s, module, line, level):
             if cppch.keyword == "leaf":
                 if get_typename(cppch) == "empty":
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
+                        ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
                     cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
@@ -820,7 +820,7 @@ def print_read_func_realize(fdcpp, s, module, line, level):
             if cppch.keyword == "leaf":
                 if get_typename(cppch) == "empty":
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
+                        ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
                     cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
@@ -856,12 +856,12 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
             cppline += "    " + s.arg.replace('-','_') + "_ = std::make_shared<" + get_struct_name(s.arg) + ">();\n"
             fdcpp.write(cppline + "\n")
         if s.keyword == "container":
-            cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + ");\n"
+            cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, " + s.arg.replace('-','_') + ");\n"
             fdcpp.write(cppline)
         elif s.keyword == "list":
             cppline = "    XCONFD_YANG_TREE_LIST_FOREACH(yt, " + judge_if_uses(s).replace('-','_') + "_yt)\n    {\n"
             cppline += "        auto " + judge_if_uses(s).replace('-','_') + " = " + "std::make_shared<" + get_struct_name(judge_if_uses(s)) +">();\n"
-            cppline += "        read_grp_" + judge_if_uses(s).replace('-','_') + "(" + judge_if_uses(s).replace('-','_') + "_yt, *" + \
+            cppline += "        read_grp_" + judge_if_uses(s).replace('-','_') + "(" + judge_if_uses(s).replace('-','_') + "_yt, " + \
                 judge_if_uses(s).replace('-','_') + ");\n"
             cppline += "        " + s.arg.replace('-','_') + ".push_back(" + judge_if_uses(s).replace('-','_') + ");\n    }\n"
             
@@ -878,7 +878,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
             if cppch.keyword == "leaf":
                 if get_typename(cppch) == "empty":
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
+                        ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
                     cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
@@ -916,7 +916,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
             if cppch.keyword == "leaf":
                 if get_typename(cppch) == "empty":
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
+                        ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
                     cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "." + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
@@ -985,7 +985,7 @@ def print_read_func_first(s, module, fd, fdcpp, prefix, path, mode, depth, llen,
             fd.write(line + '\n')
             print_read_func_realize(fdcpp, prt_ch, module, line, 1)
         if prt_ch.keyword == "leaf":
-            line = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "_." + prt_ch.arg.replace('-','_'))
+            line = print_get_leaf_realize(prt_ch, s.arg.replace('-','_') + "_." + prt_ch.arg.replace('-','_'))
 
 
 def judge_next_ctn(i_children, level):
