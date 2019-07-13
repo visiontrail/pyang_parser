@@ -915,13 +915,13 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
         for cppch in s.i_children:
             if cppch.keyword == "leaf":
                 if get_typename(cppch) == "empty":
-                    cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
+                    cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
                         ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
-                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_'))
+                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "." + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
-                cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
+                cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
                         ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 fdcpp.write(cppline)
             elif cppch.keyword == "container" and judge_if_uses_state(s) == 4:
