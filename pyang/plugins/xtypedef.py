@@ -727,12 +727,12 @@ def print_read_func_realize(fdcpp, s, module, line, level):
                 if judge_if_optional_state(s) == 1:
                     cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + "_);\n"
                 else:
-                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, " + s.arg.replace('-','_') + "_);\n"
+                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + "_);\n"
             elif level == 1 :
                 if judge_if_optional_state(s) == 1:
                     cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + ");\n"
                 else:
-                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, " + s.arg.replace('-','_') + ");\n"
+                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + ");\n"
             fdcpp.write(cppline)
 
         # 如果是一个list
@@ -758,12 +758,12 @@ def print_read_func_realize(fdcpp, s, module, line, level):
                 if judge_if_optional_state(s) == 1:
                     cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + "_);\n"
                 else:
-                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, " + s.arg.replace('-','_') + "_."+ judge_if_uses(s).replace('-','_') +");\n"
+                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + "_."+ judge_if_uses(s).replace('-','_') +");\n"
             elif level == 1 :
                 if judge_if_optional_state(s) == 1:
                     cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + ");\n"
                 else:
-                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, " + s.arg.replace('-','_') + "_."+ judge_if_uses(s).replace('-','_') +");\n"
+                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + "_."+ judge_if_uses(s).replace('-','_') +");\n"
             fdcpp.write(cppline)
 
             # 打印所有leaf节点
@@ -915,13 +915,13 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
         for cppch in s.i_children:
             if cppch.keyword == "leaf":
                 if get_typename(cppch) == "empty":
-                    cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
+                    cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
                         ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
-                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "." + cppch.arg.replace('-','_'))
+                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
-                cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
+                cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
                         ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 fdcpp.write(cppline)
             elif cppch.keyword == "container" and judge_if_uses_state(s) == 4:
