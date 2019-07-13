@@ -48,8 +48,8 @@ void oam_agent_rcfd_cell_base::read_si_perd(XCONFD_YANGTREE_T* yt)
 
 void oam_agent_rcfd_cell_base::read_grp_s_nssai(XCONFD_YANGTREE_T* yt, SNssai& s_nssai)
 {
-    xconfd_get(s_nssai.sst, uint8, "sst", yt);
-    xconfd_get(s_nssai.sd, uint32, "sd", yt);
+    xconfd_get(s_nssai->sst, uint8, "sst", yt);
+    xconfd_get(s_nssai->sd, uint32, "sd", yt);
 }
 
 void oam_agent_rcfd_cell_base::read_grp_served_plmn(XCONFD_YANGTREE_T* yt, ServedPlmn& served_plmn)
