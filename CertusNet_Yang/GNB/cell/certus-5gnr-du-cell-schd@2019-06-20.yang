@@ -529,8 +529,8 @@ submodule certus-5gnr-du-cell-schd {
         }
     }
     grouping ss-pbch {
-        leaf scs {
-            type cgtfc:scs-e;
+        leaf scs-cmn {
+            type cgtfc:scs-cmn-e;
         }
         leaf ssb-sc-offset {
             type cgtfc:ssb-sc-offset-t;

@@ -13,14 +13,6 @@ namespace gnb_du
 namespace rcfd
 {
 
-typedef struct structCellChannel
-{
-    Pcch pcch; 
-    Bcch bcch; 
-    PuschScell pusch_scell; 
-    PdschScell pdsch_scell; 
-} CellChannel;
-
 typedef struct structPcch
 {
     PagingCycleE default_paging_cycle; 
@@ -38,18 +30,18 @@ typedef struct structBcch
 
 typedef struct structPuschScell
 {
-    MaxCbgsPerTbE max_cbgs_per_tb; 
+    std::shared_ptr<MaxCbgsPerTbE> max_cbgs_per_tb;
     bool limited_buf_rm; 
-    XOverheadE x_overhead; 
+    std::shared_ptr<XOverheadE> x_overhead;
 } PuschScell; 
 
 typedef struct structPdschScell
 {
-    MaxCbgsPerTbE max_cbgs_per_tb; 
+    std::shared_ptr<MaxCbgsPerTbE> max_cbgs_per_tb;
     bool cbg_flush_ind; 
-    XOverheadE x_overhead; 
-    PdschHarqProcessesNumE harq_processes_num; 
-    uint8_t pucch_cell_idx; 
+    std::shared_ptr<XOverheadE> x_overhead;
+    std::shared_ptr<PdschHarqProcessesNumE> harq_processes_num;
+    std::shared_ptr<uint8_t> pucch_cell_idx;
 } PdschScell; 
 
 class oam_agent_rcfd_cell_channel : public allocator

@@ -16,16 +16,16 @@ namespace rcfd
 typedef struct structCellAccessInfo
 {
     std::vector<std::shared_ptr<PlmnIdInfo>> plmn_id_infos;
-    cell-rsrvd-for-other-use cell_rsrvd_for_other_use; 
+    bool cell_rsrvd_for_other_use; 
 } CellAccessInfo;
 
 typedef struct structPlmnIdInfo
 {
     std::vector<std::shared_ptr<PlmnId>> plmn_ids;
-    cell-id cell_id; 
-    tac tac; 
-    ranac ranac; 
-    cell-rsrvd-for-operator-use cell_rsrvd_for_operator_use; 
+    NrCellIdT nr_cell_id; 
+    std::shared_ptr<uint32_t> tac;
+    std::shared_ptr<uint8_t> ranac;
+    bool cell_rsrvd_for_operator_use; 
 } PlmnIdInfo;
 
 typedef struct structSib1
@@ -37,71 +37,72 @@ typedef struct structSib1
 
 typedef struct structMib
 {
-    scs-cmn scs_cmn; 
-    ssb-sc-offset ssb_sc_offset; 
+    ScsCmnE scs_cmn; 
+    SsbScOffsetT ssb_sc_offset; 
     PdcchCfgSib1 pdcch_cfg_sib1; 
-    cell-barred cell_barred; 
-    intra-freq-resel intra_freq_resel; 
+    bool cell_barred; 
+    bool intra_freq_resel; 
 } Mib;
 
 typedef struct structUeTimers
 {
-    t300 t300; 
-    t301 t301; 
-    t310 t310; 
-    n310 n310; 
-    t311 t311; 
-    n311 n311; 
-    t319 t319; 
+    T300E t300; 
+    T301E t301; 
+    T310E t310; 
+    N310E n310; 
+    T311E t311; 
+    N311E n311; 
+    T319E t319; 
 } UeTimers;
 
 typedef struct structCellSelInfo
 {
-    q-rx-lvl-min q_rx_lvl_min; 
-    q-rx-lvl-min-offset q_rx_lvl_min_offset; 
-    q-rx-lvl-min-sul q_rx_lvl_min_sul; 
-    q-qual-min q_qual_min; 
-    q-qual-min-offset q_qual_min_offset; 
+    std::shared_ptr<QRxLvlMinT> q_rx_lvl_min;
+    std::shared_ptr<uint8_t> q_rx_lvl_min_offset;
+    std::shared_ptr<QRxLvlMinT> q_rx_lvl_min_sul;
+    std::shared_ptr<QQualMinT> q_qual_min;
+    std::shared_ptr<uint8_t> q_qual_min_offset;
 } CellSelInfo;
 
 typedef struct structPrach
 {
-    root-seq-idx root_seq_idx; 
-    cfg-idx cfg_idx; 
-    zero-correlation-zone-cfg zero_correlation_zone_cfg; 
-    restricted-set restricted_set; 
-    freq-start freq_start; 
-    freq-offset freq_offset; 
-    scs scs; 
-    fdm fdm; 
-    ssb-per-rach-occ ssb_per_rach_occ; 
+    uint16_t root_seq_idx; 
+    uint8_t cfg_idx; 
+    uint8_t zero_correlation_zone_cfg; 
+    std::shared_ptr<uint8_t> restricted_set;
+    uint16_t freq_start; 
+    uint8_t freq_offset; 
+    ScsE scs; 
+    Msg1FdmE fdm; 
+    SsbPerRachOccE ssb_per_rach_occ; 
 } Prach;
-
-typedef struct structCellL1
-{
-    dl-central-freq dl_central_freq; 
-    ul-central-freq ul_central_freq; 
-    ca-lvl ca_lvl; 
-    Prach prach; 
-    Mib mib; 
-    Sib1 sib1; 
-} CellL1;
-
-typedef struct structPlmnIdInfos
-{
-    PlmnIdInfo plmn_id_info
-} PlmnIdInfos; 
-
-typedef struct structPlmnIds
-{
-    PlmnId plmn_id;
-} PlmnIds; 
 
 typedef struct structPdcchCfgSib1
 {
-    uint8_t coreset_zero; 
-    uint8_t ss_zero; 
+    CoresetZeroT coreset_zero; 
+    SsZeroT ss_zero; 
 } PdcchCfgSib1; 
+
+typedef struct structPlmnidinfos
+{
+    std::vector<std::shared_ptr<PlmnId>> plmn_ids;
+    NrCellIdT nr_cell_id; 
+    uint32_t tac; 
+    uint8_t ranac; 
+    bool cell_rsrvd_for_operator_use; 
+} PlmnIdInfos; 
+
+typedef struct structPlmnids
+{
+    std::string mcc; 
+    std::string mnc; 
+} PlmnIds; 
+
+typedef struct structPlmnids
+{
+    std::string mcc; 
+    std::string mnc; 
+} PlmnIds; 
 
 class oam_agent_rcfd_cell_l1 : public allocator
 {

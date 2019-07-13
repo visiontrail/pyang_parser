@@ -588,7 +588,7 @@ void oam_agent_rcfd_cell_schd::read_grp_pusch_cfg_cmn(XCONFD_YANGTREE_T* yt, Pus
 
 void oam_agent_rcfd_cell_schd::read_grp_ss_pbch(XCONFD_YANGTREE_T* yt, SsPbch& ss_pbch)
 {
-    xconfd_get(ss_pbch.scs, enum, "scs", yt);
+    xconfd_get(ss_pbch.scs_cmn, enum, "scs-cmn", yt);
     xconfd_get(ss_pbch.ssb_sc_offset, uint8, "ssb-sc-offset", yt);
     xconfd_get(ss_pbch.burst_set_size, uint8, "burst-set-size", yt);
     xconfd_get(ss_pbch.ssb_scell_perd, enum, "ssb-scell-perd", yt);

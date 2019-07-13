@@ -62,7 +62,7 @@ void oam_agent_rcfd_cell_l1::read_grp_plmn_id_info(XCONFD_YANGTREE_T* yt, PlmnId
 {
     auto plmn_ids_yt = xconfd_yang_tree_get_node(yt, "plmn-ids");
     read_grp_plmn_id_info__plmn_ids(plmn_ids_yt, plmn_id_info.plmn_ids);
-    xconfd_get(plmn_id_info.cell_id, uint64, "cell-id", yt);
+    xconfd_get(plmn_id_info.nr_cell_id, uint64, "nr-cell-id", yt);
     xconfd_get(plmn_id_info.tac, uint32, "tac", yt);
     xconfd_get(plmn_id_info.ranac, uint8, "ranac", yt);
     xconfd_get_empty_value(plmn_id_info.cell_rsrvd_for_operator_use, bool, "cell-rsrvd-for-operator-use", yt);

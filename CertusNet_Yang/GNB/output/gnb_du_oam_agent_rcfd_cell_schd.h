@@ -15,33 +15,33 @@ namespace rcfd
 
 typedef struct structCoreset
 {
-    id id; 
-    freq-domain-res freq_domain_res; 
-    duration duration; 
+    CoresetIdT id; 
+    uint64_t freq_domain_res; 
+    uint8_t duration; 
     CceRegMappingInterleaved cce_reg_mapping_interleaved; 
-    precoder-granularity precoder_granularity; 
-    dmrs-scramble-id dmrs_scramble_id; 
+    PrecoderGranularityE precoder_granularity; 
+    std::shared_ptr<uint16_t> dmrs_scramble_id;
     TciStateInfo tci_state_info; 
 } Coreset;
 
 typedef struct structRachGen
 {
-    prach-cfg-idx prach_cfg_idx; 
-    msg1-fdm msg1_fdm; 
-    msg1-freq-start msg1_freq_start; 
-    zero-corre-zone zero_corre_zone; 
-    preamble-rx-tpower preamble_rx_tpower; 
-    preamble-trans-max preamble_trans_max; 
-    power-ramp-step power_ramp_step; 
-    ra-rsp-win ra_rsp_win; 
+    uint8_t prach_cfg_idx; 
+    Msg1FdmE msg1_fdm; 
+    uint16_t msg1_freq_start; 
+    uint8_t zero_corre_zone; 
+    int16_t preamble_rx_tpower; 
+    PreambleTransMaxE preamble_trans_max; 
+    PowerRampStepE power_ramp_step; 
+    RaRspWinE ra_rsp_win; 
 } RachGen;
 
 typedef struct structFreqInfoCmn
 {
-    abs-freq-point-a abs_freq_point_a; 
-    abs-arfcn-point-a abs_arfcn_point_a; 
-    nr-arfcn nr_arfcn; 
-    channel-bw channel_bw; 
+    uint32_t abs_freq_point_a; 
+    ArfcnT abs_arfcn_point_a; 
+    ArfcnT nr_arfcn; 
+    ChannelBwE channel_bw; 
     std::vector<std::shared_ptr<uint16_t>> nr_freq_bands;
     std::vector<std::shared_ptr<ScsSpecCarrier>> scs_spec_carriers;
 } FreqInfoCmn;
@@ -49,19 +49,19 @@ typedef struct structFreqInfoCmn
 typedef struct structRachCfgCmn
 {
     RachGen rach_gen; 
-    total-num-ra-preamble total_num_ra_preamble; 
-    ssb-per-rach-occ ssb_per_rach_occ; 
-    cb-preamble-per-ssb cb_preamble_per_ssb; 
+    uint8_t total_num_ra_preamble; 
+    SsbPerRachOccE ssb_per_rach_occ; 
+    uint8_t cb_preamble_per_ssb; 
     RachGrpb rach_grpb; 
-    ra-cont-res-tmr ra_cont_res_tmr; 
-    prach-root-seq-idx-type prach_root_seq_idx_type; 
-    prach-root-seq-idx prach_root_seq_idx; 
-    msg1-scs msg1_scs; 
-    restr-set restr_set; 
-    msg3-tran-precoding msg3_tran_precoding; 
-    max-msg3-trans max_msg3_trans; 
-    rsrp-thres-ssb rsrp_thres_ssb; 
-    rsrp-thres-ssb-sul rsrp_thres_ssb_sul; 
+    RaContResTmrE ra_cont_res_tmr; 
+    PrachRootSeqIdxTypeE prach_root_seq_idx_type; 
+    uint16_t prach_root_seq_idx; 
+    ScsE msg1_scs; 
+    RestrSetE restr_set; 
+    bool msg3_tran_precoding; 
+    uint8_t max_msg3_trans; 
+    uint8_t rsrp_thres_ssb; 
+    uint8_t rsrp_thres_ssb_sul; 
 } RachCfgCmn;
 
 typedef struct structUlBwpCmn
@@ -79,60 +79,60 @@ typedef struct structUlBwp
 
 typedef struct structTddUlDlPattern
 {
-    dl-syms-num dl_syms_num; 
-    dl-slots-num dl_slots_num; 
-    ul-syms-num ul_syms_num; 
-    ul-slots-num ul_slots_num; 
-    trans-perd trans_perd; 
-    trans-perd-v1530 trans_perd_v1530; 
+    SymsNumT dl_syms_num; 
+    SlotsNumT dl_slots_num; 
+    SymsNumT ul_syms_num; 
+    SlotsNumT ul_slots_num; 
+    TransPerdE trans_perd; 
+    std::shared_ptr<TransPerdV1530E> trans_perd_v1530;
 } TddUlDlPattern;
 
 typedef struct structScsSpecCarrier
 {
-    offset-to-carrier offset_to_carrier; 
-    scs scs; 
+    OffsetPointACarrierT offset_to_carrier; 
+    ScsE scs; 
 } ScsSpecCarrier;
 
 typedef struct structDlBwpCmn
 {
     BwpGen bwp_gen; 
     PdcchCfgCmn pdcch_cfg_cmn; 
-    pdsch-present pdsch_present; 
+    bool pdsch_present; 
 } DlBwpCmn;
 
 typedef struct structPucchCfgCmn
 {
-    res-cmn res_cmn; 
-    grp-hopping grp_hopping; 
-    hopping-id hopping_id; 
-    p0-nominal p0_nominal; 
+    std::shared_ptr<uint8_t> res_cmn;
+    PucchGrpHoppingE grp_hopping; 
+    std::shared_ptr<uint16_t> hopping_id;
+    std::shared_ptr<int16_t> p0_nominal;
 } PucchCfgCmn;
 
 typedef struct structSul
 {
-    max-ue-per-ul-tti max_ue_per_ul_tti; 
-    tar-cqi tar_cqi; 
-    ccch-cqi ccch_cqi; 
+    uint32_t max_ue_per_ul_tti; 
+    uint8_t tar_cqi; 
+    uint8_t ccch_cqi; 
     FreqInfo freq_info; 
     InitialBwp initial_bwp; 
     std::vector<std::shared_ptr<AddtlBwp>> addtl_bwps;
-    harmonic harmonic; 
+    bool harmonic; 
 } Sul;
 
 typedef struct structUlFreqInfo
 {
     FreqInfoCmn freq_info_cmn; 
-    addtl-spectrum-emi addtl_spectrum_emi; 
-    p-max p_max; 
-    freq-shift-7p5khz freq_shift_7p5khz; 
+    uint8_t addtl_spectrum_emi; 
+    int8_t p_max; 
+    bool freq_shift_7p5khz; 
 } UlFreqInfo;
 
 typedef struct structDlFreqInfo
 {
     FreqInfoCmn freq_info_cmn; 
-    abs-freq-ssb abs_freq_ssb; 
-    abs-arfcn-ssb abs_arfcn_ssb; 
-    offset-to-point-a offset_to_point_a; 
+    std::shared_ptr<uint32_t> abs_freq_ssb;
+    std::shared_ptr<ArfcnT> abs_arfcn_ssb;
+    OffsetPointACarrierT offset_to_point_a; 
 } DlFreqInfo;
 
 typedef struct structDlBwp
@@ -142,49 +142,25 @@ typedef struct structDlBwp
 
 typedef struct structSearchSpace
 {
-    id id; 
-    coreset-id coreset_id; 
-    mon-slot-perd-offset-type mon_slot_perd_offset_type; 
-    mon-slot-perd-offset mon_slot_perd_offset; 
-    mon-slot-syms mon_slot_syms; 
+    SsIdT id; 
+    CoresetIdT coreset_id; 
+    MonSlotPerdOffsetTypeE mon_slot_perd_offset_type; 
+    uint16_t mon_slot_perd_offset; 
+    uint16_t mon_slot_syms; 
     AggrLvlCandidatesNum aggr_lvl_candidates_num; 
-    dci-format dci_format; 
+    std::shared_ptr<DciFormatE> dci_format;
 } SearchSpace;
-
-typedef struct structCellSchd
-{
-    max-ue-per-ul-tti max_ue_per_ul_tti; 
-    max-ue-per-dl-tti max_ue_per_dl_tti; 
-    max-dl-harq-tx max_dl_harq_tx; 
-    max-msg4-harq-tx max_msg4_harq_tx; 
-    duration duration; 
-    cmn-lcs-num cmn_lcs_num; 
-    cp-ul-extended cp_ul_extended; 
-    scs scs; 
-    dmrs-type-a-pos dmrs_type_a_pos; 
-    slot-format slot_format; 
-    harq-ack-cb-type harq_ack_cb_type; 
-    bwp-inactive-timer bwp_inactive_timer; 
-    scell-cmn-cfg-in-sib1 scell_cmn_cfg_in_sib1; 
-    PreambleIdRange preamble_id_range; 
-    FddCfgCmn fdd_cfg_cmn; 
-    TddCfgCmn tdd_cfg_cmn; 
-    Sul sul; 
-    SsPbch ss_pbch; 
-    AddtlBwps addtl_bwps; 
-    UeBsrTimer ue_bsr_timer; 
-} CellSchd;
 
 typedef struct structPdcchCfgCmn
 {
     Coreset coreset; 
     std::vector<std::shared_ptr<SearchSpace>> search_spaces;
-    ss-sib1 ss_sib1; 
-    ss-other-si ss_other_si; 
-    ss-paging ss_paging; 
-    ss-ra ss_ra; 
-    coreset-zero coreset_zero; 
-    ss-zero ss_zero; 
+    std::shared_ptr<SsIdT> ss_sib1;
+    std::shared_ptr<SsIdT> ss_other_si;
+    std::shared_ptr<SsIdT> ss_paging;
+    std::shared_ptr<SsIdT> ss_ra;
+    std::shared_ptr<CoresetZeroT> coreset_zero;
+    std::shared_ptr<SsZeroT> ss_zero;
 } PdcchCfgCmn;
 
 typedef struct structDlCfgCmn
@@ -195,55 +171,55 @@ typedef struct structDlCfgCmn
 
 typedef struct structRachGrpb
 {
-    ra-msg3-size-grp-a ra_msg3_size_grp_a; 
-    num-ra-preamble-grp-a num_ra_preamble_grp_a; 
-    msg-power-offset-grp-b msg_power_offset_grp_b; 
+    RaMsg3SizeGrpAE ra_msg3_size_grp_a; 
+    uint8_t num_ra_preamble_grp_a; 
+    MsgPowerOffsetGrpBE msg_power_offset_grp_b; 
 } RachGrpb;
 
 typedef struct structBwpGen
 {
-    start-rb start_rb; 
-    rb-num rb_num; 
-    scs scs; 
-    cp-extended cp_extended; 
+    uint16_t start_rb; 
+    uint16_t rb_num; 
+    ScsE scs; 
+    bool cp_extended; 
 } BwpGen;
 
 typedef struct structTddCfgCmn
 {
-    ref-scs ref_scs; 
+    ScsE ref_scs; 
     Pattern1 pattern1; 
     Pattern2 pattern2; 
 } TddCfgCmn;
 
 typedef struct structUlCfgCmn
 {
-    present-in-sib1 present_in_sib1; 
+    bool present_in_sib1; 
     FreqInfo freq_info; 
     InitialBwp initial_bwp; 
-    time-alignment-timer time_alignment_timer; 
+    AlignmentTimerE time_alignment_timer; 
     UeHarqInfo ue_harq_info; 
 } UlCfgCmn;
 
 typedef struct structPuschCfgCmn
 {
-    grp-hopping-trans-precoding grp_hopping_trans_precoding; 
-    msg3-delta-preamble msg3_delta_preamble; 
-    p0-nominal-with-grant p0_nominal_with_grant; 
+    bool grp_hopping_trans_precoding; 
+    std::shared_ptr<int8_t> msg3_delta_preamble;
+    std::shared_ptr<int16_t> p0_nominal_with_grant;
 } PuschCfgCmn;
 
 typedef struct structSsPbch
 {
-    scs scs; 
-    ssb-sc-offset ssb_sc_offset; 
-    burst-set-size burst_set_size; 
-    ssb-scell-perd ssb_scell_perd; 
-    ssb-power ssb_power; 
+    ScsCmnE scs_cmn; 
+    SsbScOffsetT ssb_sc_offset; 
+    uint8_t burst_set_size; 
+    SsbScellPerdE ssb_scell_perd; 
+    int8_t ssb_power; 
 } SsPbch;
 
 typedef struct structCceRegMappingInterleaved
 {
     RegBndlSizeE reg_bndl_size; 
-    reg-bndl-size-e interlvr_size; 
+    InterlvrSizeE interlvr_size; 
     uint16_t shift_idx; 
 } CceRegMappingInterleaved; 
 
@@ -254,11 +230,6 @@ typedef struct structTciStateInfo
     bool present_in_dci; 
 } TciStateInfo; 
 
-typedef struct structScsSpecCarriers
-{
-    ScsSpecCarrier scs_spec_carrier
-} ScsSpecCarriers; 
-
 typedef struct structFreqInfo
 {
     UlFreqInfo ul_freq_info
@@ -268,11 +239,6 @@ typedef struct structInitialBwp
 {
     UlBwpCmn ul_bwp_cmn
 } InitialBwp; 
-
-typedef struct structAddtlBwps
-{
-    UlBwp ul_bwp
-} AddtlBwps; 
 
 typedef struct structAggrLvlCandidatesNum
 {
@@ -295,16 +261,17 @@ typedef struct structFddCfgCmn
     DlCfgCmn dl_cfg_cmn; 
 } FddCfgCmn; 
 
+typedef struct structAddtlBwps
+{
+    std::vector<std::shared_ptr<UlBwp>> ul_bwps;
+    std::vector<std::shared_ptr<DlBwp>> dl_bwps;
+} AddtlBwp; 
+
 typedef struct structUeBsrTimer
 {
-    PerdBsrTimerE perd_bsr_timer; 
+    std::shared_ptr<PerdBsrTimerE> perd_bsr_timer;
     RetxBsrTimerE retx_bsr_timer; 
 } UeBsrTimer; 
-
-typedef struct structSearchSpaces
-{
-    SearchSpace search_space
-} SearchSpaces; 
 
 typedef struct structPattern1
 {
@@ -322,9 +289,78 @@ typedef struct structUeHarqInfo
     uint8_t delta_harq_offset; 
 } UeHarqInfo; 
 
+typedef struct structSearchspaces
+{
+    SsIdT id; 
+    CoresetIdT coreset_id; 
+    MonSlotPerdOffsetTypeE mon_slot_perd_offset_type; 
+    uint16_t mon_slot_perd_offset; 
+    uint16_t mon_slot_syms; 
+    AggrLvlCandidatesNum aggr_lvl_candidates_num; 
+    DciFormatE dci_format; 
+} SearchSpaces; 
+
+typedef struct structScsspeccarriers
+{
+    OffsetPointACarrierT offset_to_carrier; 
+    ScsE scs; 
+} ScsSpecCarriers; 
+
+typedef struct structScsspeccarriers
+{
+    OffsetPointACarrierT offset_to_carrier; 
+    ScsE scs; 
+} ScsSpecCarriers; 
+
+typedef struct structScsspeccarriers
+{
+    OffsetPointACarrierT offset_to_carrier; 
+    ScsE scs; 
+} ScsSpecCarriers; 
+
+typedef struct structSearchspaces
+{
+    SsIdT id; 
+    CoresetIdT coreset_id; 
+    MonSlotPerdOffsetTypeE mon_slot_perd_offset_type; 
+    uint16_t mon_slot_perd_offset; 
+    uint16_t mon_slot_syms; 
+    AggrLvlCandidatesNum aggr_lvl_candidates_num; 
+    DciFormatE dci_format; 
+} SearchSpaces; 
+
+typedef struct structScsspeccarriers
+{
+    OffsetPointACarrierT offset_to_carrier; 
+    ScsE scs; 
+} ScsSpecCarriers; 
+
+typedef struct structScsspeccarriers
+{
+    OffsetPointACarrierT offset_to_carrier; 
+    ScsE scs; 
+} ScsSpecCarriers; 
+
+typedef struct structSearchspaces
+{
+    SsIdT id; 
+    CoresetIdT coreset_id; 
+    MonSlotPerdOffsetTypeE mon_slot_perd_offset_type; 
+    uint16_t mon_slot_perd_offset; 
+    uint16_t mon_slot_syms; 
+    AggrLvlCandidatesNum aggr_lvl_candidates_num; 
+    DciFormatE dci_format; 
+} SearchSpaces; 
+
+typedef struct structScsspeccarriers
+{
+    OffsetPointACarrierT offset_to_carrier; 
+    ScsE scs; 
+} ScsSpecCarriers; 
+
 typedef struct structUlbwps
 {
-    uint8_t bwp_id; 
+    BwpIdT bwp_id; 
     BwpGen bwp_gen; 
     RachCfgCmn rach_cfg_cmn; 
     PuschCfgCmn pusch_cfg_cmn; 
@@ -333,11 +369,45 @@ typedef struct structUlbwps
 
 typedef struct structDlbwps
 {
-    uint8_t bwp_id; 
+    BwpIdT bwp_id; 
     BwpGen bwp_gen; 
     PdcchCfgCmn pdcch_cfg_cmn; 
     bool pdsch_present; 
 } DlBwps; 
+
+typedef struct structSearchspaces
+{
+    SsIdT id; 
+    CoresetIdT coreset_id; 
+    MonSlotPerdOffsetTypeE mon_slot_perd_offset_type; 
+    uint16_t mon_slot_perd_offset; 
+    uint16_t mon_slot_syms; 
+    AggrLvlCandidatesNum aggr_lvl_candidates_num; 
+    DciFormatE dci_format; 
+} SearchSpaces; 
+
+typedef struct structScsspeccarriers
+{
+    OffsetPointACarrierT offset_to_carrier; 
+    ScsE scs; 
+} ScsSpecCarriers; 
+
+typedef struct structSearchspaces
+{
+    SsIdT id; 
+    CoresetIdT coreset_id; 
+    MonSlotPerdOffsetTypeE mon_slot_perd_offset_type; 
+    uint16_t mon_slot_perd_offset; 
+    uint16_t mon_slot_syms; 
+    AggrLvlCandidatesNum aggr_lvl_candidates_num; 
+    DciFormatE dci_format; 
+} SearchSpaces; 
+
+typedef struct structScsspeccarriers
+{
+    OffsetPointACarrierT offset_to_carrier; 
+    ScsE scs; 
+} ScsSpecCarriers; 
 
 class oam_agent_rcfd_cell_schd : public allocator
 {

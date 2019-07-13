@@ -22,12 +22,14 @@ submodule certus-5gnr-du-cell-l1 {
         list plmn-ids {
             key "mcc mnc";
             uses cgtfc:plmn-id;
-            
             min-elements 1;
             max-elements 6;
         }
-        leaf cell-id {
-            type uint64 { range "0..1099511627760"; } // BIT STRING (36)
+        leaf nr-cell-id {
+            type cgtfc:nr-cell-id-t;
+            tailf:validate "nr-cell-id-check" {
+                tailf:dependency ".";
+            }
         }
         leaf tac {
             if-feature optional;
@@ -73,7 +75,7 @@ submodule certus-5gnr-du-cell-l1 {
     }
     grouping cell-access-info {
         list plmn-id-infos {
-            key cell-id;
+            key nr-cell-id;
             uses plmn-id-info;
             
             min-elements 1;

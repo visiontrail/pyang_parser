@@ -3,9 +3,6 @@ submodule certus-5gnr-du-cell-channel {
         prefix cgdcs;
     }
 
-    import tailf-common {
-        prefix tailf;
-    }
     import certus-5gnr-types-for-cell {
         prefix cgtfc;
         revision-date 2019-06-20;
