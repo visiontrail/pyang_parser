@@ -33,12 +33,12 @@ void oam_agent_rcfd_cell_l1::read_prach(XCONFD_YANGTREE_T* yt)
 
 void oam_agent_rcfd_cell_l1::read_mib(XCONFD_YANGTREE_T* yt)
 {
-    read_grp_mib(yt, *mib_);
+    read_grp_mib(yt, mib_);
 }
 
 void oam_agent_rcfd_cell_l1::read_sib1(XCONFD_YANGTREE_T* yt)
 {
-    read_grp_sib1(yt, *sib1_);
+    read_grp_sib1(yt, sib1_);
 }
 
 void oam_agent_rcfd_cell_l1::read_grp_cell_access_info(XCONFD_YANGTREE_T* yt, CellAccessInfo& cell_access_info)
@@ -90,17 +90,17 @@ void oam_agent_rcfd_cell_l1::read_grp_sib1(XCONFD_YANGTREE_T* yt, Sib1& sib1)
 
 void oam_agent_rcfd_cell_l1::read_grp_sib1__cell_sel_info(XCONFD_YANGTREE_T* yt, CellSelInfo& cell_sel_info)
 {
-    read_grp_cell_sel_info(yt, cell_sel_info);
+    read_grp_cell_sel_info(yt, *cell_sel_info);
 }
 
 void oam_agent_rcfd_cell_l1::read_grp_sib1__cell_access_info(XCONFD_YANGTREE_T* yt, CellAccessInfo& cell_access_info)
 {
-    read_grp_cell_access_info(yt, cell_access_info);
+    read_grp_cell_access_info(yt, *cell_access_info);
 }
 
 void oam_agent_rcfd_cell_l1::read_grp_sib1__ue_timers(XCONFD_YANGTREE_T* yt, UeTimers& ue_timers)
 {
-    read_grp_ue_timers(yt, ue_timers);
+    read_grp_ue_timers(yt, *ue_timers);
 }
 
 void oam_agent_rcfd_cell_l1::read_grp_mib(XCONFD_YANGTREE_T* yt, Mib& mib)

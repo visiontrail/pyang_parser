@@ -727,7 +727,7 @@ def print_read_func_realize(fdcpp, s, module, line, level):
                 if judge_if_optional_state(s) == 1:
                     cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + "_);\n"
                 else:
-                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + "_);\n"
+                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, " + s.arg.replace('-','_') + "_);\n"
             elif level == 1 :
                 if judge_if_optional_state(s) == 1:
                     cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + ");\n"
@@ -856,7 +856,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
             cppline += "    " + s.arg.replace('-','_') + "_ = std::make_shared<" + get_struct_name(s.arg) + ">();\n"
             fdcpp.write(cppline + "\n")
         if s.keyword == "container":
-            cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, " + s.arg.replace('-','_') + ");\n"
+            cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + ");\n"
             fdcpp.write(cppline)
         elif s.keyword == "list":
             cppline = "    XCONFD_YANG_TREE_LIST_FOREACH(yt, " + judge_if_uses(s).replace('-','_') + "_yt)\n    {\n"
