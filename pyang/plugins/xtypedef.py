@@ -441,8 +441,7 @@ def print_mem(i_children, module, fd, fdcpp, prefix, path, mode, depth,
             if get_typename(child, prefix_with_modname) == "empty":
                 cppline = "    xconfd_get_empty_value(" + child.arg.replace('-', '_') + "_ " + ", \"" + child.arg + "\", yt);\n"
             else:
-                cppline = "    xconfd_get(" + child.arg.replace('-', '_') + "_, " + \
-                    refine_type_name_cpp((get_typename(child, prefix_with_modname))) + ", \"" + child.arg + "\", yt);\n"
+                cppline = print_get_leaf_realize(child, child.arg.replace('-', '_') + "_, ")
             fdcpp.write(cppline)
 
         fd.write(line + '\n')
@@ -674,8 +673,7 @@ def print_structure_func_realize(fdcpp, s, module, line, level):
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
                         ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
-                    cppline = "    xconfd_get(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
+                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
                 cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
@@ -693,6 +691,23 @@ def print_structure_func_realize(fdcpp, s, module, line, level):
     
     fdcpp.write("}\n\n")
 
+def print_get_leaf_realize(prtch, mem):
+    if ((get_typename(prtch) == "enumeration" or refine_type_name_cpp(get_typename(prtch)) == "enum") and 
+        (judge_if_optional_state(prtch) == 1)):
+        cppline = "    xconfd_get_optional_enum(" + mem + \
+            ", " + refine_type_name(get_typename(prtch)) + ", " + "\"" + prtch.arg + "\"" + ", yt);\n"
+    elif ((get_typename(prtch) != "enumeration" or refine_type_name_cpp(get_typename(prtch)) != "enum") and 
+        (judge_if_optional_state(prtch) == 1)):
+        cppline = "    xconfd_get_optional(" + mem + ", " + \
+            refine_type_name(get_typename(prtch)) + ", " + \
+            refine_type_name_cpp(get_typename(prtch)) + ", " + "\"" + prtch.arg + "\"" + ", yt);\n"
+    else:
+        cppline = "    xconfd_get(" + mem + \
+            ", " + refine_type_name_cpp(get_typename(prtch)) + ", " + "\"" + prtch.arg + "\"" + ", yt);\n"
+    
+    return cppline
+    #fdcpp.write(cppline)
+
 def print_read_func_realize(fdcpp, s, module, line, level):
     # 将该函数的实现写入另外一个cpp文件中
     cppline = "void " + get_class_name(module) + "::"
@@ -700,8 +715,9 @@ def print_read_func_realize(fdcpp, s, module, line, level):
     
     # 将该函数的实现写入到cpp中
     fdcpp.write(cppline[:-1])
-    # 如果这个container下使用了uses
+    # 这个节点下使用了uses
     if judge_if_uses_state(s) == 1:
+        # 如果是一个container
         if s.keyword == "container":
             if judge_if_optional_state(s) == 1:
                 cppline = "    if (!yt) return;\n"
@@ -724,19 +740,13 @@ def print_read_func_realize(fdcpp, s, module, line, level):
             cppline = "    XCONFD_YANG_TREE_LIST_FOREACH(yt, " + judge_if_uses(s).replace('-','_') + "_yt)\n    {\n"
             cppline += "        auto " + judge_if_uses(s).replace('-','_') + " = std::make_shared<" + get_struct_name(judge_if_uses(s)) + ">();\n"
             cppline += "        read_grp_" + judge_if_uses(s).replace('-','_') + "(" + s.arg.replace('-','_')[0:-1] + "_yt, *" + judge_if_uses(s).replace('-','_') + ");\n"
-            cppline += "        " + s.arg.replace('-','_') + "_.push_back(" + judge_if_uses(s).replace('-','_') + ");\n    }\n"
-            # cppline += "        auto " + judge_if_uses(s).replace('-','_') + " = std::make_shared<" + get_struct_name(judge_if_uses(s)) + ">();\n"
-            # for ch in s.i_children:
-            #     cppline += "        xconfd_get(" + judge_if_uses(s).replace('-','_') + "." + ch.arg.replace('-','_') + \
-            #             ", " + refine_type_name_cpp(get_typename(ch)) + ", " + "\"" + ch.arg + "\"" + ", yt);\n"
-            # cppline += "        " + s.arg.replace('-','_') + ".push_back(" + judge_if_uses(s).replace('-','_') + ");\n"
-            # cppline += "    }\n"
+            if level == 0:
+                cppline += "        " + s.arg.replace('-','_') + "_.push_back(" + judge_if_uses(s).replace('-','_') + ");\n    }\n"
+            else:
+                cppline += "        " + s.arg.replace('-','_') + ".push_back(" + judge_if_uses(s).replace('-','_') + ");\n    }\n"
             fdcpp.write(cppline)
-        # elif s.keyword == "leaf":
-            # cppline = "    xconfd_get(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
-            #             ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
-    
-    # 如果使用了uses和其他leaf、list、container
+
+    # 如果使用了uses和其他leaf、list、container等的组合
     elif judge_if_uses_state(s) == 2:
         
         if s.keyword == "container":
@@ -756,11 +766,25 @@ def print_read_func_realize(fdcpp, s, module, line, level):
                     cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, " + s.arg.replace('-','_') + "_."+ judge_if_uses(s).replace('-','_') +");\n"
             fdcpp.write(cppline)
 
+            # 打印所有leaf节点
             for prtch in s.substmts:
                 if prtch.keyword == "leaf":
-                    cppline = "    xconfd_get(" + s.arg.replace('-','_') + "_." + prtch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(prtch)) + ", " + "\"" + prtch.arg + "\"" + ", yt);\n"
-                    fdcpp.write(cppline)
+                    # 如果该leaf的类型带有feature optional，且类型为enum：
+                    # if ((get_typename(prtch) == "enumeration" or refine_type_name_cpp(get_typename(prtch)) == "enum") and 
+                    #     (judge_if_optional_state(prtch) == 1)):
+                    #     cppline = "    xconfd_get_optional_enum(" + s.arg.replace('-','_') + "_." + prtch.arg.replace('-','_') + \
+                    #         ", " + refine_type_name(get_typename(prtch)) + ", " + "\"" + prtch.arg + "\"" + ", yt);\n"
+                    # elif ((get_typename(prtch) != "enumeration" or refine_type_name_cpp(get_typename(prtch)) != "enum") and 
+                    #     (judge_if_optional_state(prtch) == 1)):
+                    #     cppline = "    xconfd_get_optional(" + \
+                    #         s.arg.replace('-','_') + "_." + prtch.arg.replace('-','_') + ", " + \
+                    #         refine_type_name(get_typename(prtch)) + ", " + \
+                    #         refine_type_name_cpp(get_typename(prtch)) + ", " + "\"" + prtch.arg + "\"" + ", yt);\n"
+                    # else:
+                    #     cppline = "    xconfd_get(" + s.arg.replace('-','_') + "_." + prtch.arg.replace('-','_') + \
+                    #         ", " + refine_type_name_cpp(get_typename(prtch)) + ", " + "\"" + prtch.arg + "\"" + ", yt);\n"
+                    # fdcpp.write(cppline)
+                    fdcpp.write(print_get_leaf_realize(prtch, s.arg.replace('-','_') + "_." + prtch.arg.replace('-','_')))
 
         # 主grouping第一级使用了list，且带有其他节点的时候（list\leaf-list\leaf）
         elif s.keyword == "list":
@@ -774,8 +798,7 @@ def print_read_func_realize(fdcpp, s, module, line, level):
                     continue;
                 elif prtch.keyword in ['leaf', 'leaf-list']:
                     cppline = "        auto " +judge_if_uses(s).replace('-','_')+ " = std::make_shared<" + get_struct_name(judge_if_uses(s).replace('-','_')) + ">();\n"
-                    cppline += "        xconfd_get(" + s.arg.replace('-','_') + "_." + prtch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(prtch)) + ", " + "\"" + prtch.arg + "\"" + ", yt);\n"
+                    cppline += print_get_leaf_realize(prtch, s.arg.replace('-','_') + "_." + prtch.arg.replace('-','_'))
                     fdcpp.write(cppline)
                 elif prtch.keyword == "list":
                     ytname = prtch.arg.replace('-','_') + "_yt"
@@ -799,8 +822,7 @@ def print_read_func_realize(fdcpp, s, module, line, level):
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
                         ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
-                    cppline = "    xconfd_get(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
+                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
                 cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "_." + cppch.arg.replace('-','_') + \
@@ -858,8 +880,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
                         ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
-                    cppline = "    xconfd_get(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
+                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
                 cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
@@ -897,8 +918,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
                         ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
-                    cppline = "    xconfd_get(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
-                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
+                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "." + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
                 cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
@@ -965,8 +985,7 @@ def print_read_func_first(s, module, fd, fdcpp, prefix, path, mode, depth, llen,
             fd.write(line + '\n')
             print_read_func_realize(fdcpp, prt_ch, module, line, 1)
         if prt_ch.keyword == "leaf":
-            line = "    xconfd_get(" + s.arg.replace('-','_') + "_." + prt_ch.arg.replace('-','_') + \
-                ", " + refine_type_name_cpp(get_typename(prt_ch)) + ", " + "\"" + prt_ch.arg + "\"" + ", yt);\n"
+            line = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "_." + prt_ch.arg.replace('-','_'))
 
 
 def judge_next_ctn(i_children, level):

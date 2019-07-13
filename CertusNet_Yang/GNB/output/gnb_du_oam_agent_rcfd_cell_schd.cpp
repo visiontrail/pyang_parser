@@ -3,7 +3,7 @@
  * This header file contains implementation of OAM Agent RConfD Generate by Tools 
 */ 
 
-#include "gnb_du_oam_agent_rcfd_cell_schd.h " 
+#include "gnb_du_oam_agent_rcfd_cell_schd.h" 
 
 namespace gnb_du 
 {
@@ -12,18 +12,18 @@ namespace rcfd
 
 oam_agent_rcfd_cell_schd::oam_agent_rcfd_cell_schd(XCONFD_YANGTREE_T* yt)
 {
-    xconfd_get(max_ue_per_ul_tti_, uint32, "max-ue-per-ul-tti", yt);
-    xconfd_get(max_ue_per_dl_tti_, uint32, "max-ue-per-dl-tti", yt);
-    xconfd_get(max_dl_harq_tx_, uint8, "max-dl-harq-tx", yt);
-    xconfd_get(max_msg4_harq_tx_, uint32, "max-msg4-harq-tx", yt);
-    xconfd_get(duration_, uint16, "duration", yt);
-    xconfd_get(cmn_lcs_num_, uint8, "cmn-lcs-num", yt);
+    xconfd_get(max_ue_per_ul_tti_, , uint32, "max-ue-per-ul-tti", yt);
+    xconfd_get(max_ue_per_dl_tti_, , uint32, "max-ue-per-dl-tti", yt);
+    xconfd_get(max_dl_harq_tx_, , uint8, "max-dl-harq-tx", yt);
+    xconfd_get(max_msg4_harq_tx_, , uint32, "max-msg4-harq-tx", yt);
+    xconfd_get(duration_, , uint16, "duration", yt);
+    xconfd_get(cmn_lcs_num_, , uint8, "cmn-lcs-num", yt);
     xconfd_get_empty_value(cp_ul_extended_ , "cp-ul-extended", yt);
-    xconfd_get(scs_, enum, "scs", yt);
-    xconfd_get(dmrs_type_a_pos_, enum, "dmrs-type-a-pos", yt);
-    xconfd_get(slot_format_, uint8, "slot-format", yt);
-    xconfd_get(harq_ack_cb_type_, enum, "harq-ack-cb-type", yt);
-    xconfd_get(bwp_inactive_timer_, enum, "bwp-inactive-timer", yt);
+    xconfd_get(scs_, , enum, "scs", yt);
+    xconfd_get(dmrs_type_a_pos_, , enum, "dmrs-type-a-pos", yt);
+    xconfd_get(slot_format_, , uint8, "slot-format", yt);
+    xconfd_get(harq_ack_cb_type_, , enum, "harq-ack-cb-type", yt);
+    xconfd_get(bwp_inactive_timer_, , enum, "bwp-inactive-timer", yt);
     xconfd_get_empty_value(scell_cmn_cfg_in_sib1_ , "scell-cmn-cfg-in-sib1", yt);
     auto preamble_id_range_yt = xconfd_yang_tree_get_node(yt, "preamble-id-range");
     read_preamble_id_range(preamble_id_range_yt);
@@ -106,7 +106,7 @@ void oam_agent_rcfd_cell_schd::read_addtl_bwps__ul_bwps(XCONFD_YANGTREE_T* yt, s
     {
         auto ul_bwp = std::make_shared<UlBwp>();
         read_grp_ul_bwp(ul_bwp_yt, *ul_bwp);
-        ul_bwps_.push_back(ul_bwp);
+        ul_bwps.push_back(ul_bwp);
     }
 }
 
@@ -116,13 +116,13 @@ void oam_agent_rcfd_cell_schd::read_addtl_bwps__dl_bwps(XCONFD_YANGTREE_T* yt, s
     {
         auto dl_bwp = std::make_shared<DlBwp>();
         read_grp_dl_bwp(dl_bwp_yt, *dl_bwp);
-        dl_bwps_.push_back(dl_bwp);
+        dl_bwps.push_back(dl_bwp);
     }
 }
 
 void oam_agent_rcfd_cell_schd::read_ue_bsr_timer(XCONFD_YANGTREE_T* yt)
 {
-    xconfd_get(ue_bsr_timer_.perd_bsr_timer, enum, "perd-bsr-timer", yt);
+    xconfd_get_optional_enum(ue_bsr_timer_.perd_bsr_timer, PerdBsrTimerE, "perd-bsr-timer", yt);
     xconfd_get(ue_bsr_timer_.retx_bsr_timer, enum, "retx-bsr-timer", yt);
 }
 
@@ -134,7 +134,7 @@ void oam_agent_rcfd_cell_schd::read_grp_coreset(XCONFD_YANGTREE_T* yt, Coreset& 
     auto cce_reg_mapping_interleaved_yt = xconfd_yang_tree_get_node(yt, "cce-reg-mapping-interleaved");
     read_grp_coreset__cce_reg_mapping_interleaved(cce_reg_mapping_interleaved_yt, coreset.cce_reg_mapping_interleaved);
     xconfd_get(coreset.precoder_granularity, enum, "precoder-granularity", yt);
-    xconfd_get(coreset.dmrs_scramble_id, uint16, "dmrs-scramble-id", yt);
+    xconfd_get_optional(coreset.dmrs_scramble_id, uint16_t, uint16, "dmrs-scramble-id", yt);
     auto tci_state_info_yt = xconfd_yang_tree_get_node(yt, "tci-state-info");
     read_grp_coreset__tci_state_info(tci_state_info_yt, coreset.tci_state_info);
 }
@@ -308,7 +308,7 @@ void oam_agent_rcfd_cell_schd::read_grp_tdd_ul_dl_pattern(XCONFD_YANGTREE_T* yt,
     xconfd_get(tdd_ul_dl_pattern.ul_syms_num, uint8, "ul-syms-num", yt);
     xconfd_get(tdd_ul_dl_pattern.ul_slots_num, uint16, "ul-slots-num", yt);
     xconfd_get(tdd_ul_dl_pattern.trans_perd, enum, "trans-perd", yt);
-    xconfd_get(tdd_ul_dl_pattern.trans_perd_v1530, enum, "trans-perd-v1530", yt);
+    xconfd_get_optional_enum(tdd_ul_dl_pattern.trans_perd_v1530, TransPerdV1530E, "trans-perd-v1530", yt);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_scs_spec_carrier(XCONFD_YANGTREE_T* yt, ScsSpecCarrier& scs_spec_carrier)
@@ -344,10 +344,10 @@ void oam_agent_rcfd_cell_schd::read_grp_dl_bwp_cmn__pdcch_cfg_cmn(XCONFD_YANGTRE
 
 void oam_agent_rcfd_cell_schd::read_grp_pucch_cfg_cmn(XCONFD_YANGTREE_T* yt, PucchCfgCmn& pucch_cfg_cmn)
 {
-    xconfd_get(pucch_cfg_cmn.res_cmn, uint8, "res-cmn", yt);
+    xconfd_get_optional(pucch_cfg_cmn.res_cmn, uint8_t, uint8, "res-cmn", yt);
     xconfd_get(pucch_cfg_cmn.grp_hopping, enum, "grp-hopping", yt);
-    xconfd_get(pucch_cfg_cmn.hopping_id, uint16, "hopping-id", yt);
-    xconfd_get(pucch_cfg_cmn.p0_nominal, int16, "p0-nominal", yt);
+    xconfd_get_optional(pucch_cfg_cmn.hopping_id, uint16_t, uint16, "hopping-id", yt);
+    xconfd_get_optional(pucch_cfg_cmn.p0_nominal, int16_t, int16, "p0-nominal", yt);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_sul(XCONFD_YANGTREE_T* yt, Sul& sul)
@@ -405,8 +405,8 @@ void oam_agent_rcfd_cell_schd::read_grp_dl_freq_info(XCONFD_YANGTREE_T* yt, DlFr
 {
     auto freq_info_cmn_yt = xconfd_yang_tree_get_node(yt, "freq-info-cmn");
     read_grp_dl_freq_info__freq_info_cmn(freq_info_cmn_yt, dl_freq_info.freq_info_cmn);
-    xconfd_get(dl_freq_info.abs_freq_ssb, uint32, "abs-freq-ssb", yt);
-    xconfd_get(dl_freq_info.abs_arfcn_ssb, uint32, "abs-arfcn-ssb", yt);
+    xconfd_get_optional(dl_freq_info.abs_freq_ssb, uint32_t, uint32, "abs-freq-ssb", yt);
+    xconfd_get_optional(dl_freq_info.abs_arfcn_ssb, ArfcnT, uint32, "abs-arfcn-ssb", yt);
     xconfd_get(dl_freq_info.offset_to_point_a, uint16, "offset-to-point-a", yt);
 }
 
@@ -446,7 +446,7 @@ void oam_agent_rcfd_cell_schd::read_grp_search_space(XCONFD_YANGTREE_T* yt, Sear
     xconfd_get(search_space.mon_slot_syms, uint16, "mon-slot-syms", yt);
     auto aggr_lvl_candidates_num_yt = xconfd_yang_tree_get_node(yt, "aggr-lvl-candidates-num");
     read_grp_search_space__aggr_lvl_candidates_num(aggr_lvl_candidates_num_yt, search_space.aggr_lvl_candidates_num);
-    xconfd_get(search_space.dci_format, enum, "dci-format", yt);
+    xconfd_get_optional_enum(search_space.dci_format, DciFormatE, "dci-format", yt);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_search_space__aggr_lvl_candidates_num(XCONFD_YANGTREE_T* yt, AggrLvlCandidatesNum& aggr_lvl_candidates_num)
@@ -464,12 +464,12 @@ void oam_agent_rcfd_cell_schd::read_grp_pdcch_cfg_cmn(XCONFD_YANGTREE_T* yt, Pdc
     read_grp_pdcch_cfg_cmn__coreset(coreset_yt, pdcch_cfg_cmn.coreset);
     auto search_spaces_yt = xconfd_yang_tree_get_node(yt, "search-spaces");
     read_grp_pdcch_cfg_cmn__search_spaces(search_spaces_yt, pdcch_cfg_cmn.search_spaces);
-    xconfd_get(pdcch_cfg_cmn.ss_sib1, uint8, "ss-sib1", yt);
-    xconfd_get(pdcch_cfg_cmn.ss_other_si, uint8, "ss-other-si", yt);
-    xconfd_get(pdcch_cfg_cmn.ss_paging, uint8, "ss-paging", yt);
-    xconfd_get(pdcch_cfg_cmn.ss_ra, uint8, "ss-ra", yt);
-    xconfd_get(pdcch_cfg_cmn.coreset_zero, uint8, "coreset-zero", yt);
-    xconfd_get(pdcch_cfg_cmn.ss_zero, uint8, "ss-zero", yt);
+    xconfd_get_optional(pdcch_cfg_cmn.ss_sib1, SsIdT, uint8, "ss-sib1", yt);
+    xconfd_get_optional(pdcch_cfg_cmn.ss_other_si, SsIdT, uint8, "ss-other-si", yt);
+    xconfd_get_optional(pdcch_cfg_cmn.ss_paging, SsIdT, uint8, "ss-paging", yt);
+    xconfd_get_optional(pdcch_cfg_cmn.ss_ra, SsIdT, uint8, "ss-ra", yt);
+    xconfd_get_optional(pdcch_cfg_cmn.coreset_zero, CoresetZeroT, uint8, "coreset-zero", yt);
+    xconfd_get_optional(pdcch_cfg_cmn.ss_zero, SsZeroT, uint8, "ss-zero", yt);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_pdcch_cfg_cmn__coreset(XCONFD_YANGTREE_T* yt, Coreset& coreset)
@@ -582,8 +582,8 @@ void oam_agent_rcfd_cell_schd::read_grp_ul_cfg_cmn__ue_harq_info(XCONFD_YANGTREE
 void oam_agent_rcfd_cell_schd::read_grp_pusch_cfg_cmn(XCONFD_YANGTREE_T* yt, PuschCfgCmn& pusch_cfg_cmn)
 {
     xconfd_get_empty_value(pusch_cfg_cmn.grp_hopping_trans_precoding, bool, "grp-hopping-trans-precoding", yt);
-    xconfd_get(pusch_cfg_cmn.msg3_delta_preamble, int8, "msg3-delta-preamble", yt);
-    xconfd_get(pusch_cfg_cmn.p0_nominal_with_grant, int16, "p0-nominal-with-grant", yt);
+    xconfd_get_optional(pusch_cfg_cmn.msg3_delta_preamble, int8_t, int8, "msg3-delta-preamble", yt);
+    xconfd_get_optional(pusch_cfg_cmn.p0_nominal_with_grant, int16_t, int16, "p0-nominal-with-grant", yt);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_ss_pbch(XCONFD_YANGTREE_T* yt, SsPbch& ss_pbch)

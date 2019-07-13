@@ -3,7 +3,7 @@
  * This header file contains implementation of OAM Agent RConfD Generate by Tools 
 */ 
 
-#include "gnb_du_oam_agent_rcfd_cell_l1.h " 
+#include "gnb_du_oam_agent_rcfd_cell_l1.h" 
 
 namespace gnb_du 
 {
@@ -12,9 +12,9 @@ namespace rcfd
 
 oam_agent_rcfd_cell_l1::oam_agent_rcfd_cell_l1(XCONFD_YANGTREE_T* yt)
 {
-    xconfd_get(dl_central_freq_, uint32, "dl-central-freq", yt);
-    xconfd_get(ul_central_freq_, uint32, "ul-central-freq", yt);
-    xconfd_get(ca_lvl_, uint8, "ca-lvl", yt);
+    xconfd_get(dl_central_freq_, , uint32, "dl-central-freq", yt);
+    xconfd_get(ul_central_freq_, , uint32, "ul-central-freq", yt);
+    xconfd_get(ca_lvl_, , uint8, "ca-lvl", yt);
     auto prach_yt = xconfd_yang_tree_get_node(yt, "prach");
     read_prach(prach_yt);
     auto mib_yt = xconfd_yang_tree_get_node(yt, "mib");
@@ -63,8 +63,8 @@ void oam_agent_rcfd_cell_l1::read_grp_plmn_id_info(XCONFD_YANGTREE_T* yt, PlmnId
     auto plmn_ids_yt = xconfd_yang_tree_get_node(yt, "plmn-ids");
     read_grp_plmn_id_info__plmn_ids(plmn_ids_yt, plmn_id_info.plmn_ids);
     xconfd_get(plmn_id_info.nr_cell_id, uint64, "nr-cell-id", yt);
-    xconfd_get(plmn_id_info.tac, uint32, "tac", yt);
-    xconfd_get(plmn_id_info.ranac, uint8, "ranac", yt);
+    xconfd_get_optional(plmn_id_info.tac, uint32_t, uint32, "tac", yt);
+    xconfd_get_optional(plmn_id_info.ranac, uint8_t, uint8, "ranac", yt);
     xconfd_get_empty_value(plmn_id_info.cell_rsrvd_for_operator_use, bool, "cell-rsrvd-for-operator-use", yt);
 }
 
@@ -132,11 +132,11 @@ void oam_agent_rcfd_cell_l1::read_grp_ue_timers(XCONFD_YANGTREE_T* yt, UeTimers&
 
 void oam_agent_rcfd_cell_l1::read_grp_cell_sel_info(XCONFD_YANGTREE_T* yt, CellSelInfo& cell_sel_info)
 {
-    xconfd_get(cell_sel_info.q_rx_lvl_min, int8, "q-rx-lvl-min", yt);
-    xconfd_get(cell_sel_info.q_rx_lvl_min_offset, uint8, "q-rx-lvl-min-offset", yt);
-    xconfd_get(cell_sel_info.q_rx_lvl_min_sul, int8, "q-rx-lvl-min-sul", yt);
-    xconfd_get(cell_sel_info.q_qual_min, int8, "q-qual-min", yt);
-    xconfd_get(cell_sel_info.q_qual_min_offset, uint8, "q-qual-min-offset", yt);
+    xconfd_get_optional(cell_sel_info.q_rx_lvl_min, QRxLvlMinT, int8, "q-rx-lvl-min", yt);
+    xconfd_get_optional(cell_sel_info.q_rx_lvl_min_offset, uint8_t, uint8, "q-rx-lvl-min-offset", yt);
+    xconfd_get_optional(cell_sel_info.q_rx_lvl_min_sul, QRxLvlMinT, int8, "q-rx-lvl-min-sul", yt);
+    xconfd_get_optional(cell_sel_info.q_qual_min, QQualMinT, int8, "q-qual-min", yt);
+    xconfd_get_optional(cell_sel_info.q_qual_min_offset, uint8_t, uint8, "q-qual-min-offset", yt);
 }
 
 void oam_agent_rcfd_cell_l1::read_grp_prach(XCONFD_YANGTREE_T* yt, Prach& prach)
@@ -144,7 +144,7 @@ void oam_agent_rcfd_cell_l1::read_grp_prach(XCONFD_YANGTREE_T* yt, Prach& prach)
     xconfd_get(prach.root_seq_idx, uint16, "root-seq-idx", yt);
     xconfd_get(prach.cfg_idx, uint8, "cfg-idx", yt);
     xconfd_get(prach.zero_correlation_zone_cfg, uint8, "zero-correlation-zone-cfg", yt);
-    xconfd_get(prach.restricted_set, uint8, "restricted-set", yt);
+    xconfd_get_optional(prach.restricted_set, uint8_t, uint8, "restricted-set", yt);
     xconfd_get(prach.freq_start, uint16, "freq-start", yt);
     xconfd_get(prach.freq_offset, uint8, "freq-offset", yt);
     xconfd_get(prach.scs, enum, "scs", yt);
