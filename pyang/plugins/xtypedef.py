@@ -840,7 +840,7 @@ def print_read_func_realize(fdcpp, s, module, line, level):
     
     fdcpp.write("}\n\n")
 
-def print_read_grp_func_realize(fdcpp, s, module, line, level):
+def print_read_grp_func_realize(fdcpp, s, module, line, level, isshareprt):
     # 将该函数的实现写入另外一个cpp文件中
     cppline = "void " + get_class_name(module) + "::"
     cppline += line[:-1].replace('    void ','') + "\n{\n\n"
@@ -853,10 +853,16 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
         # 以下场景为grouping下的container或者list使用了uses
         if judge_if_optional_state(s) == 1:
             cppline = "    if (!yt) return;\n"
-            cppline += "    " + s.arg.replace('-','_') + "_ = std::make_shared<" + get_struct_name(s.arg) + ">();\n"
+            if level == 0:
+                cppline += "    " + s.arg.replace('-','_') + "_ = std::make_shared<" + get_struct_name(s.arg) + ">();\n"
+            elif level == 1:
+                cppline += "    " + s.arg.replace('-','_') + " = std::make_shared<" + get_struct_name(s.arg) + ">();\n"
             fdcpp.write(cppline + "\n")
         if s.keyword == "container":
-            cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + ");\n"
+            if isshareprt == True:
+                cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + ");\n"
+            else:
+                cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, " + s.arg.replace('-','_') + ");\n"
             fdcpp.write(cppline)
         elif s.keyword == "list":
             cppline = "    XCONFD_YANG_TREE_LIST_FOREACH(yt, " + judge_if_uses(s).replace('-','_') + "_yt)\n    {\n"
@@ -881,7 +887,10 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
                         ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
-                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_'))
+                    if isshareprt == True:
+                        cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_'))
+                    else:
+                        cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "." + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
                 cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
@@ -919,10 +928,17 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
                         ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
-                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "." + cppch.arg.replace('-','_'))
+                    if isshareprt == True:
+                        cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_'))
+                    else:
+                        cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "." + cppch.arg.replace('-','_'))
                     fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
-                cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
+                if isshareprt == True:
+                    cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
+                        ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
+                else:
+                    cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
                         ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 fdcpp.write(cppline)
             elif cppch.keyword == "container" and judge_if_uses_state(s) == 4:
@@ -1076,8 +1092,8 @@ def print_read_grp_func(groupname, module, fd, fdcpp, prefix, path, mode, depth,
 
     # 将当前的节点写入文件中
     fd.write(line + '\n')
-    print_read_grp_func_realize(fdcpp, module.i_groupings[groupname], module, line, 0)
-    print_read_grp_next_func(groupname, module, fd, fdcpp, 0)
+    print_read_grp_func_realize(fdcpp, module.i_groupings[groupname], module, line, 0, False)
+    print_read_grp_next_func(groupname, module, fd, fdcpp, 1)
 
 
 def print_read_grp_next_func(groupname, module, fd, fdcpp, level):
@@ -1092,12 +1108,17 @@ def print_read_grp_next_func(groupname, module, fd, fdcpp, level):
             line = "    void read_grp_" + groupname.replace('-', '_') + "__" + prt_ch.arg.replace('-', '_') + "(XCONFD_YANGTREE_T* yt, std::vector<std::shared_ptr<" + get_struct_name(
                 judge_if_uses(prt_ch)) + ">>& " + prt_ch.arg.replace('-','_') + ");"
             fd.write(line + '\n')
-            print_read_grp_func_realize(fdcpp, prt_ch, module, line, 1)
+            print_read_grp_func_realize(fdcpp, prt_ch, module, line, 1, False)
+        elif judge_if_optional_state(prt_ch) == 1:
+            line = "    void read_grp_" + groupname.replace('-', '_') + "__" + prt_ch.arg.replace('-', '_') + "(XCONFD_YANGTREE_T* yt, std::shared_ptr<" + get_struct_name(
+                judge_if_uses(prt_ch)) + ">& " + prt_ch.arg.replace('-','_') + ");"
+            fd.write(line + '\n')
+            print_read_grp_func_realize(fdcpp, prt_ch, module, line, 1, True)
         else:
             line = "    void read_grp_" + groupname.replace('-', '_') + "__" + prt_ch.arg.replace('-', '_') + "(XCONFD_YANGTREE_T* yt, " + get_struct_name(
                 judge_if_uses(prt_ch)) + "& " + prt_ch.arg.replace('-','_') + ");"
             fd.write(line + '\n')
-            print_read_grp_func_realize(fdcpp, prt_ch, module, line, 1)
+            print_read_grp_func_realize(fdcpp, prt_ch, module, line, 1, False)
     #else:
         #read_grp_next_func(prt_ch, groupname, fd, 0)
 

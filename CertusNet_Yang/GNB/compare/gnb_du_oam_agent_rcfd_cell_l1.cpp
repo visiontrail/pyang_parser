@@ -15,10 +15,13 @@ oam_agent_rcfd_cell_l1::oam_agent_rcfd_cell_l1(XCONFD_YANGTREE_T* yt)
     xconfd_get(dl_central_freq_, uint32, "dl-central-freq", yt);
     xconfd_get(ul_central_freq_, uint32, "ul-central-freq", yt);
     xconfd_get(ca_lvl_, uint8, "ca-lvl", yt);
+
     auto prach_yt = xconfd_yang_tree_get_node(yt, "prach");
     read_prach(prach_yt);
+
     auto mib_yt = xconfd_yang_tree_get_node(yt, "mib");
     read_mib(mib_yt);
+
     auto sib1_yt = xconfd_yang_tree_get_node(yt, "sib1");
     read_sib1(sib1_yt);
 }
@@ -45,9 +48,11 @@ void oam_agent_rcfd_cell_l1::read_grp_cell_access_info(XCONFD_YANGTREE_T* yt, Ce
 {
     auto plmn_id_infos_yt = xconfd_yang_tree_get_node(yt, "plmn-id-infos");
     read_grp_cell_access_info__plmn_id_infos(plmn_id_infos_yt, cell_access_info.plmn_id_infos);
+
+    xconfd_get_empty_value(cell_access_info.cell_rsrvd_for_other_use, "cell-rsrvd-for-other-use", yt);
 }
 
-void oam_agent_rcfd_cell_l1::read_grp_cell_access_info__plmn_id_infos(XCONFD_YANGTREE_T* yt, std::vector<std::shared_ptr<PlmnIdInfo>>& plmn_id_infos)
+void oam_agent_rcfd_cell_l1::read_grp_cell_access_info__plmn_id_infos(XCONFD_YANGTREE_T* yt, PlmnIdInfoPtrVector& plmn_id_infos)
 {
     XCONFD_YANG_TREE_LIST_FOREACH(yt, plmn_id_info_yt)
     {
@@ -61,12 +66,14 @@ void oam_agent_rcfd_cell_l1::read_grp_plmn_id_info(XCONFD_YANGTREE_T* yt, PlmnId
 {
     auto plmn_ids_yt = xconfd_yang_tree_get_node(yt, "plmn-ids");
     read_grp_plmn_id_info__plmn_ids(plmn_ids_yt, plmn_id_info.plmn_ids);
-    xconfd_get(plmn_id_info.nr_cell_id, uint64, "nr-cell-id", yt);
+
+    xconfd_get(plmn_id_info.nr_cell_id, uint64, "cell-id", yt);
     xconfd_get_optional(plmn_id_info.tac, uint32_t, uint32, "tac", yt);
     xconfd_get_optional(plmn_id_info.ranac, uint8_t, uint8, "ranac", yt);
+    xconfd_get_empty_value(plmn_id_info.cell_rsrvd_for_operator_use, "cell-rsrvd-for-operator-use", yt);
 }
 
-void oam_agent_rcfd_cell_l1::read_grp_plmn_id_info__plmn_ids(XCONFD_YANGTREE_T* yt, std::vector<std::shared_ptr<PlmnId>>& plmn_ids)
+void oam_agent_rcfd_cell_l1::read_grp_plmn_id_info__plmn_ids(XCONFD_YANGTREE_T* yt, PlmnIdPtrVector& plmn_ids)
 {
     XCONFD_YANG_TREE_LIST_FOREACH(yt, plmn_id_yt)
     {
@@ -80,8 +87,10 @@ void oam_agent_rcfd_cell_l1::read_grp_sib1(XCONFD_YANGTREE_T* yt, Sib1& sib1)
 {
     auto cell_sel_info_yt = xconfd_yang_tree_get_node(yt, "cell-sel-info");
     read_grp_sib1__cell_sel_info(cell_sel_info_yt, sib1.cell_sel_info);
+
     auto cell_access_info_yt = xconfd_yang_tree_get_node(yt, "cell-access-info");
     read_grp_sib1__cell_access_info(cell_access_info_yt, sib1.cell_access_info);
+
     auto ue_timers_yt = xconfd_yang_tree_get_node(yt, "ue-timers");
     read_grp_sib1__ue_timers(ue_timers_yt, sib1.ue_timers);
 }
@@ -105,8 +114,12 @@ void oam_agent_rcfd_cell_l1::read_grp_mib(XCONFD_YANGTREE_T* yt, Mib& mib)
 {
     xconfd_get(mib.scs_cmn, enum, "scs-cmn", yt);
     xconfd_get(mib.ssb_sc_offset, uint8, "ssb-sc-offset", yt);
+
     auto pdcch_cfg_sib1_yt = xconfd_yang_tree_get_node(yt, "pdcch-cfg-sib1");
     read_grp_mib__pdcch_cfg_sib1(pdcch_cfg_sib1_yt, mib.pdcch_cfg_sib1);
+
+    xconfd_get_empty_value(mib.cell_barred, "cell-barred", yt);
+    xconfd_get_empty_value(mib.intra_freq_resel, "intra-freq-resel", yt);
 }
 
 void oam_agent_rcfd_cell_l1::read_grp_mib__pdcch_cfg_sib1(XCONFD_YANGTREE_T* yt, PdcchCfgSib1& pdcch_cfg_sib1)

@@ -139,23 +139,23 @@ void oam_agent_rcfd_cell_schd::read_grp_coreset(XCONFD_YANGTREE_T* yt, Coreset& 
     read_grp_coreset__tci_state_info(tci_state_info_yt, coreset.tci_state_info);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_coreset__cce_reg_mapping_interleaved(XCONFD_YANGTREE_T* yt, CceRegMappingInterleaved& cce_reg_mapping_interleaved)
+void oam_agent_rcfd_cell_schd::read_grp_coreset__cce_reg_mapping_interleaved(XCONFD_YANGTREE_T* yt, std::shared_ptr<CceRegMappingInterleaved>& cce_reg_mapping_interleaved)
 {
     if (!yt) return;
     cce_reg_mapping_interleaved = std::make_shared<CceRegMappingInterleaved>();
 
-    xconfd_get(cce_reg_mapping_interleaved.reg_bndl_size, enum, "reg-bndl-size", yt);
-    xconfd_get(cce_reg_mapping_interleaved.interlvr_size, reg-bndl-size-e, "interlvr-size", yt);
-    xconfd_get(cce_reg_mapping_interleaved.shift_idx, uint16, "shift-idx", yt);
+    xconfd_get(cce_reg_mapping_interleaved->reg_bndl_size, enum, "reg-bndl-size", yt);
+    xconfd_get(cce_reg_mapping_interleaved->interlvr_size, reg-bndl-size-e, "interlvr-size", yt);
+    xconfd_get(cce_reg_mapping_interleaved->shift_idx, uint16, "shift-idx", yt);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_coreset__tci_state_info(XCONFD_YANGTREE_T* yt, TciStateInfo& tci_state_info)
+void oam_agent_rcfd_cell_schd::read_grp_coreset__tci_state_info(XCONFD_YANGTREE_T* yt, std::shared_ptr<TciStateInfo>& tci_state_info)
 {
     if (!yt) return;
     tci_state_info = std::make_shared<TciStateInfo>();
 
-    xconfd_yang_tree_get_leaf_list(tci_state_info.to_add, uint8, "to-add", yt);
-    xconfd_yang_tree_get_leaf_list(tci_state_info.to_rel, uint8, "to-rel", yt);
+    xconfd_yang_tree_get_leaf_list(tci_state_info->to_add, uint8, "to-add", yt);
+    xconfd_yang_tree_get_leaf_list(tci_state_info->to_rel, uint8, "to-rel", yt);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_rach_gen(XCONFD_YANGTREE_T* yt, RachGen& rach_gen)
@@ -212,13 +212,13 @@ void oam_agent_rcfd_cell_schd::read_grp_rach_cfg_cmn(XCONFD_YANGTREE_T* yt, Rach
 
 void oam_agent_rcfd_cell_schd::read_grp_rach_cfg_cmn__rach_gen(XCONFD_YANGTREE_T* yt, RachGen& rach_gen)
 {
-    read_grp_rach_gen(yt, *rach_gen);
+    read_grp_rach_gen(yt, rach_gen);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_rach_cfg_cmn__rach_grpb(XCONFD_YANGTREE_T* yt, RachGrpb& rach_grpb)
+void oam_agent_rcfd_cell_schd::read_grp_rach_cfg_cmn__rach_grpb(XCONFD_YANGTREE_T* yt, std::shared_ptr<RachGrpb>& rach_grpb)
 {
     if (!yt) return;
-    rach_grpb_ = std::make_shared<RachGrpb>();
+    rach_grpb = std::make_shared<RachGrpb>();
 
     read_grp_rach_grpb(yt, *rach_grpb);
 }
@@ -237,64 +237,64 @@ void oam_agent_rcfd_cell_schd::read_grp_ul_bwp_cmn(XCONFD_YANGTREE_T* yt, UlBwpC
 
 void oam_agent_rcfd_cell_schd::read_grp_ul_bwp_cmn__bwp_gen(XCONFD_YANGTREE_T* yt, BwpGen& bwp_gen)
 {
-    read_grp_bwp_gen(yt, *bwp_gen);
+    read_grp_bwp_gen(yt, bwp_gen);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_ul_bwp_cmn__rach_cfg_cmn(XCONFD_YANGTREE_T* yt, RachCfgCmn& rach_cfg_cmn)
+void oam_agent_rcfd_cell_schd::read_grp_ul_bwp_cmn__rach_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<RachCfgCmn>& rach_cfg_cmn)
 {
     if (!yt) return;
-    rach_cfg_cmn_ = std::make_shared<RachCfgCmn>();
+    rach_cfg_cmn = std::make_shared<RachCfgCmn>();
 
     read_grp_rach_cfg_cmn(yt, *rach_cfg_cmn);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_ul_bwp_cmn__pusch_cfg_cmn(XCONFD_YANGTREE_T* yt, PuschCfgCmn& pusch_cfg_cmn)
+void oam_agent_rcfd_cell_schd::read_grp_ul_bwp_cmn__pusch_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<PuschCfgCmn>& pusch_cfg_cmn)
 {
     if (!yt) return;
-    pusch_cfg_cmn_ = std::make_shared<PuschCfgCmn>();
+    pusch_cfg_cmn = std::make_shared<PuschCfgCmn>();
 
     read_grp_pusch_cfg_cmn(yt, *pusch_cfg_cmn);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_ul_bwp_cmn__pucch_cfg_cmn(XCONFD_YANGTREE_T* yt, PucchCfgCmn& pucch_cfg_cmn)
+void oam_agent_rcfd_cell_schd::read_grp_ul_bwp_cmn__pucch_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<PucchCfgCmn>& pucch_cfg_cmn)
 {
     if (!yt) return;
-    pucch_cfg_cmn_ = std::make_shared<PucchCfgCmn>();
+    pucch_cfg_cmn = std::make_shared<PucchCfgCmn>();
 
     read_grp_pucch_cfg_cmn(yt, *pucch_cfg_cmn);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_ul_bwp(XCONFD_YANGTREE_T* yt, UlBwp& ul_bwp)
 {
-    xconfd_get(ul_bwp->bwp_id, uint8, "bwp-id", yt);
+    xconfd_get(ul_bwp.bwp_id, uint8, "bwp-id", yt);
     read_grp_ul_bwp_cmn(yt, ul_bwp.ul_bwp_cmn);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_ul_bwp__bwp_gen(XCONFD_YANGTREE_T* yt, BwpGen& bwp_gen)
 {
-    read_grp_bwp_gen(yt, *bwp_gen);
+    read_grp_bwp_gen(yt, bwp_gen);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_ul_bwp__rach_cfg_cmn(XCONFD_YANGTREE_T* yt, RachCfgCmn& rach_cfg_cmn)
+void oam_agent_rcfd_cell_schd::read_grp_ul_bwp__rach_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<RachCfgCmn>& rach_cfg_cmn)
 {
     if (!yt) return;
-    rach_cfg_cmn_ = std::make_shared<RachCfgCmn>();
+    rach_cfg_cmn = std::make_shared<RachCfgCmn>();
 
     read_grp_rach_cfg_cmn(yt, *rach_cfg_cmn);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_ul_bwp__pusch_cfg_cmn(XCONFD_YANGTREE_T* yt, PuschCfgCmn& pusch_cfg_cmn)
+void oam_agent_rcfd_cell_schd::read_grp_ul_bwp__pusch_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<PuschCfgCmn>& pusch_cfg_cmn)
 {
     if (!yt) return;
-    pusch_cfg_cmn_ = std::make_shared<PuschCfgCmn>();
+    pusch_cfg_cmn = std::make_shared<PuschCfgCmn>();
 
     read_grp_pusch_cfg_cmn(yt, *pusch_cfg_cmn);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_ul_bwp__pucch_cfg_cmn(XCONFD_YANGTREE_T* yt, PucchCfgCmn& pucch_cfg_cmn)
+void oam_agent_rcfd_cell_schd::read_grp_ul_bwp__pucch_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<PucchCfgCmn>& pucch_cfg_cmn)
 {
     if (!yt) return;
-    pucch_cfg_cmn_ = std::make_shared<PucchCfgCmn>();
+    pucch_cfg_cmn = std::make_shared<PucchCfgCmn>();
 
     read_grp_pucch_cfg_cmn(yt, *pucch_cfg_cmn);
 }
@@ -323,18 +323,18 @@ void oam_agent_rcfd_cell_schd::read_grp_dl_bwp_cmn(XCONFD_YANGTREE_T* yt, DlBwpC
     read_grp_dl_bwp_cmn__pdcch_cfg_cmn(pdcch_cfg_cmn_yt, dl_bwp_cmn.pdcch_cfg_cmn);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_dl_bwp_cmn__bwp_gen(XCONFD_YANGTREE_T* yt, BwpGen& bwp_gen)
+void oam_agent_rcfd_cell_schd::read_grp_dl_bwp_cmn__bwp_gen(XCONFD_YANGTREE_T* yt, std::shared_ptr<BwpGen>& bwp_gen)
 {
     if (!yt) return;
-    bwp_gen_ = std::make_shared<BwpGen>();
+    bwp_gen = std::make_shared<BwpGen>();
 
     read_grp_bwp_gen(yt, *bwp_gen);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_dl_bwp_cmn__pdcch_cfg_cmn(XCONFD_YANGTREE_T* yt, PdcchCfgCmn& pdcch_cfg_cmn)
+void oam_agent_rcfd_cell_schd::read_grp_dl_bwp_cmn__pdcch_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<PdcchCfgCmn>& pdcch_cfg_cmn)
 {
     if (!yt) return;
-    pdcch_cfg_cmn_ = std::make_shared<PdcchCfgCmn>();
+    pdcch_cfg_cmn = std::make_shared<PdcchCfgCmn>();
 
     read_grp_pdcch_cfg_cmn(yt, *pdcch_cfg_cmn);
 }
@@ -360,17 +360,17 @@ void oam_agent_rcfd_cell_schd::read_grp_sul(XCONFD_YANGTREE_T* yt, Sul& sul)
     read_grp_sul__addtl_bwps(addtl_bwps_yt, sul.addtl_bwps);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_sul__freq_info(XCONFD_YANGTREE_T* yt, UlFreqInfo& freq_info)
+void oam_agent_rcfd_cell_schd::read_grp_sul__freq_info(XCONFD_YANGTREE_T* yt, std::shared_ptr<UlFreqInfo>& freq_info)
 {
     if (!yt) return;
-    freq_info_ = std::make_shared<FreqInfo>();
+    freq_info = std::make_shared<FreqInfo>();
 
     read_grp_ul_freq_info(yt, *freq_info);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_sul__initial_bwp(XCONFD_YANGTREE_T* yt, UlBwpCmn& initial_bwp)
 {
-    read_grp_ul_bwp_cmn(yt, *initial_bwp);
+    read_grp_ul_bwp_cmn(yt, initial_bwp);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_sul__addtl_bwps(XCONFD_YANGTREE_T* yt, std::vector<std::shared_ptr<UlBwp>>& addtl_bwps)
@@ -393,7 +393,7 @@ void oam_agent_rcfd_cell_schd::read_grp_ul_freq_info(XCONFD_YANGTREE_T* yt, UlFr
 
 void oam_agent_rcfd_cell_schd::read_grp_ul_freq_info__freq_info_cmn(XCONFD_YANGTREE_T* yt, FreqInfoCmn& freq_info_cmn)
 {
-    read_grp_freq_info_cmn(yt, *freq_info_cmn);
+    read_grp_freq_info_cmn(yt, freq_info_cmn);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_dl_freq_info(XCONFD_YANGTREE_T* yt, DlFreqInfo& dl_freq_info)
@@ -407,27 +407,27 @@ void oam_agent_rcfd_cell_schd::read_grp_dl_freq_info(XCONFD_YANGTREE_T* yt, DlFr
 
 void oam_agent_rcfd_cell_schd::read_grp_dl_freq_info__freq_info_cmn(XCONFD_YANGTREE_T* yt, FreqInfoCmn& freq_info_cmn)
 {
-    read_grp_freq_info_cmn(yt, *freq_info_cmn);
+    read_grp_freq_info_cmn(yt, freq_info_cmn);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_dl_bwp(XCONFD_YANGTREE_T* yt, DlBwp& dl_bwp)
 {
-    xconfd_get(dl_bwp->bwp_id, uint8, "bwp-id", yt);
+    xconfd_get(dl_bwp.bwp_id, uint8, "bwp-id", yt);
     read_grp_dl_bwp_cmn(yt, dl_bwp.dl_bwp_cmn);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_dl_bwp__bwp_gen(XCONFD_YANGTREE_T* yt, BwpGen& bwp_gen)
+void oam_agent_rcfd_cell_schd::read_grp_dl_bwp__bwp_gen(XCONFD_YANGTREE_T* yt, std::shared_ptr<BwpGen>& bwp_gen)
 {
     if (!yt) return;
-    bwp_gen_ = std::make_shared<BwpGen>();
+    bwp_gen = std::make_shared<BwpGen>();
 
     read_grp_bwp_gen(yt, *bwp_gen);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_dl_bwp__pdcch_cfg_cmn(XCONFD_YANGTREE_T* yt, PdcchCfgCmn& pdcch_cfg_cmn)
+void oam_agent_rcfd_cell_schd::read_grp_dl_bwp__pdcch_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<PdcchCfgCmn>& pdcch_cfg_cmn)
 {
     if (!yt) return;
-    pdcch_cfg_cmn_ = std::make_shared<PdcchCfgCmn>();
+    pdcch_cfg_cmn = std::make_shared<PdcchCfgCmn>();
 
     read_grp_pdcch_cfg_cmn(yt, *pdcch_cfg_cmn);
 }
@@ -467,10 +467,10 @@ void oam_agent_rcfd_cell_schd::read_grp_pdcch_cfg_cmn(XCONFD_YANGTREE_T* yt, Pdc
     xconfd_get_optional(pdcch_cfg_cmn.ss_zero, SsZeroT, uint8, "ss-zero", yt);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_pdcch_cfg_cmn__coreset(XCONFD_YANGTREE_T* yt, Coreset& coreset)
+void oam_agent_rcfd_cell_schd::read_grp_pdcch_cfg_cmn__coreset(XCONFD_YANGTREE_T* yt, std::shared_ptr<Coreset>& coreset)
 {
     if (!yt) return;
-    coreset_ = std::make_shared<Coreset>();
+    coreset = std::make_shared<Coreset>();
 
     read_grp_coreset(yt, *coreset);
 }
@@ -495,13 +495,13 @@ void oam_agent_rcfd_cell_schd::read_grp_dl_cfg_cmn(XCONFD_YANGTREE_T* yt, DlCfgC
 
 void oam_agent_rcfd_cell_schd::read_grp_dl_cfg_cmn__freq_info(XCONFD_YANGTREE_T* yt, DlFreqInfo& freq_info)
 {
-    read_grp_dl_freq_info(yt, *freq_info);
+    read_grp_dl_freq_info(yt, freq_info);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_dl_cfg_cmn__initial_bwp(XCONFD_YANGTREE_T* yt, DlBwpCmn& initial_bwp)
+void oam_agent_rcfd_cell_schd::read_grp_dl_cfg_cmn__initial_bwp(XCONFD_YANGTREE_T* yt, std::shared_ptr<DlBwpCmn>& initial_bwp)
 {
     if (!yt) return;
-    initial_bwp_ = std::make_shared<InitialBwp>();
+    initial_bwp = std::make_shared<InitialBwp>();
 
     read_grp_dl_bwp_cmn(yt, *initial_bwp);
 }
@@ -531,13 +531,13 @@ void oam_agent_rcfd_cell_schd::read_grp_tdd_cfg_cmn(XCONFD_YANGTREE_T* yt, TddCf
 
 void oam_agent_rcfd_cell_schd::read_grp_tdd_cfg_cmn__pattern1(XCONFD_YANGTREE_T* yt, TddUlDlPattern& pattern1)
 {
-    read_grp_tdd_ul_dl_pattern(yt, *pattern1);
+    read_grp_tdd_ul_dl_pattern(yt, pattern1);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_tdd_cfg_cmn__pattern2(XCONFD_YANGTREE_T* yt, TddUlDlPattern& pattern2)
+void oam_agent_rcfd_cell_schd::read_grp_tdd_cfg_cmn__pattern2(XCONFD_YANGTREE_T* yt, std::shared_ptr<TddUlDlPattern>& pattern2)
 {
     if (!yt) return;
-    pattern2_ = std::make_shared<Pattern2>();
+    pattern2 = std::make_shared<Pattern2>();
 
     read_grp_tdd_ul_dl_pattern(yt, *pattern2);
 }
@@ -553,17 +553,17 @@ void oam_agent_rcfd_cell_schd::read_grp_ul_cfg_cmn(XCONFD_YANGTREE_T* yt, UlCfgC
     read_grp_ul_cfg_cmn__ue_harq_info(ue_harq_info_yt, ul_cfg_cmn.ue_harq_info);
 }
 
-void oam_agent_rcfd_cell_schd::read_grp_ul_cfg_cmn__freq_info(XCONFD_YANGTREE_T* yt, UlFreqInfo& freq_info)
+void oam_agent_rcfd_cell_schd::read_grp_ul_cfg_cmn__freq_info(XCONFD_YANGTREE_T* yt, std::shared_ptr<UlFreqInfo>& freq_info)
 {
     if (!yt) return;
-    freq_info_ = std::make_shared<FreqInfo>();
+    freq_info = std::make_shared<FreqInfo>();
 
     read_grp_ul_freq_info(yt, *freq_info);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_ul_cfg_cmn__initial_bwp(XCONFD_YANGTREE_T* yt, UlBwpCmn& initial_bwp)
 {
-    read_grp_ul_bwp_cmn(yt, *initial_bwp);
+    read_grp_ul_bwp_cmn(yt, initial_bwp);
 }
 
 void oam_agent_rcfd_cell_schd::read_grp_ul_cfg_cmn__ue_harq_info(XCONFD_YANGTREE_T* yt, UeHarqInfo& ue_harq_info)
