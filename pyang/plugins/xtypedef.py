@@ -730,7 +730,7 @@ def print_read_func_realize(fdcpp, s, module, line, level):
                     cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, " + s.arg.replace('-','_') + "_);\n"
             elif level == 1 :
                 if judge_if_optional_state(s) == 1:
-                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + ");\n"
+                    cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, " + s.arg.replace('-','_') + ");\n"
                 else:
                     cppline = "    read_grp_" + judge_if_uses(s).replace('-','_') + "(yt, *" + s.arg.replace('-','_') + ");\n"
             fdcpp.write(cppline)
