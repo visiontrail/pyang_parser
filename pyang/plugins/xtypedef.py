@@ -918,7 +918,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level):
                     cppline = "    xconfd_get_empty_value(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
                         ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 else:
-                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_'))
+                    cppline = print_get_leaf_realize(cppch, s.arg.replace('-','_') + "." + cppch.arg.replace('-','_'))
                 fdcpp.write(cppline)
             elif cppch.keyword == "leaf-list":
                 cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + \
