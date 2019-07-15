@@ -120,13 +120,13 @@ submodule certus-5gnr-du-cell-schd {
             if-feature optional;
             leaf-list to-add {
                 type cgtfc:tci-state-id-t;
-                min-elements 1;
+                min-elements 0;
                 max-elements 64;
                 description "TCI State IDs To Add";
             }
             leaf-list to-rel {
                 type cgtfc:tci-state-id-t;
-                min-elements 1;
+                min-elements 0;
                 max-elements 64;
                 description "TCI State IDs To Release";
             }
@@ -375,6 +375,7 @@ submodule certus-5gnr-du-cell-schd {
     }
     grouping ul-bwp-cmn {
         container bwp-gen {
+            if-feature optional;
             uses bwp-gen;
         }
         container rach-cfg-cmn {
@@ -663,7 +664,7 @@ submodule certus-5gnr-du-cell-schd {
             }
             description "Additional BWP Configuration";
         }
-        container ue-bsr-timer {
+        container ue-bsr-timers {
             leaf perd-bsr-timer {
                 if-feature optional;
                 type cgtfc:perd-bsr-timer-e;

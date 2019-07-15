@@ -331,7 +331,11 @@ module certus-5gnr-types-for-cell {
     }
     
     typedef interlvr-size-e {
-        type reg-bndl-size-e;
+        type enumeration {
+            enum BNDL-N2;
+            enum BNDL-N3;
+            enum BNDL-N6;
+        }
         description "Interleaver Size";
     }
     

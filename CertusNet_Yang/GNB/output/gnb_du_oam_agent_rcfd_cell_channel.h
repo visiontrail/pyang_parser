@@ -46,7 +46,7 @@ typedef struct structPdschScell
 
 class oam_agent_rcfd_cell_channel : public allocator
 {
-private:
+public:
     Pcch pcch_; 
     Bcch bcch_; 
     PuschScell pusch_scell_; 

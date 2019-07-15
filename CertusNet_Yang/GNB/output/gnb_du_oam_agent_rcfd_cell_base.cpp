@@ -26,7 +26,7 @@ oam_agent_rcfd_cell_base::oam_agent_rcfd_cell_base(XCONFD_YANGTREE_T* yt)
 
 void oam_agent_rcfd_cell_base::read_nr_cgi(XCONFD_YANGTREE_T* yt)
 {
-    read_grp_plmn_id(yt, *nr_cgi_.plmn_id);
+    read_grp_plmn_id(yt, nr_cgi_.plmn_id);
     xconfd_get(nr_cgi_.nr_cell_id, uint64, "nr-cell-id", yt);
 }
 

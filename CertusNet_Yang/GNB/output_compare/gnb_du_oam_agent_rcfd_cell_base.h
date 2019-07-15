@@ -15,11 +15,7 @@ namespace gnb_du
 namespace rcfd
 {
 
-typedef struct structNrCgi
-{
-   PlmnId plmn_id;
-   NrCellIdT nr_cell_id;
-} NrCgi;
+
 
 typedef struct structSNssai
 {
@@ -38,6 +34,11 @@ typedef struct structServedPlmn
 
 typedef std::shared_ptr<ServedPlmn> ServedPlmnPtr;
 typedef std::vector<ServedPlmnPtr> ServedPlmnPtrVector;
+typedef struct structNrCgi
+{
+   PlmnId plmn_id;
+   NrCellIdT nr_cell_id;
+} NrCgi;
 
 typedef struct structSiPerd
 {
@@ -48,9 +49,10 @@ typedef struct structSiPerd
 class oam_agent_rcfd_cell_base : public allocator
 {
 public:
+   NrModeTypeE nr_mode_type_;
    NrCgi nr_cgi_;
    NrPciT nr_pci_;
-   NrModeTypeE nr_mode_type_;
+   
    Tac5GsT tac_5gs_;
    CfgrdEpsTacT cfgrd_eps_tac_;
    ServedPlmnPtrVector served_plmns_;
@@ -59,9 +61,10 @@ public:
 private:
    void read_nr_cgi(XCONFD_YANGTREE_T* yt);
    void read_served_plmns(XCONFD_YANGTREE_T* yt);
+   void read_si_perd(XCONFD_YANGTREE_T* yt);
    void read_served_plmns__s_nssais(XCONFD_YANGTREE_T* yt, SNssaiPtrVector& s_nssais);
    void read_grp_s_nssai(XCONFD_YANGTREE_T* yt, SNssai& s_nssais);
-   void read_si_perd(XCONFD_YANGTREE_T* yt);
+
 
 public:
    oam_agent_rcfd_cell_base(XCONFD_YANGTREE_T* yt);

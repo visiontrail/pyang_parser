@@ -98,15 +98,9 @@ typedef struct structPlmnids
     std::string mnc; 
 } PlmnIds; 
 
-typedef struct structPlmnids
-{
-    std::string mcc; 
-    std::string mnc; 
-} PlmnIds; 
-
 class oam_agent_rcfd_cell_l1 : public allocator
 {
-private:
+public:
     uint32_t dl_central_freq_; 
     uint32_t ul_central_freq_; 
     uint8_t ca_lvl_; 

@@ -1,0 +1,41 @@
+submodule certus-5gnr-du-du-log {
+    belongs-to certus-5gnr-du {
+        prefix cgdu;
+    }
+    
+    import certus-5gnr-types-for-du {
+        prefix cgtfd;
+        revision-date 2019-07-08;
+    }
+    
+    organization "CertusNet";
+    description "This module defines du log configuration.";
+    
+    revision 2019-07-08 {
+        description  "Initial revision.";
+    }
+
+
+    grouping du-log {
+        leaf file-name {
+            type string;
+            default "du";
+        }
+        list du-modules {
+            key module-id;
+            leaf module-id { type cgtfd:du-module-id-e; }
+            leaf log-lvl {
+                type cgtfd:log-lvl-e;
+                default LL-OFF;
+            }
+        }
+        list ngp-modules {
+            key module-id;
+            leaf module-id { type cgtfd:ngp-module-id-e; }
+            leaf log-lvl {
+                type cgtfd:log-lvl-e;
+                default LL-OFF;
+            }
+        }
+    }
+}

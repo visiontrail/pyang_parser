@@ -46,6 +46,8 @@ submodule certus-5gnr-du-cell-l1 {
             description "Cell Reserved For Operator Use";
         }
     }
+    
+    
     grouping cell-sel-info {
         leaf q-rx-lvl-min {
             if-feature optional;

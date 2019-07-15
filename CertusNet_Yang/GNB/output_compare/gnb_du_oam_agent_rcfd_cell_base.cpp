@@ -50,6 +50,18 @@ void oam_agent_rcfd_cell_base::read_served_plmns(XCONFD_YANGTREE_T* yt)
    }
 }
 
+void oam_agent_rcfd_cell_base::read_si_perd(XCONFD_YANGTREE_T* yt)
+{
+   xconfd_get_optional_enum(si_perd_.sib2_perd, SiPerdE, "sib2-perd", yt);
+   xconfd_get_optional_enum(si_perd_.sib3_perd, SiPerdE, "sib3-perd", yt);
+}
+
+void oam_agent_rcfd_cell_base::read_grp_s_nssai(XCONFD_YANGTREE_T* yt, SNssai& s_nssai)
+{
+   xconfd_get(s_nssai.sst, uint8, "sst", yt);
+   xconfd_get(s_nssai.sd, uint32, "sd", yt);
+}
+
 void oam_agent_rcfd_cell_base::read_served_plmns__s_nssais(XCONFD_YANGTREE_T* yt, SNssaiPtrVector& s_nssais)
 {
    XCONFD_YANG_TREE_LIST_FOREACH(yt, s_nssai_yt)
@@ -60,17 +72,9 @@ void oam_agent_rcfd_cell_base::read_served_plmns__s_nssais(XCONFD_YANGTREE_T* yt
    }
 }
 
-void oam_agent_rcfd_cell_base::read_grp_s_nssai(XCONFD_YANGTREE_T* yt, SNssai& s_nssai)
-{
-   xconfd_get(s_nssai.sst, uint8, "sst", yt);
-   xconfd_get(s_nssai.sd, uint32, "sd", yt);
-}
 
-void oam_agent_rcfd_cell_base::read_si_perd(XCONFD_YANGTREE_T* yt)
-{
-   xconfd_get_optional_enum(si_perd_.sib2_perd, SiPerdE, "sib2-perd", yt);
-   xconfd_get_optional_enum(si_perd_.sib3_perd, SiPerdE, "sib3-perd", yt);
-}
+
+
 
 } // namespace rcfd
 } // namespace gnb_du

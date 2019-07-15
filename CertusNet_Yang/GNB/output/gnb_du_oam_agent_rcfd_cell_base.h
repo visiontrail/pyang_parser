@@ -39,7 +39,7 @@ typedef struct structSiPerd
 
 class oam_agent_rcfd_cell_base : public allocator
 {
-private:
+public:
     NrModeTypeE nr_mode_type_; 
     NrCgi nr_cgi_; 
     NrPciT nr_pci_; 

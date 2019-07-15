@@ -1,0 +1,168 @@
+submodule certus-5gnr-du-du-base {
+    belongs-to certus-5gnr-du {
+        prefix cgdu;
+    }
+    
+    import tailf-common { prefix tailf; }
+    import ietf-inet-types { prefix inet; }
+    import certus-5gnr-types-for-du {
+        prefix cgtfd;
+        revision-date 2019-07-08;
+    }
+    
+    organization "CertusNet";
+    description "This module defines du base configuration.";
+    
+    revision 2019-07-08 {
+        description "Initial revision.";
+    }
+
+
+    grouping ip-addr {
+        leaf ip-version { type cgtfd:ip-version-e; }
+        leaf ipv4-addr {
+            if-feature optional;
+            type inet:ipv4-address;
+        }
+        leaf ipv6-addr {
+            if-feature optional;
+            type inet:ipv6-address;
+        }
+    }
+    grouping sctp {
+        container dst {
+            uses ip-addr;
+            leaf port { type uint32; }
+        }
+        container src {
+            uses ip-addr;
+            leaf port { type uint32; }
+        }
+        container cfg-params {
+            leaf num-outbound-streams { type uint16; }
+            leaf max-inbound-streams { type uint16; }
+            leaf max-init-attempts { type uint16; }
+            leaf hb-interval { type uint16; }
+            leaf max-path-retx { type uint16; }
+        }
+    }
+    grouping ns-cell {
+        leaf cell-id { type uint8; }
+        leaf en-res-shared { type empty; }
+        leaf res-id { type uint8; }
+        leaf dl-num-ue-per-tti { type uint8; }
+        leaf ul-num-ue-per-tti { type uint8; }
+        leaf dl-prb { type uint16; }
+        leaf ul-prb { type uint16; }
+        leaf dl-sla-trgt-rate {
+            type uint64;
+            description "DL Service Level Agreement Target Rate";
+        }
+        leaf ul-sla-trgt-rate {
+            type uint64;
+            description "UL Service Level Agreement Target Rate";
+        }
+    }
+    grouping nsi {
+        leaf nsi-id { type uint8; }
+        leaf-list cores {
+            type uint16;
+            max-elements 32;
+        }
+        list cells {
+            key cell-id;
+            uses ns-cell;
+        }
+    }
+    grouping ns {
+        leaf agent-type {
+            type cgtfd:ns-agent-type-e;
+            default DISABLED;
+        }
+        container local-sm {
+            if-feature optional;
+            uses ip-addr;
+            leaf port { type uint32; }
+        }
+        container remote-sm {
+            if-feature optional;
+            uses ip-addr;
+            leaf port { type uint32; }
+        }
+        list nsis {
+            key nsi-id;
+            uses nsi;            
+        }
+        description "Network Slice";
+    }
+    grouping drx {
+        leaf inactivity-tmr {
+            type uint32;
+            default 4;
+        }
+        leaf retx-tmr-dl {
+            type uint32;
+            default 4;
+        }
+        leaf retx-tmr-ul {
+            type uint32;
+            default 4;
+        }
+        leaf long-cycle {
+            type uint32;
+            default 0;
+        }
+        leaf short-cycle {
+            type uint32;
+            default 3;
+        }
+        leaf short-cycle-tmr {
+            type uint32;
+            default 2;
+        }
+    }
+
+
+    grouping du-base {
+        leaf gnb-du-id {
+            type uint64;
+            tailf:validate "gnb-du-id-check" {
+                tailf:dependency ".";
+            }
+        }
+        leaf gnb-du-name {
+            if-feature optional;
+            type string;
+        }
+        leaf max-cell-supported { type uint8; }
+        container ue {
+            leaf max-ue-supported { type uint16; }
+            leaf rnti-start { type uint16; }
+            leaf max-num-rnti { type uint16; }
+        }
+        container sctp {
+            uses sctp;
+        }
+        container egtpu {
+            uses ip-addr;
+            leaf teid-min { type uint32; }
+            leaf teid-max { type uint32; }
+        }
+        container f1u-flow-ctrl {
+            leaf max-rlc-sdu-q-size { type uint16; }
+            leaf rlc-sdu-q-lwr-thr { type uint16; }
+            leaf rlc-sdu-q-upr-thr { type uint16; }
+            leaf nrup-flw-ctrl-tmr { type uint16; }
+            leaf en-nrup_missing_rept { type empty; }
+            leaf read-ingress-pkts-per-tti { type uint32; }
+        }
+        container ns {
+            uses ns;
+            description "Network Slice";
+        }
+        container drx {
+            if-feature optional;
+            uses drx;
+        }
+    }
+}

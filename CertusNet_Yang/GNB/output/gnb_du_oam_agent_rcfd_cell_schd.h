@@ -18,10 +18,10 @@ typedef struct structCoreset
     CoresetIdT id; 
     uint64_t freq_domain_res; 
     uint8_t duration; 
-    CceRegMappingInterleaved cce_reg_mapping_interleaved; 
+    std::shared_ptr<CceRegMappingInterleaved> cce_reg_mapping_interleaved; 
     PrecoderGranularityE precoder_granularity; 
     std::shared_ptr<uint16_t> dmrs_scramble_id;
-    TciStateInfo tci_state_info; 
+    std::shared_ptr<TciStateInfo> tci_state_info; 
 } Coreset;
 
 typedef struct structRachGen
@@ -42,7 +42,7 @@ typedef struct structFreqInfoCmn
     ArfcnT abs_arfcn_point_a; 
     ArfcnT nr_arfcn; 
     ChannelBwE channel_bw; 
-    std::vector<std::shared_ptr<uint16_t>> nr_freq_bands;
+    std::vector<uint16_t> nr_freq_bands;
     std::vector<std::shared_ptr<ScsSpecCarrier>> scs_spec_carriers;
 } FreqInfoCmn;
 
@@ -52,7 +52,7 @@ typedef struct structRachCfgCmn
     uint8_t total_num_ra_preamble; 
     SsbPerRachOccE ssb_per_rach_occ; 
     uint8_t cb_preamble_per_ssb; 
-    RachGrpb rach_grpb; 
+    std::shared_ptr<RachGrpb> rach_grpb; 
     RaContResTmrE ra_cont_res_tmr; 
     PrachRootSeqIdxTypeE prach_root_seq_idx_type; 
     uint16_t prach_root_seq_idx; 
@@ -66,15 +66,16 @@ typedef struct structRachCfgCmn
 
 typedef struct structUlBwpCmn
 {
-    BwpGen bwp_gen; 
-    RachCfgCmn rach_cfg_cmn; 
-    PuschCfgCmn pusch_cfg_cmn; 
-    PucchCfgCmn pucch_cfg_cmn; 
+    std::shared_ptr<BwpGen> bwp_gen; 
+    std::shared_ptr<RachCfgCmn> rach_cfg_cmn; 
+    std::shared_ptr<PuschCfgCmn> pusch_cfg_cmn; 
+    std::shared_ptr<PucchCfgCmn> pucch_cfg_cmn; 
 } UlBwpCmn;
 
 typedef struct structUlBwp
 {
-    ul-bwp-cmn ul_bwp_cmn; 
+    BwpIdT bwp_id; 
+    UlBwpCmn ul_bwp_cmn; 
 } UlBwp;
 
 typedef struct structTddUlDlPattern
@@ -95,8 +96,8 @@ typedef struct structScsSpecCarrier
 
 typedef struct structDlBwpCmn
 {
-    BwpGen bwp_gen; 
-    PdcchCfgCmn pdcch_cfg_cmn; 
+    std::shared_ptr<BwpGen> bwp_gen; 
+    std::shared_ptr<PdcchCfgCmn> pdcch_cfg_cmn; 
     bool pdsch_present; 
 } DlBwpCmn;
 
@@ -113,9 +114,9 @@ typedef struct structSul
     uint32_t max_ue_per_ul_tti; 
     uint8_t tar_cqi; 
     uint8_t ccch_cqi; 
-    FreqInfo freq_info; 
-    InitialBwp initial_bwp; 
-    std::vector<std::shared_ptr<AddtlBwp>> addtl_bwps;
+    std::shared_ptr<UlFreqInfo> freq_info; 
+    UlBwpCmn initial_bwp; 
+    std::vector<std::shared_ptr<UlBwp>> addtl_bwps;
     bool harmonic; 
 } Sul;
 
@@ -137,7 +138,8 @@ typedef struct structDlFreqInfo
 
 typedef struct structDlBwp
 {
-    dl-bwp-cmn dl_bwp_cmn; 
+    BwpIdT bwp_id; 
+    DlBwpCmn dl_bwp_cmn; 
 } DlBwp;
 
 typedef struct structSearchSpace
@@ -153,7 +155,7 @@ typedef struct structSearchSpace
 
 typedef struct structPdcchCfgCmn
 {
-    Coreset coreset; 
+    std::shared_ptr<Coreset> coreset; 
     std::vector<std::shared_ptr<SearchSpace>> search_spaces;
     std::shared_ptr<SsIdT> ss_sib1;
     std::shared_ptr<SsIdT> ss_other_si;
@@ -165,8 +167,8 @@ typedef struct structPdcchCfgCmn
 
 typedef struct structDlCfgCmn
 {
-    FreqInfo freq_info; 
-    InitialBwp initial_bwp; 
+    DlFreqInfo freq_info; 
+    std::shared_ptr<DlBwpCmn> initial_bwp; 
 } DlCfgCmn;
 
 typedef struct structRachGrpb
@@ -187,15 +189,15 @@ typedef struct structBwpGen
 typedef struct structTddCfgCmn
 {
     ScsE ref_scs; 
-    Pattern1 pattern1; 
-    Pattern2 pattern2; 
+    TddUlDlPattern pattern1; 
+    std::shared_ptr<TddUlDlPattern> pattern2; 
 } TddCfgCmn;
 
 typedef struct structUlCfgCmn
 {
     bool present_in_sib1; 
-    FreqInfo freq_info; 
-    InitialBwp initial_bwp; 
+    std::shared_ptr<UlFreqInfo> freq_info; 
+    UlBwpCmn initial_bwp; 
     AlignmentTimerE time_alignment_timer; 
     UeHarqInfo ue_harq_info; 
 } UlCfgCmn;
@@ -225,8 +227,8 @@ typedef struct structCceRegMappingInterleaved
 
 typedef struct structTciStateInfo
 {
-    std::vector<ToAdd> to_add;
-    std::vector<ToRel> to_rel;
+    std::vector<TciStateIdT> to_add;
+    std::vector<TciStateIdT> to_rel;
     bool present_in_dci; 
 } TciStateInfo; 
 
@@ -267,11 +269,11 @@ typedef struct structAddtlBwps
     std::vector<std::shared_ptr<DlBwp>> dl_bwps;
 } AddtlBwp; 
 
-typedef struct structUeBsrTimer
+typedef struct structUeBsrTimers
 {
     std::shared_ptr<PerdBsrTimerE> perd_bsr_timer;
     RetxBsrTimerE retx_bsr_timer; 
-} UeBsrTimer; 
+} UeBsrTimers; 
 
 typedef struct structPattern1
 {
@@ -288,58 +290,6 @@ typedef struct structUeHarqInfo
     uint8_t max_harq; 
     uint8_t delta_harq_offset; 
 } UeHarqInfo; 
-
-typedef struct structSearchspaces
-{
-    SsIdT id; 
-    CoresetIdT coreset_id; 
-    MonSlotPerdOffsetTypeE mon_slot_perd_offset_type; 
-    uint16_t mon_slot_perd_offset; 
-    uint16_t mon_slot_syms; 
-    AggrLvlCandidatesNum aggr_lvl_candidates_num; 
-    DciFormatE dci_format; 
-} SearchSpaces; 
-
-typedef struct structScsspeccarriers
-{
-    OffsetPointACarrierT offset_to_carrier; 
-    ScsE scs; 
-} ScsSpecCarriers; 
-
-typedef struct structScsspeccarriers
-{
-    OffsetPointACarrierT offset_to_carrier; 
-    ScsE scs; 
-} ScsSpecCarriers; 
-
-typedef struct structScsspeccarriers
-{
-    OffsetPointACarrierT offset_to_carrier; 
-    ScsE scs; 
-} ScsSpecCarriers; 
-
-typedef struct structSearchspaces
-{
-    SsIdT id; 
-    CoresetIdT coreset_id; 
-    MonSlotPerdOffsetTypeE mon_slot_perd_offset_type; 
-    uint16_t mon_slot_perd_offset; 
-    uint16_t mon_slot_syms; 
-    AggrLvlCandidatesNum aggr_lvl_candidates_num; 
-    DciFormatE dci_format; 
-} SearchSpaces; 
-
-typedef struct structScsspeccarriers
-{
-    OffsetPointACarrierT offset_to_carrier; 
-    ScsE scs; 
-} ScsSpecCarriers; 
-
-typedef struct structScsspeccarriers
-{
-    OffsetPointACarrierT offset_to_carrier; 
-    ScsE scs; 
-} ScsSpecCarriers; 
 
 typedef struct structSearchspaces
 {
@@ -375,43 +325,9 @@ typedef struct structDlbwps
     bool pdsch_present; 
 } DlBwps; 
 
-typedef struct structSearchspaces
-{
-    SsIdT id; 
-    CoresetIdT coreset_id; 
-    MonSlotPerdOffsetTypeE mon_slot_perd_offset_type; 
-    uint16_t mon_slot_perd_offset; 
-    uint16_t mon_slot_syms; 
-    AggrLvlCandidatesNum aggr_lvl_candidates_num; 
-    DciFormatE dci_format; 
-} SearchSpaces; 
-
-typedef struct structScsspeccarriers
-{
-    OffsetPointACarrierT offset_to_carrier; 
-    ScsE scs; 
-} ScsSpecCarriers; 
-
-typedef struct structSearchspaces
-{
-    SsIdT id; 
-    CoresetIdT coreset_id; 
-    MonSlotPerdOffsetTypeE mon_slot_perd_offset_type; 
-    uint16_t mon_slot_perd_offset; 
-    uint16_t mon_slot_syms; 
-    AggrLvlCandidatesNum aggr_lvl_candidates_num; 
-    DciFormatE dci_format; 
-} SearchSpaces; 
-
-typedef struct structScsspeccarriers
-{
-    OffsetPointACarrierT offset_to_carrier; 
-    ScsE scs; 
-} ScsSpecCarriers; 
-
 class oam_agent_rcfd_cell_schd : public allocator
 {
-private:
+public:
     uint32_t max_ue_per_ul_tti_; 
     uint32_t max_ue_per_dl_tti_; 
     uint8_t max_dl_harq_tx_; 
@@ -431,7 +347,7 @@ private:
     std::shared_ptr<Sul> sul_;
     SsPbch ss_pbch_; 
     std::shared_ptr<AddtlBwps> addtl_bwps_;
-    UeBsrTimer ue_bsr_timer_; 
+    UeBsrTimers ue_bsr_timers_; 
 
     void read_preamble_id_range(XCONFD_YANGTREE_T* yt);
     void read_fdd_cfg_cmn(XCONFD_YANGTREE_T* yt);
@@ -443,7 +359,7 @@ private:
     void read_addtl_bwps(XCONFD_YANGTREE_T* yt);
     void read_addtl_bwps__ul_bwps(XCONFD_YANGTREE_T* yt, std::vector<std::shared_ptr<UlBwp>>& ul_bwps);
     void read_addtl_bwps__dl_bwps(XCONFD_YANGTREE_T* yt, std::vector<std::shared_ptr<DlBwp>>& dl_bwps);
-    void read_ue_bsr_timer(XCONFD_YANGTREE_T* yt);
+    void read_ue_bsr_timers(XCONFD_YANGTREE_T* yt);
     void read_grp_coreset(XCONFD_YANGTREE_T* yt, Coreset& coreset);
     void read_grp_coreset__cce_reg_mapping_interleaved(XCONFD_YANGTREE_T* yt, std::shared_ptr<CceRegMappingInterleaved>& cce_reg_mapping_interleaved);
     void read_grp_coreset__tci_state_info(XCONFD_YANGTREE_T* yt, std::shared_ptr<TciStateInfo>& tci_state_info);
@@ -454,12 +370,12 @@ private:
     void read_grp_rach_cfg_cmn__rach_gen(XCONFD_YANGTREE_T* yt, RachGen& rach_gen);
     void read_grp_rach_cfg_cmn__rach_grpb(XCONFD_YANGTREE_T* yt, std::shared_ptr<RachGrpb>& rach_grpb);
     void read_grp_ul_bwp_cmn(XCONFD_YANGTREE_T* yt, UlBwpCmn& ul_bwp_cmn);
-    void read_grp_ul_bwp_cmn__bwp_gen(XCONFD_YANGTREE_T* yt, BwpGen& bwp_gen);
+    void read_grp_ul_bwp_cmn__bwp_gen(XCONFD_YANGTREE_T* yt, std::shared_ptr<BwpGen>& bwp_gen);
     void read_grp_ul_bwp_cmn__rach_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<RachCfgCmn>& rach_cfg_cmn);
     void read_grp_ul_bwp_cmn__pusch_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<PuschCfgCmn>& pusch_cfg_cmn);
     void read_grp_ul_bwp_cmn__pucch_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<PucchCfgCmn>& pucch_cfg_cmn);
     void read_grp_ul_bwp(XCONFD_YANGTREE_T* yt, UlBwp& ul_bwp);
-    void read_grp_ul_bwp__bwp_gen(XCONFD_YANGTREE_T* yt, BwpGen& bwp_gen);
+    void read_grp_ul_bwp__bwp_gen(XCONFD_YANGTREE_T* yt, std::shared_ptr<BwpGen>& bwp_gen);
     void read_grp_ul_bwp__rach_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<RachCfgCmn>& rach_cfg_cmn);
     void read_grp_ul_bwp__pusch_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<PuschCfgCmn>& pusch_cfg_cmn);
     void read_grp_ul_bwp__pucch_cfg_cmn(XCONFD_YANGTREE_T* yt, std::shared_ptr<PucchCfgCmn>& pucch_cfg_cmn);
