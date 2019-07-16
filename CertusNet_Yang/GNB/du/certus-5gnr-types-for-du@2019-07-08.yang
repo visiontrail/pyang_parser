@@ -1,6 +1,8 @@
 module certus-5gnr-types-for-du {
     namespace "http://certusnet.com/5gnr/certus-5gnr-types-for-du";
     prefix cgtfd;
+
+    import ietf-inet-types { prefix inet; }
     
     organization "CertusNet";
     description "This module defines types used by 5gnr du.";
@@ -71,6 +73,18 @@ module certus-5gnr-types-for-du {
             enum LL-WARN;
             enum LL-INFO;
             enum LL-TRACE;
+        }
+    }
+    
+    grouping ip-addr {
+        leaf ip-version { type ip-version-e; }
+        leaf ipv4-addr {
+            if-feature optional;
+            type inet:ipv4-address;
+        }
+        leaf ipv6-addr {
+            if-feature optional;
+            type inet:ipv6-address;
         }
     }
 }

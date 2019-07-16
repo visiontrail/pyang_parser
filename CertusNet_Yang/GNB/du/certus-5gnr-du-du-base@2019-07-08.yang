@@ -1,10 +1,9 @@
 submodule certus-5gnr-du-du-base {
-    belongs-to certus-5gnr-du {
+    belongs-to certus-5gnr-du-du {
         prefix cgdu;
     }
     
     import tailf-common { prefix tailf; }
-    import ietf-inet-types { prefix inet; }
     import certus-5gnr-types-for-du {
         prefix cgtfd;
         revision-date 2019-07-08;
@@ -18,24 +17,13 @@ submodule certus-5gnr-du-du-base {
     }
 
 
-    grouping ip-addr {
-        leaf ip-version { type cgtfd:ip-version-e; }
-        leaf ipv4-addr {
-            if-feature optional;
-            type inet:ipv4-address;
-        }
-        leaf ipv6-addr {
-            if-feature optional;
-            type inet:ipv6-address;
-        }
-    }
     grouping sctp {
         container dst {
-            uses ip-addr;
+            uses cgtfd:ip-addr;
             leaf port { type uint32; }
         }
         container src {
-            uses ip-addr;
+            uses cgtfd:ip-addr;
             leaf port { type uint32; }
         }
         container cfg-params {
@@ -45,55 +33,6 @@ submodule certus-5gnr-du-du-base {
             leaf hb-interval { type uint16; }
             leaf max-path-retx { type uint16; }
         }
-    }
-    grouping ns-cell {
-        leaf cell-id { type uint8; }
-        leaf en-res-shared { type empty; }
-        leaf res-id { type uint8; }
-        leaf dl-num-ue-per-tti { type uint8; }
-        leaf ul-num-ue-per-tti { type uint8; }
-        leaf dl-prb { type uint16; }
-        leaf ul-prb { type uint16; }
-        leaf dl-sla-trgt-rate {
-            type uint64;
-            description "DL Service Level Agreement Target Rate";
-        }
-        leaf ul-sla-trgt-rate {
-            type uint64;
-            description "UL Service Level Agreement Target Rate";
-        }
-    }
-    grouping nsi {
-        leaf nsi-id { type uint8; }
-        leaf-list cores {
-            type uint16;
-            max-elements 32;
-        }
-        list cells {
-            key cell-id;
-            uses ns-cell;
-        }
-    }
-    grouping ns {
-        leaf agent-type {
-            type cgtfd:ns-agent-type-e;
-            default DISABLED;
-        }
-        container local-sm {
-            if-feature optional;
-            uses ip-addr;
-            leaf port { type uint32; }
-        }
-        container remote-sm {
-            if-feature optional;
-            uses ip-addr;
-            leaf port { type uint32; }
-        }
-        list nsis {
-            key nsi-id;
-            uses nsi;            
-        }
-        description "Network Slice";
     }
     grouping drx {
         leaf inactivity-tmr {
@@ -121,6 +60,28 @@ submodule certus-5gnr-du-du-base {
             default 2;
         }
     }
+    grouping log {
+        leaf file-name {
+            type string;
+            default "du";
+        }
+        list du-modules {
+            key module-id;
+            leaf module-id { type cgtfd:du-module-id-e; }
+            leaf log-lvl {
+                type cgtfd:log-lvl-e;
+                default LL-OFF;
+            }
+        }
+        list ngp-modules {
+            key module-id;
+            leaf module-id { type cgtfd:ngp-module-id-e; }
+            leaf log-lvl {
+                type cgtfd:log-lvl-e;
+                default LL-OFF;
+            }
+        }
+    }
 
 
     grouping du-base {
@@ -134,7 +95,10 @@ submodule certus-5gnr-du-du-base {
             if-feature optional;
             type string;
         }
-        leaf max-cell-supported { type uint8; }
+        leaf max-cell-supported {
+            type uint8;
+            default 1;
+        }
         container ue {
             leaf max-ue-supported { type uint16; }
             leaf rnti-start { type uint16; }
@@ -144,7 +108,7 @@ submodule certus-5gnr-du-du-base {
             uses sctp;
         }
         container egtpu {
-            uses ip-addr;
+            uses cgtfd:ip-addr;
             leaf teid-min { type uint32; }
             leaf teid-max { type uint32; }
         }
@@ -156,13 +120,12 @@ submodule certus-5gnr-du-du-base {
             leaf en-nrup_missing_rept { type empty; }
             leaf read-ingress-pkts-per-tti { type uint32; }
         }
-        container ns {
-            uses ns;
-            description "Network Slice";
-        }
         container drx {
             if-feature optional;
             uses drx;
+        }
+        container log {
+            uses log;
         }
     }
 }

@@ -132,7 +132,7 @@ def print_typedef_header_grouping(fdtd, group, prefix_with_modname):
                 (child.arg)), refine_type_name_cpp(child.arg.replace('-', '_')))
         fdtd.write(line + "\n")
 
-    fdtd.write("}\n")
+    fdtd.write("}" + get_struct_name(group.arg) + ";\n")
 
     line = "void read_grp_" + group.arg.replace('-', '_') + "(XCONFD_YANGTREE_T* yt, " + get_struct_name(
                group.arg) + "& " + group.arg.replace('-', '_') + ")\n{\n"
@@ -165,11 +165,6 @@ def print_typedef_header_grouping(fdtd, group, prefix_with_modname):
     
     fdtd.write("}\n")
         
-
-
-    
-
-
 all_typedef = {}  # 所有在typedef文件中的typedef
 all_grouping = {} # 所有在typedef文件中的grouping
 

@@ -1,0 +1,70 @@
+submodule certus-5gnr-du-du-ns {
+    belongs-to certus-5gnr-du-du {
+        prefix cgdu;
+    }
+
+    import certus-5gnr-types-for-du {
+        prefix cgtfd;
+        revision-date 2019-07-08;
+    }
+
+    organization "CertusNet";
+    description "This module defines du network slice configuration.";
+
+    revision 2019-07-08 {
+        description  "Initial revision.";
+    }
+
+
+    grouping ns-cell {
+        leaf cell-id { type uint8; }
+        leaf en-res-shared { type empty; }
+        leaf res-id { type uint8; }
+        leaf dl-num-ue-per-tti { type uint8; }
+        leaf ul-num-ue-per-tti { type uint8; }
+        leaf dl-prb { type uint16; }
+        leaf ul-prb { type uint16; }
+        leaf dl-sla-trgt-rate {
+            type uint64;
+            description "DL Service Level Agreement Target Rate";
+        }
+        leaf ul-sla-trgt-rate {
+            type uint64;
+            description "UL Service Level Agreement Target Rate";
+        }
+    }
+    grouping nsi {
+        leaf nsi-id { type uint8; }
+        leaf-list cores {
+            type uint16;
+            max-elements 32;
+        }
+        list cells {
+            key cell-id;
+            uses ns-cell;
+        }
+    }
+    
+    
+    grouping ns {
+        leaf agent-type {
+            type cgtfd:ns-agent-type-e;
+            default NS-DISABLED;
+        }
+        container local-sm {
+            if-feature optional;
+            uses cgtfd:ip-addr;
+            leaf port { type uint32; }
+        }
+        container remote-sm {
+            if-feature optional;
+            uses cgtfd:ip-addr;
+            leaf port { type uint32; }
+        }
+        list nsis {
+            key nsi-id;
+            uses nsi;            
+        }
+        description "Network Slice";
+    }
+}

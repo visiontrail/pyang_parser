@@ -82,6 +82,19 @@ typedef enum enumNgpModuleIdE
     THR_POOL
 }NgpModuleIdE;
 
+typedef struct structIpAddr
+{
+    IpVersionE ip_version; 
+    std::shared_ptr<Ipv4Address> ipv4_addr;
+    std::shared_ptr<Ipv6Address> ipv6_addr;
+}IpAddr;
+void read_grp_ip_addr(XCONFD_YANGTREE_T* yt, IpAddr& ip_addr)
+{
+
+    xconfd_get(ip_addr.ip_version, ip-version-e, "ip-version", yt);
+    xconfd_get_optional(ip_addr.ipv4_addr, Ipv4Address, ipv4, "ipv4-addr", yt);
+    xconfd_get_optional(ip_addr.ipv6_addr, Ipv6Address, ipv6-address, "ipv6-addr", yt);
+}
 } //end of namespace rcfd
 } //end of namespace gnb_du
 #endif

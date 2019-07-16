@@ -46,10 +46,10 @@ python pyang.py -f xtypedef CertusNet_Yang/GNB/cell/certus-5gnr-du-cell-schd@201
                 -o CertusNet_Yang/GNB/output/gnb_du_oam_agent_rcfd_cell_schd.h
 
 # DU:
-python pyang.py -f xtypedef CertusNet_Yang/GNB/du/certus-5gnr-du-du-log@2019-07-08.yang \
+python pyang.py -f xtypedef CertusNet_Yang/GNB/du/certus-5gnr-du-du-ns@2019-07-08.yang \
                 -p CertusNet_Yang/GNB/du \
                 -p /usr/local/confd/src/confd/yang \
-                -o CertusNet_Yang/GNB/output/gnb_du_oam_agent_rcfd_du_log.h
+                -o CertusNet_Yang/GNB/output/gnb_du_oam_agent_rcfd_du_ns.h
 
 python pyang.py -f xtypedef CertusNet_Yang/GNB/du/certus-5gnr-du-du-base@2019-07-08.yang \
                 -p CertusNet_Yang/GNB/du \

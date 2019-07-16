@@ -588,7 +588,7 @@ typedef struct structPlmnId
 {
     std::string mcc; 
     std::string mnc; 
-}
+}PlmnId;
 void read_grp_plmn_id(XCONFD_YANGTREE_T* yt, PlmnId& plmn_id)
 {
 

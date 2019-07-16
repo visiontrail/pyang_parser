@@ -23,10 +23,10 @@ oam_agent_rcfd_du_base::oam_agent_rcfd_du_base(XCONFD_YANGTREE_T* yt)
     read_egtpu(egtpu_yt);
     auto f1u_flow_ctrl_yt = xconfd_yang_tree_get_node(yt, "f1u-flow-ctrl");
     read_f1u_flow_ctrl(f1u_flow_ctrl_yt);
-    auto ns_yt = xconfd_yang_tree_get_node(yt, "ns");
-    read_ns(ns_yt);
     auto drx_yt = xconfd_yang_tree_get_node(yt, "drx");
     read_drx(drx_yt);
+    auto log_yt = xconfd_yang_tree_get_node(yt, "log");
+    read_log(log_yt);
 }
 
 void oam_agent_rcfd_du_base::read_ue(XCONFD_YANGTREE_T* yt)
@@ -58,17 +58,17 @@ void oam_agent_rcfd_du_base::read_f1u_flow_ctrl(XCONFD_YANGTREE_T* yt)
     xconfd_get(f1u_flow_ctrl_.read_ingress_pkts_per_tti, uint32, "read-ingress-pkts-per-tti", yt);
 }
 
-void oam_agent_rcfd_du_base::read_ns(XCONFD_YANGTREE_T* yt)
-{
-    read_grp_ns(yt, ns_);
-}
-
 void oam_agent_rcfd_du_base::read_drx(XCONFD_YANGTREE_T* yt)
 {
     if (!yt) return;
     drx_ = std::make_shared<Drx>();
 
     read_grp_drx(yt, *drx_);
+}
+
+void oam_agent_rcfd_du_base::read_log(XCONFD_YANGTREE_T* yt)
+{
+    read_grp_log(yt, log_);
 }
 
 void oam_agent_rcfd_du_base::read_grp_drx(XCONFD_YANGTREE_T* yt, Drx& drx)
@@ -79,77 +79,6 @@ void oam_agent_rcfd_du_base::read_grp_drx(XCONFD_YANGTREE_T* yt, Drx& drx)
     xconfd_get(drx.long_cycle, uint32, "long-cycle", yt);
     xconfd_get(drx.short_cycle, uint32, "short-cycle", yt);
     xconfd_get(drx.short_cycle_tmr, uint32, "short-cycle-tmr", yt);
-}
-
-void oam_agent_rcfd_du_base::read_grp_ns_cell(XCONFD_YANGTREE_T* yt, NsCell& ns_cell)
-{
-    xconfd_get(ns_cell.cell_id, uint8, "cell-id", yt);
-    xconfd_get_empty_value(ns_cell.en_res_shared, "en-res-shared", yt);
-    xconfd_get(ns_cell.res_id, uint8, "res-id", yt);
-    xconfd_get(ns_cell.dl_num_ue_per_tti, uint8, "dl-num-ue-per-tti", yt);
-    xconfd_get(ns_cell.ul_num_ue_per_tti, uint8, "ul-num-ue-per-tti", yt);
-    xconfd_get(ns_cell.dl_prb, uint16, "dl-prb", yt);
-    xconfd_get(ns_cell.ul_prb, uint16, "ul-prb", yt);
-    xconfd_get(ns_cell.dl_sla_trgt_rate, uint64, "dl-sla-trgt-rate", yt);
-    xconfd_get(ns_cell.ul_sla_trgt_rate, uint64, "ul-sla-trgt-rate", yt);
-}
-
-void oam_agent_rcfd_du_base::read_grp_ip_addr(XCONFD_YANGTREE_T* yt, IpAddr& ip_addr)
-{
-    xconfd_get(ip_addr.ip_version, enum, "ip-version", yt);
-    xconfd_get_optional(ip_addr.ipv4_addr, Ipv4Address, ipv4, "ipv4-addr", yt);
-    xconfd_get_optional(ip_addr.ipv6_addr, Ipv6Address, ipv6-address, "ipv6-addr", yt);
-}
-
-void oam_agent_rcfd_du_base::read_grp_ns(XCONFD_YANGTREE_T* yt, Ns& ns)
-{
-    xconfd_get(ns.agent_type, enum, "agent-type", yt);
-    auto local_sm_yt = xconfd_yang_tree_get_node(yt, "local-sm");
-    read_grp_ns__local_sm(local_sm_yt, ns.local_sm);
-    auto remote_sm_yt = xconfd_yang_tree_get_node(yt, "remote-sm");
-    read_grp_ns__remote_sm(remote_sm_yt, ns.remote_sm);
-    auto nsis_yt = xconfd_yang_tree_get_node(yt, "nsis");
-    read_grp_ns__nsis(nsis_yt, ns.nsis);
-}
-
-void oam_agent_rcfd_du_base::read_grp_ns__local_sm(XCONFD_YANGTREE_T* yt, std::shared_ptr<IpAddr>& local_sm)
-{
-    xconfd_get(local_sm->port, uint32, "port", yt);
-    read_grp_ip_addr(yt, local_sm.ip_addr);
-}
-
-void oam_agent_rcfd_du_base::read_grp_ns__remote_sm(XCONFD_YANGTREE_T* yt, std::shared_ptr<IpAddr>& remote_sm)
-{
-    xconfd_get(remote_sm->port, uint32, "port", yt);
-    read_grp_ip_addr(yt, remote_sm.ip_addr);
-}
-
-void oam_agent_rcfd_du_base::read_grp_ns__nsis(XCONFD_YANGTREE_T* yt, std::vector<std::shared_ptr<Nsi>>& nsis)
-{
-    XCONFD_YANG_TREE_LIST_FOREACH(yt, nsi_yt)
-    {
-        auto nsi = std::make_shared<Nsi>();
-        read_grp_nsi(nsi_yt, *nsi);
-        nsis.push_back(nsi);
-    }
-}
-
-void oam_agent_rcfd_du_base::read_grp_nsi(XCONFD_YANGTREE_T* yt, Nsi& nsi)
-{
-    xconfd_get(nsi.nsi_id, uint8, "nsi-id", yt);
-    xconfd_yang_tree_get_leaf_list(nsi.cores, uint16, "cores", yt);
-    auto cells_yt = xconfd_yang_tree_get_node(yt, "cells");
-    read_grp_nsi__cells(cells_yt, nsi.cells);
-}
-
-void oam_agent_rcfd_du_base::read_grp_nsi__cells(XCONFD_YANGTREE_T* yt, std::vector<std::shared_ptr<NsCell>>& cells)
-{
-    XCONFD_YANG_TREE_LIST_FOREACH(yt, ns_cell_yt)
-    {
-        auto ns_cell = std::make_shared<NsCell>();
-        read_grp_ns_cell(ns_cell_yt, *ns_cell);
-        cells.push_back(ns_cell);
-    }
 }
 
 void oam_agent_rcfd_du_base::read_grp_sctp(XCONFD_YANGTREE_T* yt, Sctp& sctp)
@@ -181,6 +110,27 @@ void oam_agent_rcfd_du_base::read_grp_sctp__cfg_params(XCONFD_YANGTREE_T* yt, Cf
     xconfd_get(cfg_params.max_init_attempts, uint16, "max-init-attempts", yt);
     xconfd_get(cfg_params.hb_interval, uint16, "hb-interval", yt);
     xconfd_get(cfg_params.max_path_retx, uint16, "max-path-retx", yt);
+}
+
+void oam_agent_rcfd_du_base::read_grp_log(XCONFD_YANGTREE_T* yt, Log& log)
+{
+    xconfd_get(log.file_name, string, "file-name", yt);
+    auto du_modules_yt = xconfd_yang_tree_get_node(yt, "du-modules");
+    read_grp_log__du_modules(du_modules_yt, log.du_modules);
+    auto ngp_modules_yt = xconfd_yang_tree_get_node(yt, "ngp-modules");
+    read_grp_log__ngp_modules(ngp_modules_yt, log.ngp_modules);
+}
+
+void oam_agent_rcfd_du_base::read_grp_log__du_modules(XCONFD_YANGTREE_T* yt, std::vector<std::shared_ptr<DuModules>>& du_modules)
+{
+    xconfd_get(du_modules.module_id, enum, "module-id", yt);
+    xconfd_get(du_modules.log_lvl, enum, "log-lvl", yt);
+}
+
+void oam_agent_rcfd_du_base::read_grp_log__ngp_modules(XCONFD_YANGTREE_T* yt, std::vector<std::shared_ptr<NgpModules>>& ngp_modules)
+{
+    xconfd_get(ngp_modules.module_id, enum, "module-id", yt);
+    xconfd_get(ngp_modules.log_lvl, enum, "log-lvl", yt);
 }
 
 

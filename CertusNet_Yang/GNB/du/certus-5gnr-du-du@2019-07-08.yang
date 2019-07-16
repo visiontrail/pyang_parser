@@ -2,10 +2,10 @@ module certus-5gnr-du-du {
     namespace "http://certusnet.com/5gnr/du/certus-5gnr-du";
     prefix du;
     
-    include certus-5gnr-du-base {
+    include certus-5gnr-du-du-base {
         revision-date 2019-07-08;
     }
-    include certus-5gnr-du-log {
+    include certus-5gnr-du-du-ns {
         revision-date 2019-07-08;
     }
     
@@ -16,6 +16,6 @@ module certus-5gnr-du-du {
 
     container du {
         container base { uses du-base; }
-        container log { uses du-log; }
+        container ns { uses ns; }
     }
 }
