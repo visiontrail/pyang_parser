@@ -26,6 +26,20 @@ class MoXMLPlugin(plugin.PyangPlugin):
         self.multiple_modules = True
         fmts['moxml'] = self
 
+    def add_opts(self, optparser):
+        optlist = [
+            optparse.make_option("--moXML-help",
+                                 dest="moXML_help",
+                                 action="store_true",
+                                 help="Print help on moXML symbols and exit \n \
+                                       eg. pyang.py -f moxml --moXML-version=1.23 certus-5gnr.yang -o certus-5gnr.xml"),
+            optparse.make_option("--moXML-version",
+                                 dest="moXML_version",
+                                 help="output XML version information"),
+            ]
+        g = optparser.add_option_group("moXML output specific options")
+        g.add_options(optlist)
+
     def setup_fmt(self, ctx):
         ctx.implicit_errors = False
 
@@ -51,18 +65,21 @@ xmlheader = '<module name="flexoran-oam-modules" \n\
   </organization>\n\
   <description>\n\
     <text>This module defines modules configuration.</text>\n\
-  </description> \n'
+  </description>\n\
+  <version>\n\
+  <text>{}</text>\n\
+  </version>\n'
 
 # modules：输入文件的所有包含的module
 def emit_tree(ctx, modules, fd, depth, llen, path):
     print('emit_tree: ')
     get_typedef_value(ctx)
-    
+
     printed_header = False
     for module in modules:
 
         def print_header():
-            fd.write(xmlheader)
+            fd.write(xmlheader.format(ctx.opts.moXML_version))
             printed_header = True
 
         chs = [ch for ch in module.i_children
@@ -329,6 +346,10 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
     item = sfmt.format("modulename", s.i_orig_module.i_modulename)
     content += item
 
+    para_path = "%s/%s"% (s.prenode, name)
+    item = sfmt.format("para_path", para_path)
+    content += item
+
     if s.keyword == 'leaf-list' or s.keyword == 'leaf':
         range_str = ''
         data_type = get_typename(s, prefix_with_modname)
@@ -371,47 +392,37 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
             item = sfmt.format("dft_val", "")
         content += item
 
-        para_path = "%s/%s"% (s.prenode, name)
-        item = sfmt.format("para_path", para_path)
+        item = sfmt.format("operation", "MOD")
+        content += item
+
+    elif s.keyword == 'container':
+        item = sfmt.format("key_list", "")
         content += item
 
         item = sfmt.format("operation", "MOD")
         content += item
-    elif s.keyword == 'container':
-        para_path = "%s/%s"% (s.prenode, name)
-        item = sfmt.format("MO_PATH", para_path)
-        content += item
 
-        item = sfmt.format("MO_KEY_LIST", "")
-        content += item
-
-        item = sfmt.format("MO_OPERATION", "MOD")
-        content += item
     elif s.keyword == 'list':
-        para_path = "%s/%s"% (s.prenode, name)
-        item = sfmt.format("MO_PATH", para_path)
-        content += item
-
         inst_num =''
         num = s.search_one('min-elements')
         if num is not None:
-            inst_num = num.arg + '...'
+            inst_num = num.arg
         num = s.search_one('max-elements')
         if num is not None:
             if inst_num == '':
                 inst_num += num.arg
             else:
-                inst_num +=  '...' + num.arg
-        item = sfmt.format("MO_INST_NUM", inst_num)
+                inst_num +=  '..' + num.arg
+        item = sfmt.format("element_num", inst_num)
         content += item
 
         keystr = ''
         if s.search_one('key') is not None:
             keystr = re.sub('\s+', ' ', s.search_one('key').arg)
-        item = sfmt.format("MO_KEY_LIST", keystr)
+        item = sfmt.format("key_list", keystr)
         content += item
 
-        item = sfmt.format("MO_OPERATION", "ADD RMV MOD")
+        item = sfmt.format("operation", "ADD RMV MOD")
         content += item
 
     line += content
