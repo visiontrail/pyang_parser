@@ -31,7 +31,7 @@ class MoXMLPlugin(plugin.PyangPlugin):
             optparse.make_option("--moXML-help",
                                  dest="moXML_help",
                                  action="store_true",
-                                 help="Print help on moXML symbols and exit \n \
+                                 help="Print help on moXML symbols and exit \n\
                                        eg. pyang.py -f moxml --moXML-version=1.23 certus-5gnr.yang -o certus-5gnr.xml"),
             optparse.make_option("--moXML-version",
                                  dest="moXML_version",
@@ -55,8 +55,8 @@ class MoXMLPlugin(plugin.PyangPlugin):
 
 
 all_typedef = {}  # 所有文件中的typedef {def_name, (original_type, range_str)}
-xmlheader = '<module name="flexoran-oam-modules" \n\
-  xmlns="urn:ietf:params:xml:ns:yang:yin:1" \n\
+xmlheader = '<module name="flexoran-oam-modules"\n\
+  xmlns="urn:ietf:params:xml:ns:yang:yin:1"\n\
   xmlns:modules="http://certusnet.com.cn/flexoran/oam/flexoran-oam-modules">\n\
   <namespace uri="http://certusnet.com.cn/flexoran/oam/flexoran-oam-modules"/>\n\
   <prefix value="modules"/>\n\
@@ -79,6 +79,11 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
     for module in modules:
 
         def print_header():
+            if ctx.opts.moXML_version is None:
+                t = module.search_one('yang-version')
+                if t is not None:
+                    ctx.opts.moXML_version = t.arg
+
             fd.write(xmlheader.format(ctx.opts.moXML_version))
             printed_header = True
 
@@ -313,6 +318,9 @@ def print_children(i_children, module, fd, prefix, path, mode, depth,
 
 def print_node(s, module, fd, prefix, path, mode, depth, llen,
                no_expand_uses, width, prefix_with_modname=False):
+
+    brcol = len(prefix.split('/')) - 2
+    brcol *= 4
 
     if s.i_module.i_modulename == module.i_modulename:
         name = s.arg
