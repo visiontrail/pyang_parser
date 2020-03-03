@@ -67,6 +67,21 @@
                 "-o",
                 "~/Desktop/WorkSpace/113.c"
             ],
+        },
+        {
+            "name": "moxml debug",
+            "type": "python",
+            "request": "launch",
+            "program": "/home/guoliang/Desktop/WorkSpace/CertusNet/oam_tools/confd_tools/pyang.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-f",
+                "moxml",
+                "--moXML-version=1.0",
+                "/home/guoliang/Desktop/WorkSpace/CertusNet/oam_tools/confd_tools/oran_yang/CommonModels/Interfaces/o-ran-mplane-int.yang",
+                "-o",
+                "/home/guoliang/Desktop/WorkSpace/CertusNet/oam_tools/confd_tools/oran_yang/All_Template/o-ran-mplane-int.xml"
+            ],
         }
     ]
 }

@@ -1,0 +1,59 @@
+module o-ran-test {
+  yang-version 1.1;
+  namespace "urn:o-ran:test:1.0";
+  prefix "o-ran-test";
+
+  import ietf-yang-types {
+    prefix yang;
+  }
+  // add by CertusNet for adapt ConfD start
+  import tailf-common {
+    prefix tailf;
+  }
+  // add by CertusNet for adapt ConfD end
+
+  organization "O-RAN Alliance";
+
+  contact
+    "www.o-ran.org";
+
+  description
+    "This module defines the configuration data and supervision RPCs that are
+    used by the NETCONF client and NETCONF server to detect loss of NETCONF
+    connectivity.";
+
+  revision "2019-02-04" {
+    description
+      "version 1.0.0
+
+      1) imported model from xRAN
+      2) changed namespace and reference from xran to o-ran";
+
+    reference "ORAN-WG4.M.0-v01.00";
+  }
+
+  rpc send-alarm-test {
+    // add by CertusNet for adapt ConfD
+    tailf:actionpoint "send-alarm-test";
+    description
+      "rpc to reset the alarm";
+
+    input {
+      leaf alarm_no {
+        type uint16;
+      }
+      leaf cleared {
+        type boolean;
+      }
+      leaf alarm_text {
+        type string;
+      }
+    }
+
+    output {
+      leaf result {
+        type boolean;
+      }
+    }
+  }
+}

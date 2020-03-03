@@ -14,6 +14,7 @@ import sys
 from pyang import plugin
 from pyang import statements
 
+
 def pyang_plugin_init():
     plugin.register_plugin(MoXMLPlugin())
 
@@ -36,7 +37,7 @@ class MoXMLPlugin(plugin.PyangPlugin):
             optparse.make_option("--moXML-version",
                                  dest="moXML_version",
                                  help="output XML version information"),
-            ]
+        ]
         g = optparser.add_option_group("moXML output specific options")
         g.add_options(optlist)
 
@@ -67,10 +68,12 @@ xmlheader = '<module name="flexoran-oam-modules"\n\
     <text>This module defines modules configuration.</text>\n\
   </description>\n\
   <version>\n\
-  <text>{}</text>\n\
+    <text>{}</text>\n\
   </version>\n'
 
 # modules：输入文件的所有包含的module
+
+
 def emit_tree(ctx, modules, fd, depth, llen, path):
     print('emit_tree: ')
     get_typedef_value(ctx)
@@ -354,14 +357,14 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
     item = sfmt.format("modulename", s.i_orig_module.i_modulename)
     content += item
 
-    para_path = "%s/%s"% (s.prenode, name)
+    para_path = "%s/%s" % (s.prenode, name)
     item = sfmt.format("para_path", para_path)
     content += item
 
     if s.keyword == 'leaf-list' or s.keyword == 'leaf':
         range_str = ''
         data_type = get_typename(s, prefix_with_modname)
-        if data_type.find(':') != -1: #typedef
+        if data_type.find(':') != -1:  # typedef
             data_type = data_type.split(':')[-1]
         if data_type in all_typedef:
             data_type, range_str = all_typedef[data_type]
@@ -370,7 +373,7 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
 
         des = s.search_one('description')
         if des is not None:
-            item = sfmt.format("para_en_desc", des.arg)
+            item = sfmt.format("para_en_desc", des.arg.replace('\n', ' '))
         else:
             item = sfmt.format("para_en_desc", "")
         content += item
@@ -403,6 +406,10 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
         item = sfmt.format("operation", "MOD")
         content += item
 
+        child_count = 0
+        item = sfmt.format("listchildcount", child_count)
+        content += item
+
     elif s.keyword == 'container':
         item = sfmt.format("key_list", "")
         content += item
@@ -410,8 +417,12 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
         item = sfmt.format("operation", "MOD")
         content += item
 
+        child_count = 0
+        item = sfmt.format("listchildcount", child_count)
+        content += item
+
     elif s.keyword == 'list':
-        inst_num =''
+        inst_num = ''
         num = s.search_one('min-elements')
         if num is not None:
             inst_num = num.arg
@@ -420,7 +431,7 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
             if inst_num == '':
                 inst_num += num.arg
             else:
-                inst_num +=  '..' + num.arg
+                inst_num += '..' + num.arg
         item = sfmt.format("element_num", inst_num)
         content += item
 
@@ -431,6 +442,14 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
         content += item
 
         item = sfmt.format("operation", "ADD RMV MOD")
+        content += item
+
+        child_count = 0
+        for child in s.i_children:
+            if child.i_config == True:
+                child_count = child_count + 1
+
+        item = sfmt.format("listchildcount", child_count)
         content += item
 
     line += content
@@ -468,6 +487,7 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
             print_children(chs, module, fd, prefix, path, mode, depth, llen,
                            no_expand_uses,
                            prefix_with_modname=prefix_with_modname)
+
 
 def get_status_str(s):
     status = s.search_one('status')
@@ -582,6 +602,7 @@ def get_typename(s, prefix_with_modname=False):
         return '<anyxml>'
     else:
         return ''
+
 
 def get_typedef_value(ctx):
     for typedefmd in ctx.modules:

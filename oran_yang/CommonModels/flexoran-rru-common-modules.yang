@@ -1,0 +1,7 @@
+module flexoran-rru-common-modules {
+    namespace "http://certusnet.com.cn/flexoran/rru/flexoran-rru-common-modules";
+    prefix modules;
+    
+    organization "CertusNet";
+    description "This module use for omc or du get schema ";
+}

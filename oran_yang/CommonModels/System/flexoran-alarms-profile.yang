@@ -1,0 +1,197 @@
+module flexoran-alarms-profile {
+  yang-version 1.1;
+  namespace "http://certusnet.com/5gnr/certus-5gnr-alarms";
+  prefix alarms;
+
+  import ietf-yang-types {
+    prefix yang;
+    reference
+      "RFC 6991: Common YANG Data Types.";
+  }
+  import tailf-common { prefix tailf; }
+
+  organization "CertusNet 5G NR";
+  contact 
+    "
+      Editor: Guoliang
+              <mailto:guol@certusnet.com.cn>
+    ";
+
+  description
+    "certusnet flexoran self define local alarm list";
+
+  typedef severity {
+    type enumeration {
+      enum critical {
+        value 1;
+        description
+          "The 'major' severity level indicates that a service
+           terminated.  This level SHOULD be avoided.";
+      }
+      enum major {
+        value 2;
+        description
+          "The 'major' severity level indicates that a service
+           affecting condition has developed and an urgent corrective
+           action is required.  Such a severity can be reported, for
+           example, when there is a severe degradation in the
+           capability of the resource and its full capability must be
+           restored.";
+          
+      }
+      enum minor {
+        value 3;
+        description
+          "The 'minor' severity level indicates the existence of a
+           non-service affecting fault condition and that corrective
+           action should be taken in order to prevent a more serious
+           (for example, service affecting) fault.  Such a severity
+           can be reported, for example, when the detected alarm
+           condition is not currently degrading the capacity of the
+           resource.";
+      }
+      enum warning {
+        value 4;
+        description
+           "The 'warning' severity level indicates the detection of a
+           potential or impending service affecting fault, before any
+           significant effects have been felt.  Action should be
+           taken to further diagnose (if necessary) and correct the
+           problem in order to prevent it from becoming a more
+           serious service affecting fault.";
+      }
+    }
+    description
+      "The severity level of the alarm.  Note well that value 'clear'
+       is not included.  If an alarm is cleared or not is a separate
+       boolean flag.";
+  }
+
+  /* 告警类型 */
+  typedef alarm-type-id {
+    type enumeration {
+      enum communication;
+      enum service-quality;
+      enum handling-error;
+      enum device;
+      enum environment;
+    }
+  }
+
+  /*告警分类扩展*/
+  typedef alarm-source-entity {
+    type enumeration {
+      enum cu;
+      enum du;
+      enum board;
+      enum gNB;
+      enum rru;
+      enum processor;
+      enum clock;
+    }
+    
+    description
+      "The definition of alarm qualifiers is considered being part of
+       the instrumentation and out of scope for this module.  An
+       empty string is used when this is part of a key.";
+  }
+
+  container alarms {
+    description
+      "The top container for this module.";
+
+    // 本地告警表
+    list alarm-profile {
+      key alarm-no;
+      description
+        "This list is used to assign further information or
+         configuration for each alarm type.";
+
+      // 告警编号
+      leaf alarm-no {
+        type uint16;
+      }
+
+      // 告警描述
+      leaf alarm-description {
+        type string;
+      }
+
+      // 告警附加原因描述
+      list alarm-attach-cause {
+        key cause-no;
+
+        leaf cause-no {
+          type uint32;
+        }
+
+        leaf attach-cause-description {
+          type string;
+        }
+      }
+
+      // 告警类型
+      leaf alarm-type {
+        type alarm-type-id;
+        description
+            "Alarm type for all module in device.";
+      }
+
+      // 告警级别
+      leaf alarm-severity {
+        type severity;
+        description
+            "Alarm summary for this severity level.";
+      }
+
+      // 告警源
+      leaf alarm-source {
+        type alarm-source-entity;
+        description "alarm source";
+      }
+
+      // 告警影响的设备
+      leaf alarm-influence-equipment {
+        type string;
+        description
+            "alarm influence equipment";
+      }
+
+      // 告警影响的业务
+      leaf alarm-influence-progress {
+        type string;
+        description
+            "alarm influence progress";
+      }
+
+      // 告警定位措施
+      leaf alarm-treatment {
+        type string;
+      }
+
+      // 告警产生去抖周期
+      leaf avoid-repeated-reporting-generate-time {
+        type uint16;
+        units "second";
+      }
+
+      // 告警清除去抖周期
+      leaf avoid-repeated-reporting-cleared-time {
+        type uint16;
+        units "second";
+      }
+
+      // 告警频次去抖间隔（单位：min）
+      leaf avoid-frequency-alarm-interval {
+        type uint16;
+        units "minute";
+      }
+
+      // 告警频次去抖次数
+      leaf avoid-frequency-alarm-times {
+        type uint16;
+      }
+
+    }
+  }
+}
