@@ -11,6 +11,4 @@ python pyang.py -f moxml --moXML-version=1.0 \
                 -o oran_yang/All_Template/o-ran-operations.xml
 
 
-
-
 cp oran_yang/All_Template/*.xml ../../modules/rru_manager/data_schema
