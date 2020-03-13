@@ -410,6 +410,10 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
         item = sfmt.format("listchildcount", child_count)
         content += item
 
+        son_list = ""
+        item = sfmt.format("son_list", son_list)
+        content += item
+
     elif s.keyword == 'container':
         item = sfmt.format("key_list", "")
         content += item
@@ -419,6 +423,10 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
 
         child_count = 0
         item = sfmt.format("listchildcount", child_count)
+        content += item
+
+        son_list = ""
+        item = sfmt.format("son_list", son_list)
         content += item
 
     elif s.keyword == 'list':
@@ -445,11 +453,17 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
         content += item
 
         child_count = 0
+        son_list = ""
         for child in s.i_children:
             if child.i_config == True:
                 child_count = child_count + 1
+                son_list = son_list + child.arg + ","
+        son_list = son_list[0:-1]
 
         item = sfmt.format("listchildcount", child_count)
+        content += item
+
+        item = sfmt.format("son_list", son_list)
         content += item
 
     line += content
