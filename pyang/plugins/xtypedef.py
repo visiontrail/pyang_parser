@@ -83,9 +83,9 @@ def print_typedef_header(fdtd, typedef):
                 tdline = "typedef enum enum" + get_struct_name(typedef.arg) + "\n{\n"
                 for enum in ch.substmts:
                     if enum == ch.substmts[-1]:
-                        tdline += "    " + enum.arg.replace('-','_').upper() + "\n}"
+                        tdline += "    " + enum.arg.replace('-','_').upper() + " = " + str(enum.i_value) + "\n}"
                     else:
-                        tdline += "    " + enum.arg.replace('-','_').upper() + ",\n"
+                        tdline += "    " + enum.arg.replace('-','_').upper() + " = " + str(enum.i_value) + ",\n"
                 tdline += " " + get_struct_name(typedef.arg) + ";\n\n"
                 fdtd.write(tdline)
             
@@ -99,7 +99,7 @@ def print_typedef_header(fdtd, typedef):
 
 
 def print_typedef_header_grouping(fdtd, fd, group, prefix_with_modname):
-    fdtdcpp = open((get_output_filepath(fd) + "/gnb_du_oam_agent_rcfd_common_ref.txt" ), "a+")
+    # fdtdcpp = open((get_output_filepath(fd) + "/gnb_du_oam_agent_rcfd_common_ref.txt" ), "a+")
     line = "typedef struct struct" + get_struct_name(group.arg) + "\n{\n"
     fdtd.write(line)
     for child in group.substmts:
@@ -199,8 +199,12 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
         if md.arg == "certus-5gnr-du-cell-types":
             fdtd = open((get_output_filepath_inc(fd) + "/gnb_du_oam_agent_rcfd_cell_types.h" ), "w")
             fdline = "/*" + firstline + " \n" + " * Filename: gnb_du_oam_agent_rcfd_cell_types.h \n"
+            fdline += " *\n"
             fdline += " * Description: This header file contains implementation of OAM Agent RConfD.\n"
+            fdline += " *\n"
             fdline += " * Generation time: " + nowTime + "\n"
+            fdline += " *\n"
+            fdline += " * YANG file latest revision: " + md.i_latest_revision + "\n"
             fdline += "*" + firstline +"/ \n\n"
             fdline += "#ifndef __GNB_DU_OAM_AGENT_RCFD_CELL_TYPES_H__\n"
             fdline += "#define __GNB_DU_OAM_AGENT_RCFD_CELL_TYPES_H__\n\n"
@@ -239,8 +243,12 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
         elif md.arg == "certus-5gnr-du-du-types":
             fdtd = open((get_output_filepath_inc(fd) + "/gnb_du_oam_agent_rcfd_du_types.h" ), "w")
             fdline = "/*" + firstline + " \n" + " * Filename: gnb_du_oam_agent_rcfd_du_types.h \n"
+            fdline += " *\n"
             fdline += " * Description: This header file contains implementation of OAM Agent RConfD.\n"
+            fdline += " *\n"
             fdline += " * Generation time: " + nowTime + "\n"
+            fdline += " *\n"
+            fdline += " * YANG file latest revision: " + md.i_latest_revision + "\n"
             fdline += "*" + firstline +"/ \n\n"
             fdline += "#ifndef __GNB_DU_OAM_AGENT_RCFD_DU_TYPES_H__\n"
             fdline += "#define __GNB_DU_OAM_AGENT_RCFD_DU_TYPES_H__\n\n"
@@ -280,9 +288,13 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
     for module in modules:
         mod_name = module.arg.replace(
             'certus-5gnr-du-', 'gnb_du_oam_agent_').replace('-', '_')
-        headerline = "/*" + firstline + "\n" + " * filename: " + mod_name + ".h \n"
+        headerline = "/*" + firstline + "\n" + " * Filename: " + mod_name + ".h \n"
+        headerline += " *\n"
         headerline += " * Description: This header file contains implementation of OAM Agent RConfD.\n"
+        headerline += " *\n"
         headerline += " * Generation time: " + nowTime + "\n"
+        headerline += " *\n"
+        headerline += " * YANG file latest revision: " + module.i_latest_revision + "\n"
         headerline += "*" + firstline + "/ \n\n"
         headerline += "#ifndef " + "__" + mod_name.upper() + "__\n"
         headerline += "#define " + "__" + mod_name.upper() + "__\n\n"
@@ -374,6 +386,11 @@ def emit_tree(ctx, modules, fd, depth, llen, path):
         classline = "\npublic:\n"
         classline += "    " + classname + "(XCONFD_YANGTREE_T* yt);\n"
         classline += "    virtual ~" + classname + "() {}\n};\n\n"
+
+        # 加入typedef
+        classline += "typedef std::shared_ptr<oam_agent_rcfd_" + mod_name.replace('gnb_du_oam_agent_', '') + \
+                     "> rcfd_" + mod_name.replace('gnb_du_oam_agent_', '') + "_ptr;\n\n"
+
         classline += "} //" + "end of namespace rcfd\n"
         classline += "} //" + "end of namespace gnb_du\n"
         classline += "#endif /* __" + mod_name.upper() + "__ */"
@@ -386,8 +403,12 @@ def print_cppfile_header(modules, fdcpp):
         mod_name = module.arg.replace(
             'certus-5gnr-du-', 'gnb_du_oam_agent_rcfd_').replace('-', '_')
         headerline = "/*" + firstline + "\n" + " * Filename: " + mod_name + ".cpp \n"
+        headerline += " *\n"
         headerline += " * Description: This file implementation of OAM Agent RConfD.\n"
+        headerline += " *\n"
         headerline += " * Generation time: " + nowTime + "\n"
+        headerline += " *\n"
+        headerline += " * YANG file latest revision: " + module.i_latest_revision + "\n"
         headerline += "*" + firstline + "/ \n\n"
 
         headerline += "#include \"" + mod_name + ".h\" \n\n"
@@ -636,7 +657,7 @@ def print_mem(i_children, module, fd, fdcpp, prefix, path, mode, depth,
             fdcpp.write(cppline)
 
         elif ((child.keyword == "list")):
-            line = "    std::vector<std::shared_ptr<" + get_struct_name(child.arg)[0:-1] + ">> " + \
+            line = "    std::vector<std::shared_ptr<" + get_struct_name(judge_if_uses(child)) + ">> " + \
                 child.arg.replace('-', '_') + "_;"
             cppline = "    auto " + child.arg.replace('-', '_') + "_yt = xconfd_yang_tree_get_node(yt, \"" + child.arg + "\");\n"
             cppline += "    read_" + child.arg.replace('-', '_') + "(" + child.arg.replace('-', '_') + "_yt);\n"
@@ -783,7 +804,7 @@ def print_structure_func_realize(fdcpp, s, module, line, level):
                     ytname + ", " + (s.arg.replace('-', '_')) + "_->" + cppch.arg.replace('-','_') + ");\n"
                 fdcpp.write(cppline)
             else:
-                print("222" + str(cppch))
+                print("! error into" + str(cppch))
     
     fdcpp.write("}\n\n")
 
@@ -839,7 +860,7 @@ def print_read_func_realize(fdcpp, s, module, line, level):
         elif s.keyword == "list":
             cppline = "    XCONFD_YANG_TREE_LIST_FOREACH(yt, " + judge_if_uses(s).replace('-','_') + "_yt)\n    {\n"
             cppline += "        auto " + judge_if_uses(s).replace('-','_') + " = std::make_shared<" + get_struct_name(judge_if_uses(s)) + ">();\n"
-            cppline += "        read_grp_" + judge_if_uses(s).replace('-','_') + "(" + s.arg.replace('-','_')[0:-1] + "_yt, *" + judge_if_uses(s).replace('-','_') + ");\n"
+            cppline += "        read_grp_" + judge_if_uses(s).replace('-','_') + "(" + judge_if_uses(s).replace('-','_') + "_yt, *" + judge_if_uses(s).replace('-','_') + ");\n"
             if level == 0:
                 cppline += "        " + s.arg.replace('-','_') + "_.push_back(" + judge_if_uses(s).replace('-','_') + ");\n    }\n"
             else:
@@ -875,7 +896,7 @@ def print_read_func_realize(fdcpp, s, module, line, level):
         elif s.keyword == "list":
             cppline = "    XCONFD_YANG_TREE_LIST_FOREACH(yt, " + judge_if_uses(s).replace('-','_') + "_yt)\n    {\n"
             cppline += "        auto " +  s.arg.replace('-','_')[0:-1] + " = std::make_shared<" + get_struct_name(s.arg)[0:-1] + ">();\n"
-            cppline += "        read_grp_" + judge_if_uses(s).replace('-','_') + "(" + s.arg.replace('-','_')[0:-1] + "_yt, "+ s.arg.replace('-','_')[0:-1] +"->"+ judge_if_uses(s).replace('-','_') + ");\n"
+            cppline += "        read_grp_" + judge_if_uses(s).replace('-','_') + "(" + judge_if_uses(s).replace('-','_') + "_yt, "+ s.arg.replace('-','_')[0:-1] +"->"+ judge_if_uses(s).replace('-','_') + ");\n"
             fdcpp.write(cppline)
 
             for prtch in s.substmts:
@@ -981,7 +1002,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level, isshareprt, func_
                 cppline = "    xconfd_yang_tree_get_leaf_list(" + s.arg.replace('-','_') + "->" + cppch.arg.replace('-','_') + \
                         ", " + refine_type_name_cpp(get_typename(cppch)) + ", " + "\"" + cppch.arg + "\"" + ", yt);\n"
                 fdcpp.write(cppline)
-            elif cppch.keyword == "container" and judge_if_uses_state(s) == 4:
+            elif cppch.keyword == "container" and (judge_if_uses_state(cppch) == 4 or judge_if_uses_state(cppch) == 1 ):
                 ytname = cppch.arg.replace('-','_') + "_yt"
                 cppline = "    auto " + ytname + " = " + "xconfd_yang_tree_get_node" + "(yt, \"" + \
                     cppch.arg + "\");\n"
@@ -989,11 +1010,12 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level, isshareprt, func_
                     ytname + ", " + (s.arg.replace('-', '_')) + "." + cppch.arg.replace('-','_') + ");\n"
                 fdcpp.write(cppline)
             elif cppch.keyword == "list" and judge_if_uses_state(cppch) == 1:
-                cppline = "    read_grp_" + s.arg.replace('-','_') + "__" + cppch.arg.replace('-','_') + \
-                    "(yt, " + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + ");\n"
+                cppline = "    auto " + cppch.arg.replace('-', '_') + "_yt" + "= xconfd_yang_tree_get_node(yt, \"" + cppch.arg + "\");\n"
+                cppline += "    read_grp_" + s.arg.replace('-','_') + "__" + cppch.arg.replace('-','_') + \
+                    "(" + cppch.arg.replace('-', '_') + "_yt" + ", " + s.arg.replace('-','_') + "." + cppch.arg.replace('-','_') + ");\n"
                 fdcpp.write(cppline)
             else:
-                print("err_ptr_groupfunc:" + str(cppch))
+                print("err_ptr_groupfunc1:" + str(cppch) + " and father name is " + s.arg)
         
         # 提取这个grouping下所有使用的uses节点
         child_uses = [ch for ch in s.substmts if ch.keyword == "uses"]
@@ -1037,7 +1059,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level, isshareprt, func_
                     fdcpp.write(cppline)
 
                 else:
-                    print("err_ptr_groupfunc:" + str(cppch))
+                    print("err_ptr_groupfunc2:" + str(cppch))
             
             cppline =  "        " + func_parameter + ".push_back(" + judge_if_uses(s).replace('-','_')[0:-1] + ");\n"
             cppline += "    }\n"
@@ -1080,7 +1102,7 @@ def print_read_grp_func_realize(fdcpp, s, module, line, level, isshareprt, func_
                         ytname + ", " + (s.arg.replace('-', '_')) + "." + cppch.arg.replace('-','_') + ");\n"
                     fdcpp.write(cppline)
                 else:
-                    print("err_ptr_groupfunc:" + str(cppch))
+                    print("err_ptr_groupfunc3:" + str(cppch))
 
     
     fdcpp.write("}\n\n")
