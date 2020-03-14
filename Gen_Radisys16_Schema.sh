@@ -1,18 +1,16 @@
 python pyang.py -f moxml --moXML-version=1.0 \
-                   ../../yang/develop/yang/oam/flexoran-5gnr-modules.yang \
-                   -p ../../yang/develop/yang/oam/fap_mgr \
-                   -p ../../yang/develop/yang/oam/alarm_mgr \
-                   -p ../../yang/develop/yang/oam/gnb_mgr \
-                   -p ../../yang/develop/yang/oam/proc_mgr \
-                   -p ../../yang/develop/yang/oam/rru_mgr \
-                   -p ../../yang/develop/yang/oam/swm \
-                -o ../../yang/develop/schema/flexoran-omc-oam-getschema.yin
+                   ../develop/yang/du/cell/certus-5gnr-du-cells@2019-06-20.yang \
+                   -p ../develop/yang/ImportedModels \
+                   -p ../develop/yang/du/cell \
+                   -p ../develop/yang/du/du \
+                -o ../develop/schema_data/flexoran-omc-du-cell-getschema.yin
 
 python pyang.py -f moxml --moXML-version=1.0 \
-                   ../../yang/develop/yang/du/ngran-gNBDUFunction.yang \
-                   -p ../../yang/develop/yang/du \
-                   -p ../../yang/develop/yang/ImportedModels \
-                -o ../../yang/develop/schema/DuGetschema.yin
+                   ../develop/yang/du/du/certus-5gnr-du-du@2019-07-08.yang \
+                   -p ../develop/yang/ImportedModels \
+                   -p ../develop/yang/du/cell \
+                   -p ../develop/yang/du/du \
+                -o ../develop/schema_data/flexoran-omc-du-du-getschema.yin
 
 # python pyang.py -f moxml --moXML-version=1.0 \
 #                    oran_yang/ImportedModels/ietf-interfaces.yang \
