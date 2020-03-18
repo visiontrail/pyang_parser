@@ -381,7 +381,7 @@ def print_node(s, module, fd, prefix, path, mode, depth, llen,
         item = sfmt.format("para_ch_desc", "")
         content += item
 
-        item = sfmt.format("is_dynamic_para", "NO")
+        item = sfmt.format("is_dynamic_para", "YES")
         content += item
 
         unit_val = s.search_one('units')
@@ -640,12 +640,30 @@ def get_typedef_value(ctx):
     # for k, v in all_typedef.items():
         # print(k,v)
 
+def get_struct_name(struname):
+    ret = ""
+    
+    if struname.find(':') > 0:
+        struname = struname[(struname.find(':') + 1):]
+
+    temp = struname.split('-')
+    for each in temp:
+        ret += each.title()
+
+    return ret
+
+
 
 def get_typerange(s):
+    ret = ""
     t = s.search_one('type')
     if t is not None:
         p = t.search_one('range')
         if p is not None:
             return p.arg
+        elif t.arg == 'enumeration':
+            for enum in t.substmts:
+                ret = ret + enum.arg + ','
+        return ret[0:-1]
 
     return ''
