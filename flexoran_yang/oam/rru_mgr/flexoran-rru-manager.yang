@@ -1,0 +1,353 @@
+module flexoran-rru-manager {
+    yang-version 1.1;
+    namespace "http://certusnet.com.cn/flexoran/oam/flexoran-rru-mgr";
+    prefix rrumgr;
+
+    import ietf-interfaces { prefix "if"; }
+    import flexoran-rru-types { prefix "rrutype"; }
+    import tailf-common { prefix tailf; }
+    import ietf-inet-types { prefix inet; }
+
+    organization "CertusNet";
+    description "This module defines oam RRU manager.";
+
+    feature optional {
+        description "The auto-generated node is std::optional type.";
+    }
+
+    grouping o-ru-manager {
+
+        container o-ru-manager-parameter {
+            container callhome-cfg {
+                leaf callhome-interface {
+                    description "the name of the interface to start callhome process";
+                    type leafref {
+                        path "/if:interfaces/if:interface/if:name";
+                    }
+                }
+                leaf callhome-port { 
+                    description "the port to start wait o-ru callhome process";
+                    default 4334;
+                    type uint32; 
+                }
+            }
+        }
+        
+        
+        container o-ru-cell-plan {
+
+            list o-ru-plan {
+                key ru-index;
+
+                leaf ru-index {
+                    tailf:info "RRU设备规划索引";
+                    description "RRU Device plan index";
+                    type uint32;
+                }
+
+                leaf ru-vendor {
+                    tailf:info "RRU设备规划--设备生产厂家";
+                    description "RRU Device plan vendor";
+                    type string;
+                }
+
+                leaf ru-type {
+                    tailf:info "RRU设备规划--设备类型";
+                    description "RRU Device plan rru type";
+                    type rrutype:rru-type;
+                }
+
+                leaf ru-access-eu-no {
+                    tailf:info "RRU设备规划--RRU所接入的EU的编号";
+                    description "RRU Device plan rru access eu NO.";
+                    type uint32;
+                }
+
+                leaf ru-ofp1-access-port-no {
+                    tailf:info "RRU设备规划--RRU光口1接入到上联设备（EU或加速卡）的光口号";
+                    description "RRU Device plan rru port1 access eu port NO.";
+                    type uint8;
+                }
+
+                leaf ru-ofp2-access-port-no {
+                    tailf:info "RRU设备规划--RRU光口2接入到上联设备（EU或加速卡）的光口号";
+                    description "RRU Device plan rru port2 access eu port NO.";
+                    type uint8;
+                }
+
+                leaf ru-access-level {
+                    tailf:info "RRU设备规划--RRU所在级数";
+                    description "RRU Device plan rru access level";
+                    type uint8;
+                }
+
+                leaf ru-fiber-lenth {
+                    tailf:info "RRU设备规划--RRU光纤拉远距离";
+                    description "RRU Device plan rru access level";
+                    type uint32;
+                }
+
+                container ru-hand-manager {
+                    tailf:info "RRU设备规划--手动配置RRU";
+                    description "RRU Device plan config rru ip and access by hand";
+
+                    leaf ru-ipaddr {
+                        tailf:info "RRU设备规划--RRU的IP地址(ipv4)，既手动配置IP地址，不通过DHCP分配";
+                        description 
+                            "RRU Device Plan-The IP address of the RRU, 
+                            which is manually configured and not assigned via DHCP";
+                        type inet:ipv4-address;
+                    }
+
+                    leaf connect-by-hand {
+                        tailf:info "RRU设备规划--手动连接RRU";
+                        description "RRU Device plan rru access by hand";
+                        type empty;
+                    }
+                }
+                
+            }
+
+            list o-eu-plan {
+                key eu-index;
+
+                leaf eu-index {
+                    tailf:info "EU设备规划索引";
+                    description "EU Device plan index";
+                    type uint32;
+                }
+
+                leaf eu-vendor {
+                    tailf:info "EU设备规划--设备生产厂家";
+                    description "EU Device plan vendor";
+                    type string;
+                }
+
+                leaf eu-type {
+                    tailf:info "EU设备规划--设备类型";
+                    description "EU Device plan rru type";
+                    type rrutype:eu-type;
+                }
+
+                leaf eu-ofp1-access-port-no {
+                    tailf:info "EU设备规划--EU光口1接入到上联设备（加速卡）的光口号";
+                    description "RRU Device plan eu-port1 access du-card port NO.";
+                    type uint8;
+                }
+
+                leaf eu-ofp2-access-port-no {
+                    tailf:info "EU设备规划--EU光口2接入到上联设备（加速卡）的光口号";
+                    description "EU Device plan eu-port2 access du-card port NO.";
+                    type uint8;
+                }
+
+                leaf eu-access-level {
+                    tailf:info "EU设备规划--EU所在级数";
+                    description "EU Device plan eu access level";
+                    type uint8;
+                }
+
+                leaf eu-fiber-lenth {
+                    tailf:info "EU设备规划--EU光纤拉远距离";
+                    description "EU Device plan eu access level";
+                    type uint32;
+                }
+            }
+
+            list o-ru-port-plan {
+                key "ru-index ru-port-plan-index";
+
+                leaf ru-index {
+                    tailf:info "RRU通道规划--RRU索引";
+                    description "RRU Port plan -- rru index";
+                    type uint32;
+                }
+
+                leaf ru-port-plan-index {
+                    tailf:info "RRU通道规划--RRU通道索引";
+                    description "RRU Port plan -- rru port index";
+                    type uint32;
+                }
+
+                leaf ru-port-plan-subto-cellid1 {
+                    tailf:info "RRU通道规划--该通道所属的第一个小区编号";
+                    description "RRU Port plan -- port sub to the frist cell index";
+                    type uint32;
+                }
+
+                leaf ru-port-plan-subto-cellid2 {
+                    tailf:info "RRU通道规划--该通道所属的第二个小区编号";
+                    description "RRU Port plan -- port sub to the second cell index";
+                    type uint32;
+                }
+
+                leaf ru-port-plan-subto-cellid3 {
+                    tailf:info "RRU通道规划--该通道所属的第三个小区编号";
+                    description "RRU Port plan -- port sub to the third cell index";
+                    type uint32;
+                }
+
+                leaf ru-port-plan-subto-cellid4 {
+                    tailf:info "RRU通道规划--该通道所属的第四个小区编号";
+                    description "RRU Port plan -- port sub to the fourth cell index";
+                    type uint32;
+                }
+
+                leaf ru-port-plan-ant-rxtx {
+                    tailf:info "RRU通道规划--该通道所属的第四个小区编号";
+                    description "RRU Port plan -- port sub to the fourth cell index";
+                    type rrutype:txrx-status;
+                }
+
+                leaf ru-port-tx-gain {
+                    tailf:info "RRU通道规划--该通道的Tx增益";
+                    description "RRU Port plan -- port tx gain";
+                    type int32;
+                }
+
+                leaf ru-port-rx-attenuation {
+                    tailf:info "RRU通道规划--该通道的Rx衰减";
+                    description "RRU Port plan -- port rx attenuation";
+                    type int32;
+                }
+
+            }
+
+        }
+
+        container o-device-topology {
+
+            list o-ru-topology {
+                key "ru-index";
+                description "rru instance list";
+
+                leaf ru-index {
+                    type uint32;
+                    tailf:info "RRU拓扑表--RRU索引";
+                    description 
+                        "Topology index of the RRU";
+                }
+
+                leaf ModelName {
+                    type string;
+                    tailf:info "RRU拓扑表--RRU设备型号";
+                    description 
+                        "Topology of the RRU Model Name";
+                }
+
+                leaf SerialNumber {
+                    type string;
+                    tailf:info "RRU拓扑表--RRU序列号";
+                    description 
+                        "Topology of the RRU SerialNumber";
+                }
+
+                leaf HardwareVersion {
+                    type string;
+                    tailf:info "RRU拓扑表--RRU硬件版本";
+                    description 
+                        "Topology of the RRU HardwareVersion";
+                }
+
+                leaf SoftwareVersion {
+                    type string;
+                    tailf:info "RRU拓扑表--RRU软件版本";
+                    description 
+                        "Topology of the RRU SoftwareVersion";
+                }
+
+                leaf Status {
+                    type uint8;
+                    tailf:info "RRU拓扑表--RRU状态";
+                    description 
+                        "Topology of the RRU Status";
+                }
+
+                leaf Reboot {
+                    type boolean;
+                    tailf:info "RRU拓扑表--RRU重启开关";
+                    description 
+                        "Topology of the RRU Status";
+                }
+
+                leaf MaxTxPower {
+                    tailf:info "RRU拓扑表--RRU最大下行功率";
+                    description 
+                        "RRU topology table--RRU maximum downlink power";
+                    type uint32;
+                    units "dBm";
+                }
+
+                leaf RFTxStatus {
+                    tailf:info "RRU拓扑表--RRU射频状态";
+                    description 
+                        "RRU topology table--RRU maximum downlink power";
+                    type boolean;
+                }
+
+                leaf Distance {
+                    tailf:info "RRU拓扑表--RR拉远距离";
+                    description 
+                        "RRU topology table--RRU maximum downlink power";
+                    type string;
+                }
+
+                leaf ru-band-width {
+                    tailf:info "RRU拓扑表--RRU支持的带宽";
+                    description 
+                        "RRU topology table-bandwidth supported by RRU";
+                    type uint32;
+                    units "MHz";
+                }
+
+                leaf ru-mac-addr {
+                    type string;
+                    tailf:info "RRU拓扑表--所接入RRU的Mac地址";
+                    description 
+                        "Use RRU's mac address to identify the serial number of the RRU";
+                }
+
+                leaf ru-type {
+                    tailf:info "RRU拓扑表--所接入RRU的设备型号";
+                    description 
+                        "RRU topology table-the device model of the connected RRU";
+                    type rrutype:rru-type;
+                }
+
+                leaf ru-friendlyname {
+                    tailf:info "RRU拓扑表--该RRU的设备友好名";
+                    description 
+                        "RRU device friendly name";
+                    type string;
+                }
+
+                leaf ru-ofp1-access-port-no {
+                    tailf:info "RRU拓扑表--RRU光口1接入到上联设备（EU或加速卡）的光口号";
+                    description "RRU Device plan rru port1 access eu port NO.";
+                    type uint8;
+                }
+
+                leaf ru-ofp2-access-port-no {
+                    tailf:info "RRU拓扑表--RRU光口2接入到上联设备（EU或加速卡）的光口号";
+                    description "RRU Device plan rru port2 access eu port NO.";
+                    type uint8;
+                }
+
+                leaf ru-access-ul-timedelay {
+                    tailf:info "RRU拓扑表--RRU上行接入时延";
+                    description 
+                        "RRU topology table--RRU uplink access delay";
+                    type uint32;
+                }
+
+                leaf ru-access-dl-timedelay {
+                    tailf:info "RRU拓扑表--RRU下行接入时延";
+                    description 
+                        "RRU topology table--RRU downlink access delay";
+                    type uint32;
+                }
+            }
+        }
+        
+    }
+}

@@ -1,0 +1,26 @@
+module flexoran-gnb-mgr {
+    namespace "http://certusnet.com.cn/flexoran/oam/flexoran-gnb-mgr";
+    prefix gnbmgr;
+    
+    organization "CertusNet";
+    description "This module defines gnb 5gnr common parameter manager.";
+
+    typedef gnb-work-mode-t {
+        type enumeration {
+            enum DU-MODE;
+            enum CU-MODE;
+            enum CUDU-MODE;
+            enum TEST-MODE;
+        }
+    }
+
+    grouping gnb-manager {
+        container base-parameter {
+            leaf gnb-work-mode {
+                type gnb-work-mode-t;
+                default DU-MODE;
+                description "Indicates the working mode of 5G base station";
+            }
+        }
+    }
+}

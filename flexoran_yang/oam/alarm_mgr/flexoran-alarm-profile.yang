@@ -1,0 +1,433 @@
+module flexoran-alarm-profile {
+  yang-version 1.1;
+  namespace "http://certusnet.com.cn/flexoran/oam/flexoran-alarm-profile";
+  prefix "alm-prof";
+
+  import ietf-yang-types {
+    prefix yang;
+    reference
+      "RFC 6991: Common YANG Data Types.";
+  }
+  import tailf-common { prefix tailf; }
+
+  organization "CertusNet 5G NR";
+  description "base on ietf-alarms.yang";
+
+  typedef severity {
+    type enumeration {
+      enum "Cleared" {
+        description
+          "The alarm is cleared by the instrumentation.";
+      }
+      enum "Unknown" {
+        description
+          "The alarm is unknown. There is no knowledge of it.";
+      }
+      enum "Minor" {
+        description
+          "The 'minor' severity level indicates the existence of a
+          non-service affecting fault condition and that corrective
+          action should be taken in order to prevent a more serious
+          (for example, service affecting) fault.  Such a severity
+          can be reported, for example, when the detected alarm
+          condition is not currently degrading the capacity of the
+          resource.";
+      }
+      enum "Warning" {
+        description
+          "The 'warning' severity level indicates the detection of
+          a potential or impending service affecting fault, before
+          any significant effects have been felt.  Action should be
+          taken to further diagnose (if necessary) and correct the
+          problem in order to prevent it from becoming a more
+          serious service affecting fault.";
+      }
+      enum "Major" {
+        description
+          "The 'major' severity level indicates that a service
+          affecting condition has developed and an urgent
+          corrective action is required.  Such a severity can be
+          reported, for example, when there is a severe
+          degradation in the capability of the resource
+          and its full capability must be restored.";
+      }
+      enum "Critical" {
+        description
+          "The 'critical' severity level indicates that a service
+          affecting condition has occurred and an immediate
+          corrective action is required.  Such a severity can be
+          reported, for example, when a resource becomes totally
+          out of service and its capability must be restored.";
+      }
+    }
+    description
+      "The severity level of the alarm.";
+  }
+
+  // 告警起源模块
+  typedef fault_origin {
+    type enumeration {
+      enum "cu";
+      enum "du";
+      enum "board";
+      enum "gNB";
+      enum "rru";
+      enum "processor";
+      enum "clock";
+      enum "software";
+    }
+    description "Module origin of appeared fault.";
+  }
+
+  // 告警类型 
+  typedef event_type {
+    type enumeration {
+      enum "Unknown" {
+        description "None of the below.";
+      }
+      enum "Communications Alarm" {
+        description
+          "An alarm of this type is principally associated with the
+          procedures and/or processes required to convey
+          information from one point to another.";
+      }
+      enum "Quality Of Service Alarm" {
+        description
+          "An alarm of this type is principally associated with a
+          degradation in the quality of a service.";
+      }
+      enum "Processing Error Alarm" {
+        description
+          "An alarm of this type is principally associated with a
+          software or processing fault.";
+      }
+      enum "Equipment Alarm" {
+        description
+          "An alarm of this type is principally associated with an
+          equipment fault.";
+      }
+      enum "Environmental Alarm" {
+        description
+          "An alarm of this type is principally associated with a
+          condition relating to an enclosure in which the equipment
+          resides.";
+      }
+      enum "integrity-violation" {
+        description
+          "An indication that information may have been illegally
+          modified, inserted or deleted.";
+      }
+      enum "operational-violation" {
+        description
+          "An indication that the provision of the requested service
+          was not possible due to the unavailability, malfunction or
+          incorrect invocation of the service.";
+      }
+      enum "physical-violation" {
+        description
+          "An indication that a physical resource has been violated
+          in a way that suggests a security attack.";
+      }
+      enum "security-service-or-mechanism-violation" {
+        description
+          "An indication that a security attack has been detected by
+          a security service or mechanism.";
+      }
+      enum "time-domain-violation" {
+        description
+          "An indication that an event has occurred at an unexpected
+          or prohibited time.";
+      }
+    }
+    description
+      "The event types as defined by X.733 and X.736.  The use of the
+      term 'event' is a bit confusing.  In an alarm context these
+      are top level alarm types.";
+  }
+
+  // 告警处理动作
+  typedef alarm_operator {
+    type enumeration {
+      enum "none" {
+        value 1;
+        description
+          "The alarm is not being taken care of.";
+      }
+      enum "ack" {
+        value 2;
+        description
+          "The alarm is being taken care of.  Corrective action not
+          taken yet, or failed";
+      }
+      enum "closed" {
+        value 3;
+        description
+          "Corrective action taken successfully.";
+      }
+      enum "shelved" {
+        value 4;
+        description
+          "Alarm shelved.  Alarms in alarms/shelved-alarms/
+          MUST be assigned this operator state by the server as
+          the last entry in the operator-state-change list.";
+      }
+      enum "un-shelved" {
+        value 5;
+        description
+          "Alarm moved back to alarm-list from shelf.
+          Alarms 'moved' from /alarms/shelved-alarms/
+          to /alarms/alarm-list MUST be assigned this
+          state by the server as the last entry in the
+          operator-state-change list.";
+      }
+      enum "ignored" {
+        value 6;
+        description
+          "Alarm is ignored by alarm filter";
+      }
+    }
+    description
+      "Operator states on an alarm.  The 'closed' state indicates
+      that an operator considers the alarm being resolved.  This
+      is separate from the resource alarm clear flag.";
+  }
+
+  // 告警上报系统
+  typedef alarm_destination {
+    type enumeration {
+      enum "HEMS-OMC";
+      enum "NANO-OAM";
+    }
+  }
+
+  // 告警上报类型
+  typedef notification_type {
+    type enumeration {
+      enum "NewAlarm";
+      enum "ChangedAlarm";
+      enum "ClearedAlarm";
+    }
+  }
+
+  // 告警存储机制
+  typedef storage_mechanism {
+    type enumeration {
+      enum "Expedited" {
+        value 0;
+      }
+      enum "Queued" {
+        value 1;
+      }
+      enum "History" {
+        value 2;
+      }
+      enum "Inward" {
+        value 3;
+      }
+      enum "Ignore" {
+        value 4;
+      }
+    }
+  }
+
+  // 告警种类
+  typedef alarm_type {
+    type enumeration {
+      enum "SupportedAlarm";
+      enum "HistoryEvent";
+      enum "ExpeditedEvent";
+      enum "QueuedEvent";
+      enum "CurrentAlarm";
+      enum "InwardlAlarm";
+    }
+  }
+
+
+  grouping reported_alarm {
+    list alarms {
+      key "AlarmIdentifier";
+      leaf AlarmIdentifier {
+        type string {
+          length "0..63";
+          pattern '^[0-9]+$';
+        }
+        config false;
+      }
+
+      leaf AlarmType {
+        type alarm_type;
+      }
+
+      leaf SerialNumber {
+        type string {
+          length "0..63";
+          pattern '^[0-9]+$';
+        }
+      }
+
+      leaf OUI {
+        type string {
+          length "0..63";
+        }
+      }
+
+      leaf NotificationType {
+        when "not(../AlarmType = 'CurrentAlarm')";
+        type notification_type;
+      }
+
+      leaf EventTime {
+        when "not(../AlarmType = 'CurrentAlarm')";
+        type yang:date-and-time;
+        config false;
+      }
+
+      leaf AlarmRaisedTime {
+        when "(../AlarmType = 'CurrentAlarm')";
+        type yang:date-and-time;
+        config false;
+      }
+
+      leaf AlarmChangedTime {
+        when "(../AlarmType = 'CurrentAlarm')";
+        type yang:date-and-time;
+        config false;
+      }
+
+      leaf PerceivedSeverity {
+        type severity;
+      }
+
+      leaf EventType {
+        type event_type;
+      }
+
+      leaf ProbableCause {
+        type string {
+          length "0..63";
+          pattern '^[A-Za-z0-9]+$';
+        }
+      }
+
+      leaf SpecificProblem {
+        type string {
+          length "0..127";
+          pattern '^[A-Za-z0-9]+$';
+        }
+      }
+
+      leaf AdditionalText {
+        type string {
+          length "1..255";
+        }
+      }
+
+      leaf AdditionalInformation {
+        type string {
+          length "0..255";
+          pattern '^[A-Za-z0-9]+$';
+        }
+      }
+
+      leaf ManagedObjectInstance {
+        type string {
+          length "0..255";
+          pattern '^[A-Za-z0-9]+$';          
+        }
+      }
+    }
+  }
+
+  container HistoryEvents {
+    uses reported_alarm;
+  }
+
+  container ExpeditedEvents {
+    uses reported_alarm;
+  }
+
+  container QueuedEvents {
+    uses reported_alarm;
+  }
+
+  container CurrentAlarms {
+    uses reported_alarm;
+  }
+
+  container AlarmCapacity {
+    leaf SupportedAlarmNumberOfEntries{
+      type uint8 {
+        range "0..200";
+      }
+    }
+    leaf CurrentAlarmNumberOfEntries {
+      type uint8 {
+        range "0..200";
+      }
+    }
+    leaf HistoryEventNumberOfEntries {
+      type uint8 {
+        range "0..200";
+      }
+    }
+    leaf ExpeditedEventNumberOfEntries {
+      type uint8 {
+        range "0..200";
+      }
+    }
+    leaf QueuedEventNumberOfEntries {
+      type uint8 {
+        range "0..200";
+      }
+    }
+    leaf MaxCurrentAlarmEntries {
+      type uint8 {
+        range "0..200";
+      }
+    }
+  }
+
+  container SupportedAlarms {
+    list alarms {
+      key "AlarmIdentifier";
+      leaf AlarmIdentifier {
+        type string {
+          length "0..63";
+          pattern '^[0-9]+$';
+        }
+        config false;
+      }
+
+      leaf PerceivedSeverity {
+        type severity;
+      }
+
+      leaf EventType {
+        type event_type;
+      }
+
+      leaf ProbableCause {
+        type string {
+          length "0..63";
+          pattern '^[A-Za-z0-9]+$';
+        }
+      }
+
+      leaf SpecificProblem {
+        type string {
+          length "0..127";
+          pattern '^[A-Za-z0-9]+$';
+        }
+      }
+
+      leaf ReportingMechanism {
+        type storage_mechanism;
+      }
+
+      leaf RaiseNum {
+        type uint64;
+      }
+    }
+  }
+}
+

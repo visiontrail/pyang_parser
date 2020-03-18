@@ -1,0 +1,1401 @@
+module cellSubConfig {
+
+   namespace "http://tail-f.com/ns/example/cellSubConfig";
+   prefix cellSub;
+
+   import nrm-types-3gpp { 
+      prefix nrm-type; 
+      //revision-date "2018-07-31"; 
+   }
+
+   import duEnum {
+      prefix duEnum;
+   }
+
+   import ietf-inet-types {
+      prefix inet;
+   }
+
+
+   grouping s_nssaiT {
+      leaf sst {
+         type uint8; 
+         default 3;
+         description "This contains sst number"; 
+      }
+      leaf sd {
+         type uint32 {
+            range "1..16777215" {
+               error-message "Value Should be in [1,16777215]";
+            }
+         }
+         default 198153;
+         description "This contains sd value";
+      }
+   }
+
+   grouping ltenrCoTraficPatternTypeT {
+
+      leaf trafficPatternPres {
+         type boolean;
+         default "false";
+         description "This shows traffic pattern present or not";
+      }
+
+      leaf cellId {
+         type uint16 {   
+            range "1..6" {
+               error-message "cellId value should be in range [1,6]";
+            }
+         }
+         description "This contains cell id";
+         default 1;
+      }
+
+      leaf actvtSfn {
+         type uint16 {
+            range 0..1023 {
+               error-message "Value should be in the range of [0,1023]";
+            }
+         }
+         description "This shows Which SFN onwards the inused PRBs/Slots need to be blcoked";
+         default 2;
+      }
+
+      leaf isSulFreqMute {
+         type boolean;
+         description "This show the mute paatern is for SUL Frequency or Normal UL Ferquenc";
+         default false;
+      }
+
+      list prbsAvlPerSlot {
+         key "startPrb";
+
+         leaf startPrb {
+            type uint16 {
+               range "0..274" {
+                  error-message "Value should be in between 0 to 274";
+               }
+            }
+            description "This shows the start prb";
+         }
+
+         leaf numPrbs {
+            type uint16 {
+               range "24..276" {
+                  error-message "Value should be in between 24 to 276";
+               }
+            }
+            default 24;
+            description "This contains number of prbs";
+         }
+
+      }
+
+   } 
+
+   grouping nrCgiT {
+
+      container nrCgipLMNId {
+         uses nrm-type:pLMNId;
+      }
+
+      leaf nrCellId {
+         type nrm-type:t_NCI;
+         default "000000001";
+         description "This contains nr cell id";
+      }
+   }
+
+   grouping NsKpiCfgT {
+
+      leaf pres {
+         type uint8 {
+            range 0..1 {
+               error-message "Value should be in the range of [0,1]";
+            }
+         }
+         description "This contains presence of KPI configuration";
+         default 1;
+      }
+
+      leaf rptType {
+         type uint8 {
+            range 0..1 {
+               error-message "Value should be in the range of [0,1]";
+            }
+         }
+         description "This contains report type of KPI configuration";
+         default 1;
+      }
+
+      leaf period {
+         type uint8 {
+            range 1..255 {
+               error-message "Value should be in the range of [1,255]";
+            }
+         }
+         description "This contains periodicity of KPI configuration";
+         default 3;
+      }
+
+   }
+
+   grouping csSsConfigT {
+
+      leaf avgAggrlvl {
+         type uint8;
+         must ". = '1' or " + ". = '2' or " + ". = '4' or " + " . = '8' or " + " . = '16'" {
+            error-message "Value Should be one of 1,2,4,8,16."; 
+         }
+         description "This contains Average aggregation level";
+         default 2;
+      }
+
+      leaf maxAggrlvl {
+         type uint8;
+         must ". = '1' or " + ". = '2' or " + ". = '4' or " + " . = '8' or " + " . = '16'" {
+            error-message "Value Should be one of 1,2,4,8,16."; 
+         }
+         description "This contains maximum Average aggregation level";
+         default 4;
+      }
+
+      container mntrSlotPrdcty {
+         leaf slType {
+            type duEnum:s1TypeEnum;
+            default slType_sl1Null;
+            description "This contains sl type"; 
+         }
+      }
+
+   }
+
+   grouping dlBwpConfigT {     //TODO:P1 name alignment
+
+      leaf mu {
+         type duEnum:scsEnum;
+         default scs_KHz120;
+         description "This contains Sub carrier spacing tuype";
+      }
+
+      leaf cp {
+         type duEnum:cpEnum;
+         default extended;
+         description "This contains cyclic prefix";
+      }
+
+      leaf numRb {
+         type uint16 {
+            range "24..273" {
+               error-message "Value should be in between 24 to 273";
+            }
+         }
+         default 66;
+         description "This contains the number of resource block";
+      }
+
+      leaf startRb {
+         type uint16 {
+            range "0..249" {
+               error-message "Value should be in between 0 to 249";
+            }
+         }
+         description "This contains starting resource block";
+         default 0;
+
+      }
+
+      leaf pdcchCmnPres {
+         type boolean;
+         default true;
+         description "This shows that PDCCH common is presence or not";
+      }
+
+      leaf pdschCmnPres {
+         type boolean;
+         default true;
+         description "This shows that PDSCH common is presence or not";
+      }
+
+      container csSsCfg {
+         uses csSsConfigT;
+      }
+
+   }
+
+   grouping gnbDuRachGenCfgT {
+
+      leaf prachCfgIndex {
+         type uint8 {
+            range "0..255" {
+               error-message "Value Should be in between 0 to 255";
+            }
+         }
+         default 81;
+         description "This contains the prach config index";
+      }
+
+      leaf msg1Fdm {
+         type uint8;
+         must ". = '1' or " + ". = '2' or " + ". = '4' or " + " . = '8'" {
+            error-message "Value Should be one of 1,2,4,8."; 
+         }
+         default 1; 
+         description "This contains the msg1-FDM";
+      }
+
+      leaf msg1FreqStart {
+         type uint16 {
+            range "0..274" {
+               error-message "Value Should be in between 0 to 274";
+            }
+         }
+         default 0;
+         description "This shows offset of lowest PRACH transmission occasion in frequency domain with respective to PRB 0";
+      }
+
+      leaf zeroCorrelationZoneCfg {
+         type uint8 {
+            range "0..15" {
+               error-message "Value Should be in between 0 to 15";
+            }
+         }
+         default 6;
+         description "This contains zero correlation zone configuration";
+      }
+
+      leaf prmblRcvdTgtPwr {
+         type int16 {
+            range "-202..-60" {
+               error-message "Value Should be in between -202 to -60";
+            }
+         }
+         default -74;
+         description "This shows the target power level";
+      }
+
+      leaf prmblTransMax {
+         type  duEnum:prmblTransMaxEnum;
+         default prmblTransMax_n10;
+         description "This shows maximum preamble transmission";
+      }
+
+      leaf pwrRampingStep {
+         type duEnum:pwrRampingStepEnum;
+         default pwrRampingStep_dB0;
+         description "This shows power ramping steps";
+      }
+
+      leaf raRspWin {
+         type duEnum:raRspWinEnum;
+         default raRspWin_sl80;
+         description "This shows rach response window size"; 
+      }
+
+   }
+
+   grouping RachGrpBCfgT {
+
+      leaf isGroupBPres {
+         type boolean;
+         default false;
+         description "This shows that Is GroupB Preambles configured True: configured, False: Not configured";
+      }
+
+      leaf msg3SizeGroupA {
+         type duEnum:msg3SizeGroupAEnum;
+         default msg3SizeGroupA_b56 ;
+         description "This shows MSG3 size threshold to select the Group B";
+      }
+
+      leaf numOfRaPreambleGrpA {
+         type uint8 { 
+            range "1..64" {
+               error-message "valuse should be in between 1 to 64";
+            }
+         }
+         default 1;
+         description "The number of CB preambles per SSB in group A. This determines implicitly the number of CB preambles per SSB available in group B";
+      }
+
+   }
+
+   grouping  gnbDuRachCmnCfgT {
+
+      container rachGenCfg {
+         uses gnbDuRachGenCfgT;
+      }
+
+      leaf totNumOfRaPlmbs {
+         type uint8 {
+            range "1..63" {
+               error-message "Valuse should be in between 1-63";
+            }
+         }
+         default 63;
+         description "This shows total number of RA preamble";
+      }
+
+      leaf ssbsPerRach {
+         type duEnum:ssbsPerRachEnum;
+         default SSB_ONE;
+         description "This shows SSBs per rach occassion";
+      }
+
+      leaf cbPrmblPerSsb {
+          type uint8 {
+              range 1..64 {
+                  error-message "Value should be in the range of [1,64]";
+              }
+          }
+          must " . = '4' or" + " . = '8' or" + " . = '16' " {
+              error-message "cbPrmblPerSsb should support one of the value in {4,8,16}";
+          }
+          default 8;
+          description "This shows Contention based preamble per SSB";
+      }
+
+      container grpBPrmblsCfg {
+         uses RachGrpBCfgT;
+      }
+
+      leaf contResTmr {
+         type duEnum:contResTmrEnum;
+         default contResTmr_sf40 ;
+         description "This shows Contenstion resolution timer ";
+      }
+
+      leaf seqType {
+         type duEnum:seqTypeEnum;
+         default RACH_ROOTSEQ_LONG ;
+         description "This shows Root sequence type";
+      }
+
+      leaf rsrpThrshldSsb {
+         type uint8 {
+            range "0..124" {
+               error-message "Valuse should be in between 0 to 124";
+            }
+         }
+         default 0;
+         description "This shows RSRP threshold SSB";
+      }
+
+      leaf rootSequenceIndex {   
+         type uint16 {
+            range "0..837" {
+               error-message "Valuse should be in between 0 to 837";
+            }
+         }
+         default 24;
+      }
+
+      leaf msg1Scs {
+         type duEnum:msg1ScsEnum;
+         default msg1Scs_KHz120 ;
+      }
+      leaf restrictedSetCfg{
+         type duEnum:restrictedSetCfgEnum;
+         default "RACH_UNREST";
+
+      }
+
+      leaf maxMsg3Tx {
+         type uint8 {
+            range "0..8" {
+               error-message "value should be in [0,8]";
+            }
+         }
+         default 0;
+         description "This show maximum Msg3tx threshold";
+      }      
+
+      leaf prmblFrmt {
+         type duEnum:prmblFrmtEnum;
+         default ORAN_RACH_FORMAT_0;
+         description "This shows preamble format";
+      }
+
+
+   }
+
+   grouping cyclicShiftT {
+
+      leaf numOfCycShift {
+         type uint8 {
+            range "0..12" {
+               error-message "value should be in between 0-12";
+            }
+         }
+         description "This shows number of cyclic shift";
+         default 2;
+      }
+
+      leaf cycShiftBitmap {
+         type uint16 {
+            range 0..4095 {
+               error-message "Value should be in the range of [0,4095]";
+            }
+         }
+         description "This shows cyclic shift bitmap";
+         default 9;
+      }
+
+   }
+
+   grouping PucchCmnCfg {
+
+      leaf pucchResourceCommon {
+         type uint8 {
+            range "0..15" {
+               error-message "value should be in between 0 to 15";
+            }
+         }
+         must " . = 0" {
+            error-message " pucchResourceCommon value should be 0";
+         }
+         default 0;
+         description "An entry into a 16-row table where each row configures a set of cell-specific PUCCH resources/ parameters. The UE uses those PUCCH resources during initial access on the initial uplink BWP";
+      }
+
+      leaf pucchGrpHopping {
+         type duEnum:pucchGrpHoppingEnum;
+         default pucchGrpHopping_neither ;
+         description "Configuration of group- and sequence hopping for all the PUCCH formats 0, 1, 3 and 4";
+      }
+
+      leaf hoppingId {
+         type uint16 {
+            range "0..1023" {
+               error-message "Value should be in between 0 to 1023";
+            }
+         }
+         default 0;
+         description "Cell-Specific scrambling ID for group hopping and sequence hopping if enabled";
+      }
+
+      leaf p0Nominal {
+         type int16 {
+            range "-202..24" {
+               error-message "value should be in between -202 to 24";
+            }
+         }
+         default 0;
+         description "Power control parameter P0 for PUCCH transmissions. Value in dBm. Only even values (step size 2) allowed";
+      } 
+
+   }
+
+   grouping puschCmnCfg {
+      leaf msg3DeltaPreambl {
+         type int8 {
+            range "-1..6" {
+               error-message "value should be in between -1 to 6";
+            }
+         }
+         default 2;
+      }
+
+      leaf p0NominalWithGrnt {
+         type int16 {
+            range "-202..24" {
+               error-message "value should be in between -202..24";
+            }
+         }
+         default -70;
+      }
+   }
+
+   grouping ulBwpConfigT {
+
+      leaf mu {
+         type duEnum:scsEnum;
+         default scs_KHz120;
+         description "This contaons Sub carrier spacing type";
+      }
+
+      leaf cp {
+         type duEnum:cpEnum;
+         default extended;
+         description "This contains cyclic prefix";
+      }
+
+      leaf numRb {
+         type uint16 {
+            range "24..276" {
+               error-message "Value should be in between 24 to 276";
+            }
+         }
+         default 66;
+         description "This contains Number of Resource blocks";
+      }
+
+      leaf startRb {
+         type uint16 {
+            range "0..274" {
+               error-message "Value should be in between 0 to 274";
+            }
+         }
+         default 0;
+         description "This contains starting RBs";
+      }
+
+      leaf puschCmnPres {
+         type boolean;
+         default true;
+         description "This contains Common PUSCH presence or not";
+      }
+
+      container puschCmnCfg {
+         uses puschCmnCfg;
+         description "This contains Common PUCCH configuration";
+      }
+
+      leaf pucchCmnPres {
+         type boolean;
+         default false;
+         description "This contains Common PUCCH presence or not";
+      }
+
+      container pucchCmnCfg {
+         uses PucchCmnCfg;
+         description "This contains Common PUCCH configuration";
+      }
+
+      leaf rachCmnPres {
+         type boolean;
+         default true;
+         description "This contains Common RACH presence or not";
+      } 
+      container  rachCfgInfo {
+         uses gnbDuRachCmnCfgT;
+
+      }
+
+      leaf srPrdcty {
+         type duEnum:srPrdctyEnum;
+         default srPrdcty_sl40; 
+      }
+
+      leaf csiPrdcty {
+         type duEnum:csiPrdctyEnum;
+         default csiPrdctyEnum_slots160;
+      }
+
+      leaf f2MaxPayloadLen1 {
+         type uint16 {
+            range "4..1706" {
+               error-message "Value should be in between 4 to 1706";
+            }
+         }
+         default 24;
+         description "This contains f2 Maximum pay load length1";
+      }
+
+      leaf f2MaxPayloadLen2 {
+         type uint16 {
+            range "4..1706" {
+               error-message "Value should be in between 4 to 1706";
+            }
+         }
+         default 36;
+         description "This contains f2 Maximum pay load length2";
+      }  
+
+      container cyclicShift {
+         uses cyclicShiftT;
+      }
+
+      leaf puschTxConfig {
+         type duEnum:puschTxConfigEnum;
+         default none;
+      } 
+
+      container srsCfg {
+
+         leaf numSrsSym {
+            type uint8 {
+               range "0..6" {
+                  error-message "numSrsSym Should be in between 0 to 6";
+               }
+            }
+            default 0;
+         }
+
+         leaf ktc {
+            type uint8;
+            must ". = '2' or " + ". = '4'" {
+               error-message "kTC should be 2 or 4";
+            }
+            default 2;
+         }
+
+         leaf maxSrsUePerSlot {
+            type uint8 {
+               range 1..8 {
+                  error-message "Value should be in the range of [1,8]";
+               }
+            }
+            default 1;
+         }
+
+      } 
+
+   }
+
+
+   grouping gnbDuFreqInfoUlCfgT {
+
+      leaf absFreqPointA {
+         type uint32 {
+            range "450000..52600000" {
+               error-message "valuse should be in between 450000..52600000";
+            }
+         }
+         default 28015680;
+         description "This contains  Absolute frequency point a";
+      }
+
+      leaf absArfcnPointA {
+         type uint32 {
+            range 0..3279165 {
+               error-message "Value should be in the range of [0,3279165]";
+            }
+         }
+         description "This contains  Absolute ARFCN point a";
+         default 2079427;
+      }
+
+      leaf nrFreqBand { //TODO:P1 Should be a leaf-list
+         type uint32 {
+            range "1..257 | 258 | 260..261" {
+               error-message "value should be in range [1,261] excluding 259";
+            }
+         }
+         default 257;
+         description "This contains number of frequency bands";
+      }
+
+
+
+      uses gnbDuScsSpecCarrierT;
+
+      leaf bSChannelBwUl {
+         type duEnum:bSChannelBwEnum;
+         default CHAN_BW_100MHZ;
+      }
+
+      leaf freqShft7p5khz {
+         type duEnum:freqShft7p5khzEnum;
+         default FREQ_SHFT_7P5KHZ_DISBL;
+         description "This contains the frequency shift";
+      }
+
+      leaf addtlSpctrmEmssn {
+         type uint32  {
+            range "0..7" {
+               error-message "Value should be in between 0 to 33";
+            }
+         }
+         description "This contains Additional spectrum emission";
+         default 0;
+      }
+
+      leaf pMax {
+         type int8 {
+            range "-30..33" {
+               error-message "Value should be in between -30 to 33";
+            }
+         }
+         default 23;
+         description "This contains P-MAX";
+      }
+
+      leaf ulEarfcn {
+         type uint32 {
+            range "0..3279165" {
+               error-message "value Should be in range [0,3279165]";
+            } 
+         }
+         default 2079415;
+         description "This contains uplink ARFCN";
+      }
+
+   }
+
+   grouping gnbDuFreqInfoDlCfgT {
+
+      leaf absFreqPointA {
+         type uint32 {
+            range "450000..52600000" {
+               error-message "valuse should be in between 450000..52600000";
+            }
+         }
+         default 28015680;
+         description "This contains  Absolute frequency point a";
+      }
+
+      leaf absArfcnPointA {
+         type uint32 {
+            range 0..3279165 {
+               error-message "Value should be in the range of [0,3279165]";
+            }
+         }
+         description "This contains  Absolute ARFCN point a";
+         default 2079427;
+      }
+
+      leaf absFreqSsb {
+         type uint32 {
+            range 450000..52600000 {
+               error-message "Value should be in the range of [450000,52600000]";
+            }
+         }
+         default 28051680;
+         description "This contains Absoulute frequency SSB";
+      }
+
+      leaf absArfcnSsb {
+         type uint32 {
+            range "0..3279165" {
+               error-message "value should be in between 0..3279165";
+            }
+         }
+         default 2080027;
+         description "This contains Absolute ARFCN point";
+      }
+
+      leaf nrFreqBand {
+         type uint32 {
+            range "1..257 | 258 | 260..261" {
+               error-message "value should be in range [1,261] excluding 259";
+            }
+         }
+         default 257;
+         description "This contains number of frequency band";
+      }
+
+
+
+      uses gnbDuScsSpecCarrierT;
+
+      leaf bSChannelBwDL {
+         type duEnum:bSChannelBwEnum;
+         default CHAN_BW_100MHZ;
+         description "This contains downlink base channel band width";
+      }
+
+      leaf dlEarfcn {
+         type uint32 {
+            range "0..3279165" {
+               error-message "value Should be in range [0,3279165]";
+            } 
+         }
+         description "This contains downlink EARFCN";
+         default 2079415;
+      } 
+   }
+
+   grouping  gnbDuScsSpecCarrierT {
+
+      list scsCarrierLst {
+         key "offsetToCarrier";
+
+         leaf offsetToCarrier {
+            type uint16 {
+               range "0..2199" {
+                  error-message "value should be in between 0 to 2199";
+               }
+            }
+            description "This contains  L1 parameter 'offset-pointA-low-scs";
+         }
+
+         leaf scs {
+            type duEnum:scsEnum;
+            default scs_KHz120;
+            description "This contains  Subcarrier spacing of this carrier";
+         }
+
+         leaf carrierBw {
+            type uint16 {
+               range "1..275" {
+                  error-message "value should be in between 1 to 275";
+               }
+            }
+            default 66;
+            description "This contains carrier bandwidth";
+         }
+
+      }
+
+   }
+
+   grouping UlTrgCqiCfgT {
+
+      leaf pres {                                                                
+         type boolean;
+         description "This shows presence flag for uplink target cqi configuration";
+         default false;
+      }
+
+      leaf trfCqi {
+         type uint8 {
+            range 1..15 {
+               error-message "Value should be in the range of [1,15]";
+            }
+         }
+         description "This contains Target UL CQI to be achieved through power control.Range";
+         default 1;
+      }
+   }
+
+
+   grouping sulCellCfgT {
+
+      leaf freqInfoSulPresent {
+         type boolean;
+         default false;
+      }
+
+   }
+
+   grouping pdcchSib1ParamsT {
+
+      leaf controlResourceSetZero {
+         type uint8 {
+            range "0..15" {
+               error-message "Value Should be in Between 0 to 15";
+            }
+         }
+         default 0;
+         description "This contains Control resource set zero value";
+      }
+
+      leaf searchSpaceZero {
+         type uint8 {
+            range "0..15" {
+               error-message "Value Should be in Between 0 to 15";
+            }
+         }
+         default 0;
+         description "This contains search space zero value";
+      }
+
+   }
+
+   grouping mibParamsT {
+
+      leaf subCarrSpacCmn {
+         type duEnum:subCarrSpacCmnEnum;
+         default scs30or120;
+         description "This contains Sub carrier spacing";
+      }
+
+      leaf ssbSubCarrOff {
+         type uint8 {
+            range "0..15" {
+               error-message "Value should be in between 0 to 15";
+            }
+         }
+         default 0;
+         description "This contains SSB Sub carrier offset";
+      }
+
+      leaf dmrsTypAPos {
+         type duEnum:dmrsTypAPosEnum;
+         default dmrsTypAPos_pos3;
+         description "This contains DMRS type A position";
+      }
+
+      container pdcchConfigSib1 {
+         uses pdcchSib1ParamsT;      
+      }
+
+      leaf cellBarred {
+         type duEnum:cellBarredEnum;
+         default notBarred;
+      }
+
+      leaf intraFreqReselction {
+         type duEnum:intraFreqReselctionEnum;
+         default allowed;
+         description "This contains cell barred or not";
+      }
+
+   }
+
+   grouping l1PrachCfgInfoT {
+
+      leaf pres {
+         type boolean;
+         description "This indicates presence of information";
+         default true;
+      }
+
+      leaf l1PrachCfgInfoTRootSequenceIndex {
+         type uint16 {
+            range "0..837" {
+               error-message "valuse Should be in between 0 to 837";
+            }
+         }
+         default 0;
+         description "This contains the root sequence index";
+      }
+
+      leaf prachCfgIndex {
+         type uint8 {
+            range "0..255";
+         }
+         default 81;
+         description "This contains the prach configuration index";
+      }
+
+      leaf zeroCorrelationZoneCfg {
+         type uint8 {
+            range "0..15" {
+               error-message "valuse Should be in between 0 to 15";
+            }
+         }
+         default 6;
+         description "This contains PRACH zeroCorrelationZoneConfig (0..15)";
+      }
+
+      leaf highSpeedFlag {
+         type boolean;
+         description "This shows the high speed flag presence";
+         default false;
+      }
+
+      leaf prachFreqOffset {
+         type uint8 {
+            range "0..94" {
+               error-message "valuse Should be in between 0 to 94";
+            }
+         }
+         default 0;
+         description "This shows the prach frequency offset";
+      }
+
+      leaf prachSubcSpacing {
+         type uint8 ;/*{
+                       range "0..1" {
+                       error-message "valuse Should be in between 0 to 1";
+                       }
+                       }
+                      */
+         default 3;
+         description "This contains the prach sub spacing";
+      }
+
+      leaf prachRestrictSet {
+         type uint8 {
+            range "0..2" {
+               error-message "valuse Should be in between 0 to 2";
+            }
+         }
+         default 0;
+         description "This contains PRACH restrictedSetConfig value";
+      }
+
+      leaf prachFreqStart {
+         type uint16 {
+            range "0..274" {
+               error-message "valuse Should be in between 0 to 274";
+            }
+         }
+         default 0;
+         description "This contains prach frequency start";
+      }
+
+      leaf prachFdm {
+         type duEnum:prachFdmEnum;
+         default  prachFdm_two; 
+         description "This shows PRACH FDM";
+      }
+
+      leaf prachSsbRach {
+         type duEnum:prachSsbRachEnum;
+         default prachSsbRach_one;
+         description "This contains  SSB-per-rach-occasion (0..7)";      }
+
+   }
+
+   grouping sib1ParamsT {
+      container cellSelectionInfo {
+         uses cellSelectionInfoT;
+      }
+
+      container cellAccessInfo {
+         uses cellAccessInfoT;
+      }
+
+      container ueTimersAndConstants {
+         uses ueTimersAndConstantsT;
+      }
+
+   }
+
+
+   grouping cellSelectionInfoT {
+
+      container qRxLevMin {
+         uses qRxLevMinT;
+      }
+
+      container qRxLevMinSul {
+         uses qRxLevMinT;
+      }
+
+      container qQualMin {
+         uses qQualMinT;
+      }
+
+   }
+
+   grouping qRxLevMinT {
+
+      leaf rsrpLvl {
+         type int8 {
+            range "-70..-22" {
+               error-message "value should be in between -70 to -22";
+            }
+         }
+         default -50;
+      }
+   }
+
+   grouping qQualMinT {
+      leaf rsrpLvl {
+         type int8 {
+            range "-43..-12" {
+               error-message "value should be in between -43 to -12";
+            }
+         }
+         default -30;
+      }
+   }
+
+   grouping cellAccessInfoT {
+      list pLMNIdentityList {
+         key "pLMNIdentityInfoIndex";
+         leaf pLMNIdentityInfoIndex {
+            type uint8;
+         }
+         uses pLMNIdentityInfoT;
+      }
+   }
+
+   grouping pLMNIdentityInfoT {
+      list pLMNIdList {
+         key "pLMNIdIndex";
+         leaf pLMNIdIndex {
+            type uint8;
+         }
+         uses nrm-type:pLMNId;
+      }  
+      leaf tacBitMap {
+         type uint32;
+         default 1;
+      }
+      leaf ranac {
+         type uint8;
+         default 1;
+      }
+      leaf cellId {
+         type uint32 {
+            range "0..268435455" {
+               error-message "valuse should be in Between 0 to 268435455";
+            }
+         }
+         default 0;
+         description "This shows the cellId";
+      }
+      leaf cellRsrvdOperatorUse {
+         type duEnum:cellRsrvdOperatorUseEnum;
+         default notReserved;
+         description "This contains Cell reserved for operator use";
+      }
+   }
+
+
+   grouping ueTimersAndConstantsT {
+      leaf t300 {
+         type duEnum:t300TimerAndConstT;
+         default T300_MS1000;
+      }
+      leaf t301 {
+         type duEnum:t301TimerAndConstT;
+         default T301_MS1000;
+      }
+      leaf t310 {
+         type duEnum:t310TimerAndConstT;
+         default T310_MS1000;
+      }
+      leaf n310 {
+         type duEnum:n310TimerAndConstT;
+         default N310_N1;
+      }
+      leaf t311 {
+         type duEnum:t311TimerAndConstT;
+         default t311TimerAndConstT_T311_MS1000;
+      }
+      leaf n311 {
+         type duEnum:n311TimerAndConstT;
+         default N311_N1;
+      }
+      leaf t319 {
+         type duEnum:t319TimerAndConstT;
+         default t319TimerAndConstT_T319_MS1000;
+      }
+   }
+
+   grouping firstPdcchMonitoringInfoT {
+      leaf monitorType {
+         type duEnum:monitorTypeEnum;
+         default firstPDCCH_Monitoring_sCS15KHZoneT;
+         description "This contains the PDCCH monitoring type";
+      }
+      leaf numOfPoPerPf {
+         type uint8;
+         default 0;
+      }
+      leaf-list occasionOfPo {
+         type uint32;
+      }
+   }
+
+   grouping rachConfigInfoT {
+
+      uses gnbDuRachGenCfgT;
+      leaf rsrpThrshldSsb {
+         type uint8 {
+            range "0..124" {
+               error-message "Valuse should be in between 0 to 124";
+            }
+         }
+         default 0;
+      }
+      leaf rootSequenceIndex {
+         type duEnum:rootSeqIdEnum;
+         default rootSeqId_L839Int; 
+      }
+      leaf backOffIndex {
+         type uint16;
+         default 0;
+      }
+
+      container ssPerRachOcc {
+         leaf ssb {
+            type duEnum:ssbEnum;
+            default ssb_oneth; 
+         }
+
+      }
+   }
+
+
+
+
+
+   grouping nsCfgInfoT {
+      container nsAddList
+      {
+         uses NsAddListT;
+      }
+      container nsModList
+      {
+         uses NsModListT;
+      }
+      container nsDelList
+      {
+         uses NsDelListT;
+      }
+      container nsActList
+      {
+         uses NsActListT;
+      }
+      container nsDeactList
+      {
+         uses NsDeactListT;
+      }
+      container resAddList
+      {
+         uses NsShrdResAddListT;
+      }
+      container resModList
+      {
+         uses NsShrdResModListT;
+      }
+      container kpiCfg
+      {
+         uses NsKpiCfgT;
+      }
+   }
+
+   grouping NsAddListT {
+      list nsAddInfo {
+         key "nsiId";
+         leaf nsiId {
+             type uint32 {
+                 range "1..31" {
+                     error-message "nsiId value should be in range [1,31]";
+                 }
+             }
+         }
+         uses NsiCellCfgT;
+      }
+   }
+
+   grouping NsModListT {
+      list nsModInfo {
+         key "nsiId";
+         leaf nsiId {
+             type uint32 {
+                 range "1..31" {
+                     error-message "nsiId value should be in range [1,31]";
+                 }
+             }
+         }
+         uses NsiCellCfgT;
+      }
+   }
+
+
+   grouping NsDelListT {
+      leaf-list nsIdToDel {
+         type uint32 {
+            range "1..31" {
+               error-message "nsIdToDel value should be in range [1,31]";
+            }
+         }
+      }
+   }
+   grouping NsActListT {
+      leaf-list nsIdToAct {
+         type uint32 {
+            range "1..31" {
+               error-message "nsIdToDel value should be in range [1,31]";
+            }
+         }
+      }
+   }
+
+   grouping NsDeactListT {
+      leaf-list nsIdToDeAct {
+         type uint32 {
+            range "1..31" {
+               error-message "nsIdToDel value should be in range [1,31]";
+            }
+         }
+      }
+   }
+
+
+
+   grouping NsShrdResAddListT {
+      list reslInfo {
+         key "nsResId";
+         leaf nsResId {
+            type uint16 {
+               range "1..10" {
+                  error-message "nsResId value should be in range [1,10]";
+               }
+            }
+         }
+         container NsShrdResAddListTResCfg {
+            uses NsiResCfgT;
+         }         
+      }
+   }
+
+   grouping NsShrdResModListT {
+      //Ritesh Name Should be different
+      list reslInfo {
+         key "nsResId";
+         leaf nsResId {
+            type uint16 {
+               range "1..10" {
+                  error-message "nsResId value should be in range [1,10]";
+               }
+            }
+         }
+         container NsShrdResModListTResCfg {
+            uses NsiResCfgT;
+         }         
+      }
+   }
+
+
+   grouping NsiCellCfgT {
+      leaf resType {
+         type duEnum:resTypeEnum;
+         default NS_RES_ISOLATED;
+      }
+      leaf nsResId {
+         type uint8 {
+            range "1..10" {
+               error-message "nsResId value should be in range [1,10]";
+            }    
+         }
+         default 2;
+      }
+      container NsiCellCfgTResCfg {
+         uses NsiResCfgT;
+      }
+      leaf dlSlaTrgtRate {
+         type uint64 {
+            range "1000000..10000000000" {
+               error-message "dlSlaTrgtRate value should be in range [1000000 ,10000000000]";
+            }
+         }
+         default 50000000;
+      }
+      leaf ulSlaTrgtRate {
+         type uint64 {
+            range "1000000..10000000000" {
+               error-message "dlSlaTrgtRate value should be in range [1000000 ,10000000000]";
+            }
+         }
+         default 5000000;
+      }
+      leaf numDlUePerTti {
+         type uint16 {
+            range "1..8" {
+               error-message "value should be in between 1 to 8";
+            }
+         }
+         default 1;
+      }
+      leaf numUlUePerTti {
+         type uint16 {
+            range "1..8" {
+               error-message " numUlUePerTti value should be in between 1 to 8";
+            }
+         }
+         default 1;
+
+      }
+   }
+
+   grouping NsiResCfgT {
+      leaf numDlPrb {
+         type uint16 {
+            range "1..273" {
+               error-message "numDlPrb value should be in between 1 to 16";
+            }
+         }
+         default 11;
+      }
+      leaf numUlPrb {
+         type uint16 {
+            range "1..273" {
+               error-message "numUlPrb value should be in between 1 to 16";
+            }
+         }
+         default 11;
+      }
+   }
+
+}
+

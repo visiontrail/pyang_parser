@@ -1,0 +1,728 @@
+module duEnum {
+
+   namespace "http://tail-f.com/ns/example/duEnum";
+   prefix duEnum;
+
+
+   typedef nsAgentCfgEnum {
+      type enumeration {
+         enum "disableNs";
+         enum "oamBasedNsCfg";
+         enum "sliceMgrBasedNsCfg";
+      }
+
+   }
+
+   typedef  mcsTblEnum
+   {
+      type enumeration {
+         enum   MCS_TBL_64QAM;
+         enum   MCS_TBL_256QAM;
+      }
+
+   }
+
+   typedef modeInfoEnum {
+      type enumeration {
+         enum "FDD";
+         enum "TDD";
+      }
+   }
+
+   typedef cyclicPrefixEnum {
+      type enumeration {
+         enum "cyclicPrefix_NORMAL";
+         enum "cyclicPrefix_EXTENDED";
+      }
+   }
+
+   typedef sibTypeEnum {
+      type enumeration {
+         enum "sibType_DU_SIB_TYPE_2";
+         enum "sibType_DU_SIB_TYPE_3";
+      }
+   }
+
+   typedef defaultPagCycleEnum {
+      type enumeration {
+         enum "defaultPagCycle_rf32";
+         enum "defaultPagCycle_rf64";
+         enum "defaultPagCycle_rf128";
+         enum "defaultPagCycle_rf256";
+      }
+   }
+
+   typedef paging_value_nEnum {
+      type enumeration {
+         enum PAGING_DURATION_ONE_T;
+         enum PAGING_DURATION_HALF_T;
+         enum PAGING_DURATION_QUARTER_T;
+         enum PAGING_DURATION_ONE_EIGHTH_T;
+         enum PAGING_DURATION_ONE_SIXTEENTH_T;
+      }
+   }
+
+   typedef nsEnum {
+      type enumeration {
+         enum "ns_four";
+         enum "ns_two";
+         enum "ns_one";
+      }
+   }
+
+   typedef isDrxOnDurationTmrTypeEnum {
+      type enumeration {
+         enum drx-onDurationTimerSubMilliSeconds;
+         enum drx-onDurationTimerMilliSeconds;
+      }
+   }
+   typedef freqRangeTypeEnum {
+      type enumeration {
+         enum "freqRangeType_FR1";
+         enum "freqRangeType_FR2";
+      }
+   }
+
+
+   typedef DrxLongCycleEnum {
+      type enumeration {
+         enum DRX_CYCL_PRD_10MS;
+         enum DRX_CYCL_PRD_20MS;
+         enum DRX_CYCL_PRD_32MS;
+         enum DRX_CYCL_PRD_40MS;
+         enum DRX_CYCL_PRD_60MS;
+         enum DRX_CYCL_PRD_64MS;
+         enum DRX_CYCL_PRD_70MS;
+         enum DRX_CYCL_PRD_80MS;
+         enum DRX_CYCL_PRD_128MS;
+         enum DRX_CYCL_PRD_160MS;
+         enum DRX_CYCL_PRD_256MS;
+         enum DRX_CYCL_PRD_320MS;
+         enum DRX_CYCL_PRD_512MS;
+         enum DRX_CYCL_PRD_640MS;
+         enum DRX_CYCL_PRD_1024MS;
+         enum DRX_CYCL_PRD_1280MS;
+         enum DRX_CYCL_PRD_2048MS;
+         enum DRX_CYCL_PRD_2560MS;
+         enum DRX_CYCL_PRD_5120MS;
+         enum DRX_CYCL_PRD_10240MS;  
+      }
+   }
+
+
+
+
+   typedef inactivityTmrEnum {
+      type enumeration {
+         enum DRX_TMR_PRD_0MS;
+         enum DRX_TMR_PRD_1MS;
+         enum DRX_TMR_PRD_2MS;
+         enum DRX_TMR_PRD_3MS;
+         enum DRX_TMR_PRD_4MS;
+         enum DRX_TMR_PRD_5MS;
+         enum DRX_TMR_PRD_6MS;
+         enum DRX_TMR_PRD_8MS;
+         enum DRX_TMR_PRD_10MS;
+         enum DRX_TMR_PRD_20MS;
+         enum DRX_TMR_PRD_30MS;
+         enum DRX_TMR_PRD_40MS;
+         enum DRX_TMR_PRD_50MS;
+         enum DRX_TMR_PRD_60MS;
+         enum DRX_TMR_PRD_80MS;
+         enum DRX_TMR_PRD_100MS;
+         enum DRX_TMR_PRD_200MS;
+         enum DRX_TMR_PRD_300MS;
+         enum DRX_TMR_PRD_500MS;
+         enum DRX_TMR_PRD_750MS;
+         enum DRX_TMR_PRD_1280MS;
+         enum DRX_TMR_PRD_1920MS;
+         enum DRX_TMR_PRD_2560MS; 
+      }  
+   }
+
+   typedef sibT {
+      type enumeration {
+         enum "sibT_rf8";
+         enum "sibT_rf16";
+         enum "sibT_rf32";
+         enum "sibT_rf64";
+         enum "sibT_rf128";
+         enum "sibT_rf256";
+         enum "sibT_rf512";
+      }
+   }
+
+   typedef drxOnDurationTmrEnum {
+      type enumeration {
+         enum DRX_ON_DURATION_TMR_PRD_1MS;
+         enum DRX_ON_DURATION_TMR_PRD_2MS;
+         enum DRX_ON_DURATION_TMR_PRD_3MS;
+         enum DRX_ON_DURATION_TMR_PRD_4MS;
+         enum DRX_ON_DURATION_TMR_PRD_5MS;
+         enum DRX_ON_DURATION_TMR_PRD_6MS;
+         enum DRX_ON_DURATION_TMR_PRD_8MS;
+         enum DRX_ON_DURATION_TMR_PRD_10MS;
+         enum DRX_ON_DURATION_TMR_PRD_20MS;
+         enum DRX_ON_DURATION_TMR_PRD_30MS;
+         enum DRX_ON_DURATION_TMR_PRD_40MS;
+         enum DRX_ON_DURATION_TMR_PRD_50MS;
+         enum DRX_ON_DURATION_TMR_PRD_60MS;
+         enum DRX_ON_DURATION_TMR_PRD_80MS;
+         enum DRX_ON_DURATION_TMR_PRD_100MS;
+         enum DRX_ON_DURATION_TMR_PRD_200MS;
+         enum DRX_ON_DURATION_TMR_PRD_300MS;
+         enum DRX_ON_DURATION_TMR_PRD_400MS;
+         enum DRX_ON_DURATION_TMR_PRD_500MS;
+         enum DRX_ON_DURATION_TMR_PRD_600MS;
+         enum DRX_ON_DURATION_TMR_PRD_800MS;
+         enum DRX_ON_DURATION_TMR_PRD_1000MS;
+         enum DRX_ON_DURATION_TMR_PRD_1200MS;
+         enum DRX_ON_DURATION_TMR_PRD_1600MS;     
+      }
+   }
+
+   typedef drxRetxTmrInSlotEnum {
+      type enumeration {
+         enum SLOT_DRX_TMR_PRD_0Slot;
+         enum SLOT_DRX_TMR_PRD_1Slot;
+         enum SLOT_DRX_TMR_PRD_2Slot;
+         enum SLOT_DRX_TMR_PRD_4Slot;
+         enum SLOT_DRX_TMR_PRD_6Slot;
+         enum SLOT_DRX_TMR_PRD_8Slot;
+         enum SLOT_DRX_TMR_PRD_16Slot;
+         enum SLOT_DRX_TMR_PRD_24Slot;
+         enum SLOT_DRX_TMR_PRD_33Slot;
+         enum SLOT_DRX_TMR_PRD_40Slot;
+         enum SLOT_DRX_TMR_PRD_64Slot;
+         enum SLOT_DRX_TMR_PRD_80Slot;
+         enum SLOT_DRX_TMR_PRD_96Slot;
+         enum SLOT_DRX_TMR_PRD_112Slot;
+         enum SLOT_DRX_TMR_PRD_128Slot;
+         enum SLOT_DRX_TMR_PRD_160Slot;
+         enum SLOT_DRX_TMR_PRD_320Slot; 
+      }
+   }
+
+
+   typedef drxShortCycleEnum {
+      type enumeration {
+         enum SHORT_DRX_CYCL_PRD_2MS;
+         enum SHORT_DRX_CYCL_PRD_3MS;
+         enum SHORT_DRX_CYCL_PRD_4MS;
+         enum SHORT_DRX_CYCL_PRD_5MS;
+         enum SHORT_DRX_CYCL_PRD_6MS;
+         enum SHORT_DRX_CYCL_PRD_7MS;
+         enum SHORT_DRX_CYCL_PRD_8MS;
+         enum SHORT_DRX_CYCL_PRD_10MS;
+         enum SHORT_DRX_CYCL_PRD_14MS;
+         enum SHORT_DRX_CYCL_PRD_16MS;
+         enum SHORT_DRX_CYCL_PRD_20MS;
+         enum SHORT_DRX_CYCL_PRD_30MS;
+         enum SHORT_DRX_CYCL_PRD_32MS;
+         enum SHORT_DRX_CYCL_PRD_35MS;
+         enum SHORT_DRX_CYCL_PRD_40MS;
+         enum SHORT_DRX_CYCL_PRD_64MS;
+         enum SHORT_DRX_CYCL_PRD_80MS;
+         enum SHORT_DRX_CYCL_PRD_128MS;
+         enum SHORT_DRX_CYCL_PRD_160MS;
+         enum SHORT_DRX_CYCL_PRD_256MS;
+         enum SHORT_DRX_CYCL_PRD_320MS;
+         enum SHORT_DRX_CYCL_PRD_512MS;
+         enum SHORT_DRX_CYCL_PRD_640MS;
+      }
+   }
+
+   typedef resTypeEnum {
+      type enumeration {
+         enum "NS_RES_ISOLATED";
+         enum "NS_RES_SHARED";
+      }
+   }
+
+   typedef dmrsTypAPosEnum {
+      type enumeration {
+         enum dmrsTypAPos_pos2;
+         enum dmrsTypAPos_pos3;
+      }
+   }
+   typedef restrictedSetCfgEnum {
+      type enumeration {
+         enum RACH_UNREST; 
+         enum RACH_REST_TYPE_A;
+         enum RACH_REST_TYPE_B;
+      }
+   }
+
+
+
+
+   typedef cellRsrvdOperatorUseEnum {
+      type enumeration {
+         enum "reserved";
+         enum "notReserved";
+      }
+   }
+
+   typedef ssbEnum {
+      type enumeration {
+         enum ssb_one8th;
+         enum ssb_one4th;
+         enum ssb_one2th;
+         enum ssb_oneth;
+         enum ssb_twoth;
+         enum ssb_fourth;
+         enum ssb_eighth;
+         enum ssb_sixteenth;
+      }
+   }
+
+   typedef monitorTypeEnum {
+      type enumeration {
+         enum "firstPDCCH_Monitoring_sCS15KHZoneT";
+         enum "firstPDCCH_Monitoring_sCS30KHZoneT_SCS15KHZhalfT";
+         enum "firstPDCCH_Monitoring_sCS60KHZoneT_SCS30KHZhalfT_SCS15KHZquarterT";
+         enum "firstPDCCH_Monitoring_sCS120KHZoneT_SCS60KHZhalfT_SCS30KHZquarterT_SCS15KHZoneEighthT";
+         enum "firstPDCCH_Monitoring_sCS120KHZhalfT_SCS60KHZquarterT_SCS30KHZoneEighthT_SCS15KHZoneSixteenthT";
+         enum "firstPDCCH_Monitoring_sCS120KHZquarterT_SCS60KHZoneEighthT_SCS30KHZoneSixteenthT";
+         enum "firstPDCCH_Monitoring_sCS120KHZoneEighthT_SCS60KHZoneSixteenthT";
+         enum "firstPDCCH_Monitoring_sCS120KHZoneSixteenthT";
+      }
+   }
+
+   typedef t300TimerAndConstT {
+      type enumeration {
+         enum  "T300_MS100";
+         enum  "T300_MS200";
+         enum  "T300_MS300";
+         enum  "T300_MS400";
+         enum  "T300_MS600";
+         enum  "T300_MS1000";
+         enum  "T300_MS1500";
+         enum  "T300_MS2000";
+      }
+   }
+
+   typedef t301TimerAndConstT {
+      type enumeration {
+         enum  "T301_MS100";
+         enum  "T301_MS200";
+         enum  "T301_MS300";
+         enum  "T301_MS400";
+         enum  "T301_MS600";
+         enum  "T301_MS1000";
+         enum  "T301_MS1500";
+         enum  "T301_MS2000";
+      }
+   }
+
+   typedef t310TimerAndConstT {
+      type enumeration {
+         enum  "T310_MS0";
+         enum  "T310_MS50";
+         enum  "T310_MS100";
+         enum  "T310_MS200";
+         enum  "T310_MS500";
+         enum  "T310_MS1000";
+         enum  "T310_MS2000";
+      }
+   }
+
+   typedef n310TimerAndConstT {
+      type enumeration {
+         enum  "N310_N1";
+         enum  "N310_N2";
+         enum  "N310_N3";
+         enum  "N310_N4";
+         enum  "N310_N6";
+         enum  "N310_N8";
+         enum  "N310_N10";
+         enum  "N310_N20";
+      }
+   }
+
+   typedef t311TimerAndConstT {
+      type enumeration {
+         enum  "t311TimerAndConstT_T311_MS1000";
+         enum  "t311TimerAndConstT_T311_MS3000";
+         enum  "t311TimerAndConstT_T311_MS5000";
+         enum  "t311TimerAndConstT_T311_MS10000";
+         enum  "t311TimerAndConstT_T311_MS15000";
+         enum  "t311TimerAndConstT_T311_MS20000";
+         enum  "t311TimerAndConstT_T311_MS30000";
+      }
+   }
+
+   typedef n311TimerAndConstT {
+      type enumeration {
+         enum  "N311_N1";
+         enum  "N311_N2";
+         enum  "N311_N3";
+         enum  "N311_N4";
+         enum  "N311_N5";
+         enum  "N311_N6";
+         enum  "N311_N8";
+         enum  "N311_N10";
+      }
+   }
+
+   typedef t319TimerAndConstT {
+      type enumeration {
+         enum  "t319TimerAndConstT_T319_MS100";
+         enum  "t319TimerAndConstT_T319_MS200";
+         enum  "t319TimerAndConstT_T319_MS300";
+         enum  "t319TimerAndConstT_T319_MS400";
+         enum  "t319TimerAndConstT_T319_MS600";
+         enum  "t319TimerAndConstT_T319_MS1000";
+         enum  "t319TimerAndConstT_T319_MS1500";
+         enum  "t319TimerAndConstT_T319_MS2000";
+      }
+   } 
+
+   typedef prachSsbRachEnum {
+      type enumeration {
+         enum prachSsbRach_oneEight;
+         enum prachSsbRach_oneFourth;
+         enum prachSsbRach_oneHalf;
+         enum prachSsbRach_one;
+         enum prachSsbRach_two;
+         enum prachSsbRach_four;
+         enum prachSsbRach_eight;
+      }
+   }
+
+   typedef prachFdmEnum {
+      type enumeration {
+         enum prachFdm_one;
+         enum prachFdm_two;
+         enum prachFdm_four;
+         enum prachFdm_eight;
+      }
+   } 
+
+   typedef cellBarredEnum {
+      type enumeration {
+         enum barred;
+         enum notBarred;
+      }
+   }
+
+   typedef intraFreqReselctionEnum {
+      type enumeration {
+         enum allowed;
+         enum notAllowed;
+      }
+   }
+
+   typedef bSChannelBwEnum {
+      type enumeration {
+         enum "CHAN_BW_5MHZ"; 
+         enum "CHAN_BW_10MHZ";
+         enum "CHAN_BW_15MHZ";
+         enum "CHAN_BW_20MHZ";
+         enum "CHAN_BW_25MHZ";
+         enum "CHAN_BW_30MHZ";
+         enum "CHAN_BW_40MHZ";
+         enum "CHAN_BW_50MHZ";
+         enum "CHAN_BW_60MHZ";
+         enum "CHAN_BW_80MHZ";
+         enum "CHAN_BW_100MHZ";
+         enum "CHAN_BW_200MHZ";
+         enum "CHAN_BW_400MHZ";
+      } 
+   }
+
+   typedef freqShft7p5khzEnum {
+      type enumeration {
+         enum "FREQ_SHFT_7P5KHZ_DISBL";
+         enum "FREQ_SHFT_7P5KHZ_ENBL";
+      }
+   }
+
+   typedef srPrdctyEnum {
+      type enumeration {
+         enum "srPrdcty_sym2";
+         enum "srPrdcty_sym6or7";
+         enum "srPrdcty_sl1";
+         enum "srPrdcty_sl2";
+         enum "srPrdcty_sl4";
+         enum "srPrdcty_sl5";
+         enum "srPrdcty_sl8";
+         enum "srPrdcty_sl10";
+         enum "srPrdcty_sl16";
+         enum "srPrdcty_sl20";
+         enum "srPrdcty_sl40";
+         enum "srPrdcty_sl80";
+         enum "srPrdcty_sl160";
+         enum "srPrdcty_sl320";
+         enum "srPrdcty_sl640";
+      }
+   }
+
+   typedef pucchGrpHoppingEnum {
+      type enumeration {
+         enum pucchGrpHopping_neither;
+         enum pucchGrpHopping_enable;
+         enum pucchGrpHopping_disable;
+      }
+   }
+
+   typedef subCarrSpacCmnEnum {
+      type enumeration {
+         enum scs15or60;
+         enum scs30or120;
+      }
+   }
+
+
+   typedef scsEnum {
+      type enumeration {
+         enum "scs_KHz15";
+         enum "scs_KHz30";
+         enum "scs_KHz60";
+         enum "scs_KHz120";
+         enum "scs_KHz240";
+      } 
+   }
+
+   typedef msg1ScsEnum {
+      type enumeration {
+         enum "msg1Scs_KHz15";
+         enum "msg1Scs_KHz30";
+         enum "msg1Scs_KHz60";
+         enum "msg1Scs_KHz120";
+         enum "msg1Scs_KHz240";
+      }  
+   }  
+
+   typedef rootSeqIdEnum {
+      type enumeration {
+         enum rootSeqId_L839Int;
+         enum rootSeqId_L139Int;
+      }
+   }
+
+
+   typedef seqTypeEnum {
+      type enumeration {
+         enum "RACH_ROOTSEQ_LONG";
+         enum "RACH_ROOTSEQ_SHORT";
+      }
+   }
+
+   typedef contResTmrEnum {
+      type enumeration {
+         enum "contResTmr_sf8";
+         enum "contResTmr_sf16";
+         enum "contResTmr_sf24";
+         enum "contResTmr_sf32";
+         enum "contResTmr_sf40";
+         enum "contResTmr_sf48";
+         enum "contResTmr_sf56";
+         enum "contResTmr_sf64";
+      }
+   }
+
+   typedef ssbsPerRachEnum {
+      type enumeration {
+         enum "SSB_ONE_EIGHT";
+         enum "SSB_ONE_FOURTH";
+         enum "SSB_ONE_HALF"; 
+         enum "SSB_ONE"; 
+         enum "SSB_TWO"; 
+         enum "SSB_FOUR"; 
+         enum "SSB_EIGHT"; 
+         enum "SSB_SIXTEEN"; 
+      }
+   }
+
+   typedef prmblFrmtEnum {
+      type enumeration {
+         enum "ORAN_RACH_FORMAT_0";
+         enum "ORAN_RACH_FORMAT_1";
+         enum "ORAN_RACH_FORMAT_2";
+         enum "ORAN_RACH_FORMAT_3";
+         enum "ORAN_RACH_FORMAT_A1";
+         enum "ORAN_RACH_FORMAT_A2";
+         enum "ORAN_RACH_FORMAT_A3";
+         enum "ORAN_RACH_FORMAT_B1";
+         enum "ORAN_RACH_FORMAT_B2";
+         enum "ORAN_RACH_FORMAT_B3";
+         enum "ORAN_RACH_FORMAT_B4";
+         enum "ORAN_RACH_FORMAT_C0";
+         enum "ORAN_RACH_FORMAT_C2";
+      } 
+   }
+
+   typedef msg3SizeGroupAEnum {
+      type enumeration {
+         enum "msg3SizeGroupA_b56";
+         enum "msg3SizeGroupA_b144";
+         enum "msg3SizeGroupA_b208";
+         enum "msg3SizeGroupA_b256";
+         enum "msg3SizeGroupA_b282";
+         enum "msg3SizeGroupA_b480";
+         enum "msg3SizeGroupA_b640";
+         enum "msg3SizeGroupA_b800";
+         enum "msg3SizeGroupA_b1000";
+         enum "msg3SizeGroupA_b72";
+      }
+   }
+
+   typedef raRspWinEnum {
+      type enumeration {
+         enum "raRspWin_sl1";
+         enum "raRspWin_sl2";
+         enum "raRspWin_sl4";
+         enum "raRspWin_sl8";
+         enum "raRspWin_sl10";
+         enum "raRspWin_sl20";
+         enum "raRspWin_sl40";
+         enum "raRspWin_sl80";
+      }
+   }
+
+   typedef pwrRampingStepEnum {
+      type enumeration {
+         enum "pwrRampingStep_dB0";
+         enum "pwrRampingStep_dB2";
+         enum "pwrRampingStep_dB4";
+         enum "pwrRampingStep_dB6";
+      }
+   }
+
+   typedef  prmblTransMaxEnum {
+      type enumeration {
+         enum "prmblTransMax_n3";
+         enum "prmblTransMax_n4";
+         enum "prmblTransMax_n5";
+         enum "prmblTransMax_n6";
+         enum "prmblTransMax_n7";
+         enum "prmblTransMax_n8";
+         enum "prmblTransMax_n10";
+         enum "prmblTransMax_n20";
+         enum "prmblTransMax_n50";
+         enum "prmblTransMax_n100";
+         enum "prmblTransMax_n200";
+      }
+   }
+
+   typedef puschTxConfigEnum {
+      type enumeration {
+         enum codeBook;
+         enum nonCodeBook;
+         enum none;
+      }
+   }
+
+
+   typedef s1TypeEnum {
+      type enumeration {
+         enum slType_sl1Null;
+         enum slType_sl2I;
+         enum slType_sl4I;
+         enum slType_sl5I;
+         enum slType_sl8I;
+         enum slType_sl10I;
+         enum slType_sl16I;
+         enum slType_sl20I;
+         enum slType_sl40I;
+         enum slType_sl80I;
+         enum slType_sl160I;
+         enum slType_sl320I;
+         enum slType_sl640I;
+         enum slType_sl1280I;
+         enum slType_sl2560I;
+      } 
+   }
+
+   typedef cpEnum {
+      type enumeration {
+         enum "extended";
+      }
+   }
+
+   typedef csiPrdctyEnum {
+      type enumeration {
+         enum "csiPrdctyEnum_slots4";
+         enum "csiPrdctyEnum_slots5";
+         enum "csiPrdctyEnum_slots8";
+         enum "csiPrdctyEnum_slots10";
+         enum "csiPrdctyEnum_slots16";
+         enum "csiPrdctyEnum_slots20";
+         enum "csiPrdctyEnum_slots40";
+         enum "csiPrdctyEnum_slots80";
+         enum "csiPrdctyEnum_slots160";
+         enum "csiPrdctyEnum_slots320";    
+      }
+   }
+
+   typedef logModuleEnum {
+      type enumeration {
+         enum OAMAG;
+         enum DUMGR;
+         enum DURRM;
+         enum APPUE;
+         enum CODEC;       
+         enum EVENT;        
+         enum EGTPU;       
+         enum DUUDP;    
+         enum DUCMN;       
+         enum DURLC;
+         enum DUMAC;
+         enum SCHL1;
+         enum SCHL2;
+         enum DUCL;
+         enum DUNS;
+         enum FSPKT;
+         enum NRUP;
+         enum F1AP;
+         enum SCTP;
+      }
+   }
+
+   typedef ngpLogModuleEnum {
+      type enumeration {
+         enum MEM;
+         enum BUF;
+         enum STATS;
+         enum TIMER;
+         enum STHREAD;
+         enum CTHREAD;
+         enum SYS;
+         enum EXCP;
+         enum COMM;
+         enum SCTP;
+         enum UDP;
+         enum TCP;
+         enum MSGQ;
+         enum PRIOQ;
+         enum WORKQ;
+         enum PERF;
+      }
+   }
+
+   typedef logLevelEnum {
+      type enumeration {
+         enum NIL;
+         enum FATAL;
+         enum ERR;
+         enum WRN;
+         enum INF;
+         enum TRC;
+      }
+   }
+
+   typedef rLogLevelEnum {
+      type enumeration {
+         enum LALWAYS;
+         enum LFATAL;
+         enum LERROR;
+         enum LWARNING;
+         enum LEVENT;
+         enum LINFO;
+         enum LDEBUG;
+         enum LUNUSED;
+         enum LMAXLOGLEVEL;
+      }
+   }
+} 

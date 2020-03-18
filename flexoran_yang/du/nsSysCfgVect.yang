@@ -1,0 +1,25 @@
+module nsSysCfgVect {
+   namespace "http://tail-f.com/ns/example/nssyscfgvect";
+   prefix nsSysCfgVect;
+
+   grouping nsSysCfgVectType {
+      list nsSysCfgInfo {
+         key nsiId;
+
+         leaf nsiId {
+            type uint32 {
+               range "1..8" {
+                  error-message "nsi id should be between 1 to 8";
+               }
+            }
+            description "This contains nsi id";
+         }
+
+         leaf-list coreList {
+            type uint16;
+            description "This contains the core list";
+         }
+      } 
+   }
+}
+

@@ -1,0 +1,36 @@
+module flexoran-precheck-cfg {
+  namespace "http://certusnet.com.cn/flexoran/oam/flexoran-precheck-cfg";
+  prefix precheck;
+
+  import tailf-common {
+    prefix tailf;
+  }
+
+  organization "CertusNet";
+
+  description "This module defines oam software upgrade precheck and workmode.";
+
+  revision "2020-01-08" {
+    description "version 1.0.0";
+  }
+
+  grouping upgradeprecheck-output {
+    leaf software-version { type string; }
+    leaf status {
+      type enumeration {
+        enum OK-UPGRADE;
+        enum NOK-UPGRADE;
+      }
+    }
+  }
+
+  rpc software-upgradeprecheck {
+    tailf:actionpoint "software-upgradeprecheck";
+    description
+      "Check software version and status before upgrade.";
+
+    output {
+      uses upgradeprecheck-output;
+    }
+  }
+}

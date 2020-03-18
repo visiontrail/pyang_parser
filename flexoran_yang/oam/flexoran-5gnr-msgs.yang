@@ -1,0 +1,25 @@
+module flexoran-5gnr-msgs {
+    namespace "http://certusnet.com.cn/flexoran/oam/flexoran-5gnr-msgs";
+    prefix oranmsgs;
+
+    import flexoran-fap-service-mgr {
+        prefix fapmgr;
+    }
+
+    import flexoran-alarms-profile {
+        prefix almsprof;
+    }
+    
+    import flexoran-process-cfg {
+        prefix process;
+    }
+
+    organization "CertusNet";
+    description "This module defines oam main module";
+
+    container msgs {
+        uses almsprof:alarm-oam-cudu-msg;
+        uses process:process-oam-msg;
+    }
+
+}

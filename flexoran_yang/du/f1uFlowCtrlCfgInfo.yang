@@ -1,0 +1,61 @@
+module f1uFlowCtrlCfgInfo {
+   namespace "http://tail-f.com/ns/example/f1uFlowCtrlCfgInfo";
+   prefix f1uFlowCtrlCfgInfo;
+
+   grouping f1uFlowCtrlCfgInfoType {
+
+      leaf maxRlcSduqSize {
+         type uint16 {             
+            range "100..10000" {
+               error-message "Maximum Queue size of RLC SDUs should be between 100 to 10000";
+            }
+         }
+         description "This contains Maximum Queue size of RLC SDUs";
+         default 2000;
+      } 
+
+      leaf rlcSduqLwrThr {
+         type uint16 {
+            range "0..10000" {
+               error-message "RLC SDU Queue lower threshold should be between 0 and 10000";
+            }
+         }
+         must ". <= ../rlcSduqUprThr and " + " . <= ../maxRlcSduqSize" {
+             error-message "Lower Threshold should be less than or equal to Upper Threshold and Max Rlc Sdu size";
+         }
+         description "This contains RLC SDU Queue lower threshold";
+         default 200;
+      }
+
+      leaf rlcSduqUprThr {
+         type uint16 {
+            range "0..10000" {
+               error-message "RLC SDU Queue upper threshold should be between 0 and 10000";
+            }
+         }
+         must ". >= ../rlcSduqLwrThr and " + ". <= ../maxRlcSduqSize" {
+             error-message "Upper Threshold should be greater than or equal to Lower Threshold but less than or equal to Max Rlc Sdu size";
+         } 
+         description "This contains RLC SDU Queue upper threshold";
+         default 400;
+      }
+
+      leaf nrUpFlwCtrlTmr {
+         type uint16 {
+            range "1..65535" {
+               error-message "NR user plane flow control timer should in [1,65535] in Milliseconds";
+            }
+         }
+         description "NR user plane flow control timer in Milliseconds";
+         default 15;
+      }
+      leaf pktReadPerTti {
+         type uint8 {
+             range 1..255 {
+                 error-message "Value should be in the range of [1,255]";
+             }
+         }
+         default 75;
+      }
+   }
+}

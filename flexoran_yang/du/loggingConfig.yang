@@ -1,0 +1,115 @@
+module loggingConfig {
+   namespace "http://tail-f.com/ns/example/loggingconfig";
+   prefix loggingConfig;
+
+    import duEnum {
+       prefix duEnum;
+    }
+
+   grouping rlogT {
+      leaf logPath {
+         type string;
+         config true;
+         default "./";
+         status current;
+         description "RLOG path for log";
+      }
+      leaf logFile {
+         type string;
+         config true;
+         default "dbglog";
+         status current;
+         description "RLOG File";
+      }
+      leaf initLog {
+         type uint32 {
+             range 0..4096 {
+                 error-message "Value should be in the range of [0,4096]";
+             }
+         }
+         config true;
+         default "4"; 
+         status current;
+         description "Init log Value";
+      }
+      leaf moduleMask {
+         type uint32;
+         config true;
+         default "4";  
+         status current;
+         description "Module Mask Value";
+         must ". = '4' or " + ". = '6'" {
+            error-message "Value Should be 4 or 6."; 
+         }
+      }
+      leaf numOfLogFiles {
+         type uint32 {
+             range 1..5 {
+                 error-message "Value should be in the range of [1,5]";
+             }
+         }
+         config true;
+         default "5";  
+         status current;
+         description "Num of log files";
+      }
+      leaf logFileSizeLmt {
+         type uint32 {
+             range 1..100 {
+                 error-message "Value should be in the range of [1,100]";
+             }
+         }
+         config true;
+         default "3"; 
+         status current;
+         description "Log file Size Limit";
+      }
+      leaf logLevel {
+         type duEnum:rLogLevelEnum;
+         config true;
+         status current;
+         description "Log Level for RLOG";
+         default "LFATAL";
+      }
+
+   }
+
+   grouping loggingConfigType {
+
+      list gnbLoggingConfig {
+         key "moduleId";
+         leaf moduleId {
+            type duEnum:logModuleEnum;
+         }
+         leaf logLevel {
+            type duEnum:logLevelEnum;
+            default "FATAL";
+         } 
+      }
+
+      list ngpLoggingConfig {
+         key "moduleId";
+         leaf moduleId {
+            type duEnum:ngpLogModuleEnum;
+         }
+         leaf logLevel {
+            type duEnum:logLevelEnum;
+            default "FATAL";
+         } 
+      }
+
+      container rlogConfig {
+         uses rlogT;
+      }
+
+      leaf logFileName {
+         type string;
+         description "This contains Log file name";
+         default "du";
+      }
+
+   }
+}
+
+
+
