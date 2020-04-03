@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="o-ran-test"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:o-ran-test="urn:o-ran:test:1.0"
+        xmlns:tailf="http://tail-f.com/yang/common">
+  <namespace uri="urn:o-ran:test:1.0"/>
+  <prefix value="o-ran-test"/>
+  <import module="tailf-common">
+    <prefix value="tailf"/>
+  </import>
+  <organization>
+    <text>O-RAN Alliance</text>
+  </organization>
+  <contact>
+    <text>www.o-ran.org</text>
+  </contact>
+  <description>
+    <text>This module defines the configuration data and supervision RPCs that are
+used by the NETCONF client and NETCONF server to detect loss of NETCONF
+connectivity.</text>
+  </description>
+  <revision date="2019-02-04">
+    <description>
+      <text>version 1.0.0
+
+1) imported model from xRAN
+2) changed namespace and reference from xran to o-ran</text>
+    </description>
+    <reference>
+      <text>ORAN-WG4.M.0-v01.00</text>
+    </reference>
+  </revision>
+  <rpc name="send-alarm-test">
+    <tailf:actionpoint name="send-alarm-test"/>
+    <description>
+      <text>rpc to reset the alarm</text>
+    </description>
+    <input>
+      <leaf name="alarm_no">
+        <type name="uint16"/>
+      </leaf>
+      <leaf name="cleared">
+        <type name="boolean"/>
+      </leaf>
+      <leaf name="alarm_text">
+        <type name="string"/>
+      </leaf>
+    </input>
+    <output>
+      <leaf name="result">
+        <type name="boolean"/>
+      </leaf>
+    </output>
+  </rpc>
+</module>

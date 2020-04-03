@@ -1,11 +1,7 @@
 module o-ran-test {
-  yang-version 1.1;
   namespace "urn:o-ran:test:1.0";
   prefix "o-ran-test";
 
-  import ietf-yang-types {
-    prefix yang;
-  }
   // add by CertusNet for adapt ConfD start
   import tailf-common {
     prefix tailf;
