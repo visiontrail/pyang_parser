@@ -47,7 +47,7 @@
     <data_type>string</data_type>
     <para_en_desc>Unique name of low-level-tx-link object.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -65,7 +65,7 @@
     <data_type>processing-elements/ru-elements/name</data_type>
     <para_en_desc>Contains name of processing-element to be used as transport by low-level-tx-link</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -83,7 +83,7 @@
     <data_type>-> /user-plane-configuration/tx-array-carriers/name</data_type>
     <para_en_desc>Contains name of tx-array-carriers MO to be used as transport by low-level-tx-link</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -101,7 +101,7 @@
     <data_type>-> /user-plane-configuration/low-level-tx-endpoints/name</data_type>
     <para_en_desc>Contains name of low-level-tx-endpoints MO to be used as transport by low-level-tx-link</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -132,7 +132,7 @@
     <data_type>string</data_type>
     <para_en_desc>Unique name of low-level-rx-links object.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -150,7 +150,7 @@
     <data_type>processing-elements/ru-elements/name</data_type>
     <para_en_desc>Contains name of processing-element to be used as transport by LowLevelTxLink</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -168,7 +168,7 @@
     <data_type>-> /user-plane-configuration/rx-array-carriers/name</data_type>
     <para_en_desc>Contains name of rx-array-carriers MO to be used as transport by low-level-rx-links</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -186,7 +186,7 @@
     <data_type>-> /user-plane-configuration/low-level-rx-endpoints/name</data_type>
     <para_en_desc>Contains name of low-level-rx-endpoints MO to be used as transport by low-level-rx-links</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -204,7 +204,7 @@
     <data_type>processing-elements/enhanced-uplane-mapping/uplane-mapping/up-marking-name</data_type>
     <para_en_desc>Parameter to set the non-default marking for user-plane</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -235,7 +235,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Identifies type of endpoints sharing same properties. Values shall start with 0 and shall be allocated without gaps.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -266,7 +266,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>This parameter determines the characteristics of U-plane data to be transferred or received from a beam with one pattern id.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -284,7 +284,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>This parameter provides the extension types supported by the O-RU which provides additional parameters specific to the subject data extension</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -302,7 +302,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>List of supported values of frame structure</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -320,9 +320,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Type of delay supported by the endpoint</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>MANAGED,NON_MANAGED,BOTH</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -338,7 +338,7 @@
     <data_type>boolean</data_type>
     <para_en_desc>Indicates whether the endpoint type supports multiple numerologies</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val>true</dft_val>
@@ -356,7 +356,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Maximum gap of endpoint operation that will be caused by changing of numerology.  This time is required for reconfiguration and flushing of pipes.  This leaf contains valid data only when multiple-numerology-supported is set to true.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Ts</unit>
     <memory_range>0..10000</memory_range>
     <dft_val></dft_val>
@@ -374,7 +374,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>Max number of C-plane sections (C-plane section is part of C-plane message that carries 'section fields') referring to same U-plane section (U-plane section is part of U-plane message that carries 'section header fields' and 'PRB fields') that is supported by endpoint. Note that additional limitations specific for each section type apply on top of this number.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range>1..12</memory_range>
     <dft_val></dft_val>
@@ -392,7 +392,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of sections within one symbol that can be processed by endpoint or processed collectively by group of endpoints sharing capacity</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -410,7 +410,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of sections within one slot that can be processed by endpoint or processed collectively by group of endpoints sharing capacity.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -428,7 +428,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of beams within one symbol that can be processed by endpoint or processed collectively by group of endpoints sharing capacity</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -446,7 +446,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of beams within one slot that can be processed by endpoint or processed collectively by group of endpoints sharing capacity</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -464,7 +464,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of prbs within one symbol that can be processed by endpoint or processed collectively by group of endpoints sharing capacity</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -482,7 +482,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>List of capacity allocation steps. O-RU allocates PRB capacity rounding it up to nearest value N from prb-capacity-allocation-granularity such that M >= number-of-prb-per-scs. See also number-of-prb-per-scs/number-of-prb.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -500,7 +500,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of numerologies within one symbol that can be processed by endpoint or processed collectively by group of endpoints sharing capacity</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -531,7 +531,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Identifies group of endpoints sharing resources. Values shall start with 0 and shall be allocated without gaps.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -549,7 +549,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>Max number of C-plane sections (C-plane section is part of C-plane message that carries 'section fields') referring to same U-plane section (U-plane section is part of U-plane message that carries 'section header fields' and 'PRB fields') that is supported by endpoint. Note that additional limitations specific for each section type apply on top of this number.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range>1..12</memory_range>
     <dft_val></dft_val>
@@ -567,7 +567,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of sections within one symbol that can be processed by endpoint or processed collectively by group of endpoints sharing capacity</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -585,7 +585,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of sections within one slot that can be processed by endpoint or processed collectively by group of endpoints sharing capacity.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -603,7 +603,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of beams within one symbol that can be processed by endpoint or processed collectively by group of endpoints sharing capacity</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -621,7 +621,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of beams within one slot that can be processed by endpoint or processed collectively by group of endpoints sharing capacity</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -639,7 +639,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of prbs within one symbol that can be processed by endpoint or processed collectively by group of endpoints sharing capacity</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -657,7 +657,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Max number of numerologies within one symbol that can be processed by endpoint or processed collectively by group of endpoints sharing capacity</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -675,7 +675,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Indicates how many endpoints in the group can be used4 simultaneously</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -693,7 +693,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Number of endpoints supporting managed delay that can be used (configured for use) at a time</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -711,7 +711,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Number of endpoints supporting non-managed delay that can be used (configured for use) at a time</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -742,7 +742,7 @@
     <data_type>string</data_type>
     <para_en_desc>Unique name of static-low-level-tx-endpoints object.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -760,7 +760,7 @@
     <data_type>interfaces/interface/name</data_type>
     <para_en_desc>Optionally used to indicate that a low-level link is constrained to operate only via a subset of the available interfaces.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -778,7 +778,7 @@
     <data_type>-> /user-plane-configuration/tx-arrays/name</data_type>
     <para_en_desc>Contains distname of tx-arrays, particular low-level-tx-endpoints is in hardware dependency with. Note: single instance of tx-arrays can be referenced by many instances of low-level-tx-endpoints (e.g. to allow DU to handle multiple fronthauls and multiple component carriers).</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -796,7 +796,7 @@
     <data_type>-> ../../endpoint-types/id</data_type>
     <para_en_desc>Reference to endpoint type capabilities list element supported by this endpoint</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -814,7 +814,7 @@
     <data_type>-> ../../endpoint-capacity-sharing-groups/id</data_type>
     <para_en_desc>Reference to capacities of sharing-groups supported by this endpoint</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -845,7 +845,7 @@
     <data_type>string</data_type>
     <para_en_desc>Unique name of static-low-level-rx-endpoints object.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -863,7 +863,7 @@
     <data_type>interfaces/interface/name</data_type>
     <para_en_desc>Optionally used to indicate that a low-level link is constrained to operate only via a subset of the available interfaces.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -881,7 +881,7 @@
     <data_type>-> /user-plane-configuration/rx-arrays/name</data_type>
     <para_en_desc>Contains distname of rx-arrays, particular low-level-rx-endpoints is in hardware dependency with. Note: single instance of rx-arrays can be referenced by many instances of low-level-rx-endpoints (e.g. to allow DU to handle multiple fronthauls and multiple component carriers).</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -899,7 +899,7 @@
     <data_type>-> ../../endpoint-types/id</data_type>
     <para_en_desc>Reference to endpoint type capabilities list element supported by this endpoint</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -917,7 +917,7 @@
     <data_type>-> ../../endpoint-capacity-sharing-groups/id</data_type>
     <para_en_desc>Reference to capacities of sharing-groups supported by this endpoint</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -948,7 +948,7 @@
     <data_type>-> /user-plane-configuration/static-low-level-tx-endpoints/name</data_type>
     <para_en_desc>Unique name of low-level-tx-endpoint object. Reference to static object</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -978,7 +978,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>This parameter defines the frame structure. The first 4 bits define the FFT/iFFT size being used for all IQ data processing related to this message. The second 4 bits define the sub carrier spacing as well as the number of slots per 1ms sub-frame according to 3GPP TS 38.211, taking for completeness also 3GPP TS 36.211 into account</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -996,9 +996,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Provides type of CP (cyclic prefix) if section type 3 is not used or type of CP cannot be determined from cpLength.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>NORMAL,EXTENDED</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -1014,7 +1014,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Used for symbol 0 for NR & LTE, and symbol 7*2u for NR. See CUS-plane</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Ts</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1032,7 +1032,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Used for other symbols than by cp-length above</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Ts</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1050,7 +1050,7 @@
     <data_type>int32</data_type>
     <para_en_desc>This provides value of freqOffset to be used if section type 3 is not used. See freqOffset in CUS-plane.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1081,7 +1081,7 @@
     <data_type>scs-config-type</data_type>
     <para_en_desc>Value corresponds to SCS values defined for frameStructure in C-plane. Note: set of allowed values is restricted by SCS derived from values in supported-frame-structures.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1099,7 +1099,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Determines max number of PRBs that will be used in all sections per one symbol. This is affecting allocation of resources to endpoint. Value shall not exceed constrains defined by max-prb-per-symbol of endpoint type. In addition sum (over all used epoints within a group of endpoints sharing resources) of number-of-prb rounded up to nearest value from prb-capacity-allocation-granularity shall not exceed max-prb-per-symbol of the group.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1129,7 +1129,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>mask for eaxc-id bits used to encode O-DU Port ID</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1147,7 +1147,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>mask for eaxc-id bits used to encode the band sector ID</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1165,7 +1165,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>mask for eaxc-id bits used to encode the component carrier id</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1183,7 +1183,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>mask for eaxc-id bits used to encode the O-RU Port ID</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1201,7 +1201,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>encoded value of eaxcid to be read by CU-Plane</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1232,7 +1232,7 @@
     <data_type>-> /user-plane-configuration/static-low-level-rx-endpoints/name</data_type>
     <para_en_desc>Unique name of low-level-rx-endpoint object. Reference to static object</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1262,7 +1262,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>This parameter defines the frame structure. The first 4 bits define the FFT/iFFT size being used for all IQ data processing related to this message. The second 4 bits define the sub carrier spacing as well as the number of slots per 1ms sub-frame according to 3GPP TS 38.211, taking for completeness also 3GPP TS 36.211 into account</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1280,9 +1280,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Provides type of CP (cyclic prefix) if section type 3 is not used or type of CP cannot be determined from cpLength.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>NORMAL,EXTENDED</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -1298,7 +1298,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Used for symbol 0 for NR & LTE, and symbol 7*2u for NR. See CUS-plane</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Ts</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1316,7 +1316,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Used for other symbols than by cp-length above</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Ts</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1334,7 +1334,7 @@
     <data_type>int32</data_type>
     <para_en_desc>This provides value of freqOffset to be used if section type 3 is not used. See freqOffset in CUS-plane.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1365,7 +1365,7 @@
     <data_type>scs-config-type</data_type>
     <para_en_desc>Value corresponds to SCS values defined for frameStructure in C-plane. Note: set of allowed values is restricted by SCS derived from values in supported-frame-structures.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1383,7 +1383,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Determines max number of PRBs that will be used in all sections per one symbol. This is affecting allocation of resources to endpoint. Value shall not exceed constrains defined by max-prb-per-symbol of endpoint type. In addition sum (over all used epoints within a group of endpoints sharing resources) of number-of-prb rounded up to nearest value from prb-capacity-allocation-granularity shall not exceed max-prb-per-symbol of the group.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1414,7 +1414,7 @@
     <data_type>scs-config-type</data_type>
     <para_en_desc>Value corresponds to SCS values defined for frameStructure in C-plane Note: set of allowed values is restricted by SCS derived from values in supported-frame-structures.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1432,7 +1432,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Determines time advance of capture window for FFT. Value represents time advance of capture window start in relation to the end of CP. Unit is Ts. Note: value of this parameter is usually set to '0' (zero) for PRACH channels. Any phase offset resulting from the non-zero value of this parameter is handled in O-DU.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Ts</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1462,7 +1462,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>mask for eaxc-id bits used to encode O-DU Port ID</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1480,7 +1480,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>mask for eaxc-id bits used to encode the band sector ID</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1498,7 +1498,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>mask for eaxc-id bits used to encode the component carrier id</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1516,7 +1516,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>mask for eaxc-id bits used to encode the O-RU Port ID</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1534,7 +1534,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>encoded value of eaxcid to be read by CU-Plane</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1552,7 +1552,7 @@
     <data_type>boolean</data_type>
     <para_en_desc>Tells if non time managed delay shall be enabled</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val>false</dft_val>
@@ -1570,8 +1570,8 @@
     <element_num></element_num>
     <key_list>name</key_list>
     <operation>ADD RMV MOD</operation>
-    <listchildcount>14</listchildcount>
-    <son_list>name,enable-carrier,absolute-frequency-center,center-of-channel-bandwidth,channel-bandwidth,active,rw-duplex-scheme,rw-type,band-number,lte-tdd-frame,laa-carrier-configuration,gain,downlink-radio-frame-offset,downlink-sfn-offset</son_list>
+    <listchildcount>13</listchildcount>
+    <son_list>name,absolute-frequency-center,center-of-channel-bandwidth,channel-bandwidth,active,rw-duplex-scheme,rw-type,band-number,lte-tdd-frame,laa-carrier-configuration,gain,downlink-radio-frame-offset,downlink-sfn-offset</son_list>
   </tx-array-carriers>
   <name>
     <para_name>name</para_name>
@@ -1583,7 +1583,7 @@
     <data_type>string</data_type>
     <para_en_desc>Unique name of tx-array-carriers object.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1591,24 +1591,6 @@
     <listchildcount>0</listchildcount>
     <son_list></son_list>
   </name>
-  <enable-carrier>
-    <para_name>enable-carrier</para_name>
-    <type>leaf</type>
-    <namespace>urn:o-ran:uplane-conf:1.0</namespace>
-    <prefix>o-ran-uplane-conf</prefix>
-    <modulename>o-ran-uplane-conf</modulename>
-    <para_path>/user-plane-configuration/tx-array-carriers/enable-carrier</para_path>
-    <data_type>empty</data_type>
-    <para_en_desc></para_en_desc>
-    <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
-    <unit></unit>
-    <memory_range></memory_range>
-    <dft_val></dft_val>
-    <operation>MOD</operation>
-    <listchildcount>0</listchildcount>
-    <son_list></son_list>
-  </enable-carrier>
   <absolute-frequency-center>
     <para_name>absolute-frequency-center</para_name>
     <type>leaf</type>
@@ -1619,7 +1601,7 @@
     <data_type>uint32</data_type>
     <para_en_desc>Absolute Radio Frequency Channel Number - indirectly indicates RF center carrier frequency of signal. Reflected in arfcn.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1637,7 +1619,7 @@
     <data_type>uint64</data_type>
     <para_en_desc>Center frequency of channel bandwidth in Hz. Common for all numerologies.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Hz</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1655,7 +1637,7 @@
     <data_type>uint64</data_type>
     <para_en_desc>Width of carrier given in Hertz</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Hz</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1673,9 +1655,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Indicates if transmission is enabled for this array carriers. Note that Netconf server uses state parameter to indicate actual state of array carriers operation. When array carriers is in sleep status, Netconf server rejects all other operation request to tx-array-carriers object except either request to change from sleep to active status or delete MO operation (see 4.8) to the object.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>INACTIVE,SLEEP,ACTIVE</memory_range>
     <dft_val>INACTIVE</dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -1691,9 +1673,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Indicates state of array carriers activation operation</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>DISABLED,BUSY,READY</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -1709,9 +1691,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Type of carrier. Indicates array-carrier technology.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>NR,LTE</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -1727,9 +1709,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Type of duplex scheme O-RU supports.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>TDD,FDD</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -1745,7 +1727,7 @@
     <data_type>-> /user-plane-configuration/tx-array-carriers[name=current()/../name]/duplex-scheme</data_type>
     <para_en_desc>Config true type of duplex scheme.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1763,7 +1745,7 @@
     <data_type>-> /user-plane-configuration/tx-array-carriers[name=current()/../name]/type</data_type>
     <para_en_desc>Config true type of carrier.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1781,7 +1763,7 @@
     <data_type>module-capability/band-capabilities/band-number</data_type>
     <para_en_desc>This parameter informing which frequency band particular antenna array is serving for. Intended use is to deal with multiband solutions.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1811,9 +1793,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Indicates DL/UL subframe configuration as specified in 3GPP TS 36.211 [v15.3.0, table 4.2-2]</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>SAO,SA1,SA2,SA3,SA4,SA5,SA6</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -1829,9 +1811,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Indicates TDD special subframe configuration as in TS 36.211 [v15.3.0, table 4.2-1] </para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>SPP0,SPP1,SPP2,SPP3,SPP4,SPP5,SPP6,SPP7,SPP8,SPP9,SPP10</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -1859,7 +1841,7 @@
     <data_type>int8</data_type>
     <para_en_desc>This value indicates Energy Detection(ED) threshold for LBT for PDSCH and for measurements in dBm.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>dBm</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1877,7 +1859,7 @@
     <data_type>int8</data_type>
     <para_en_desc>This value indicates Energy Detection(ED) threshold for LBT for DRS in dBm.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>dBm</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1895,7 +1877,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>This value indicates Tx antenna ports for DRS (1, 2, 4)</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1913,7 +1895,7 @@
     <data_type>int8</data_type>
     <para_en_desc>This value indicates offset of Cell specific reference Signal(CRS) power to reference signal power (dB). DRS signal consists of CRS, PSS, SSS, and optionally CSI-RS.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>decibels</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1931,9 +1913,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>This value indicates DRS measurement timing configuration (DMTC) period in ms</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>milliseconds</unit>
-    <memory_range></memory_range>
+    <memory_range>FORTY,EIGHTY,ONE-HUNDRED-SIXTY</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -1949,7 +1931,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>This value indicates dmtc offset in Subframes.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>subframes</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1967,7 +1949,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>This value indicates LBT Timer in milliseconds.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>milliseconds</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -1998,9 +1980,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>This value provides the priority class traffic for which the counter is calculated.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>P1,P2,P3,P4</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -2016,7 +1998,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>This value indicates the maximum value of counter which shows how many max congestion window value is used for backoff number of priority class traffic. This value is defined at 3GPP 36.213 section 15.1.3 as K.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range>1..8</memory_range>
     <dft_val></dft_val>
@@ -2034,7 +2016,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Transmission gain in dB. Value applicable to each array element carrier belonging to array carrier.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>dB</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2052,7 +2034,7 @@
     <data_type>uint32</data_type>
     <para_en_desc>This parameter is used for offsetting the starting position of 10ms radio frame. Note: The value should have same value within DU to all tx-array-carrierss that have same frequency and bandwidth. Note2: Unit is 1/1.2288e9 Hz and accuracy is 1/4 Tc. Then, its range is calculated 0..12288000.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range>0..12288000</memory_range>
     <dft_val></dft_val>
@@ -2070,7 +2052,7 @@
     <data_type>int16</data_type>
     <para_en_desc>This parameter is used for offsetting SFN value. Unit is in 10ms. Note: The value should have same value within DU to all tx-array-carrierss that have same frequency and bandwidth.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range>-32768..32767</memory_range>
     <dft_val></dft_val>
@@ -2101,7 +2083,7 @@
     <data_type>string</data_type>
     <para_en_desc>Unique name of rx-array-carriers object.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2119,7 +2101,7 @@
     <data_type>uint32</data_type>
     <para_en_desc>Absolute Radio Frequency Channel Number - indirectly indicates RF center carrier frequency of signal. Reflected in arfcn.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2137,7 +2119,7 @@
     <data_type>uint64</data_type>
     <para_en_desc>Center frequency of channel bandwidth in Hz. Common for all numerologies.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Hz</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2155,7 +2137,7 @@
     <data_type>uint64</data_type>
     <para_en_desc>Width of carrier given in Hertz</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Hz</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2173,9 +2155,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Indicates if transmission is enabled for this array carriers. Note that Netconf server uses state parameter to indicate actual state of array carriers operation. When array carriers is in sleep status, Netconf server rejects all other operation request to tx-array-carriers object except either request to change from sleep to active status or delete MO operation (see 4.8) to the object.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>INACTIVE,SLEEP,ACTIVE</memory_range>
     <dft_val>INACTIVE</dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -2191,9 +2173,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Indicates state of array carriers activation operation</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>DISABLED,BUSY,READY</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -2209,9 +2191,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Type of carrier. Indicates array-carrier technology.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>NR,LTE</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -2227,9 +2209,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Type of duplex scheme O-RU supports.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>TDD,FDD</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -2245,7 +2227,7 @@
     <data_type>uint32</data_type>
     <para_en_desc>This parameter is used for offsetting the starting position of 10ms radio frame. Note: The value should have same value within DU to all tx-array-carrierss that have same frequency and bandwidth. Note2: Unit is 1/1.2288e9 Hz and accuracy is 1/4 Tc. Then, its range is calculated 0..12288000.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range>0..12288000</memory_range>
     <dft_val></dft_val>
@@ -2263,7 +2245,7 @@
     <data_type>int16</data_type>
     <para_en_desc>This parameter is used for offsetting SFN value. Unit is in 10ms. Note: The value should have same value within DU to all tx-array-carrierss that have same frequency and bandwidth.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range>-32768..32767</memory_range>
     <dft_val></dft_val>
@@ -2281,7 +2263,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Gain correction of RF path linked with array element or array layers</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>dB</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2299,7 +2281,7 @@
     <data_type>uint32</data_type>
     <para_en_desc>Value of configurable N-TA offset units are Tc=~0.5ns=1/1.96608GHz</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Tc</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2330,7 +2312,7 @@
     <data_type>string</data_type>
     <para_en_desc>Unique name of array antenna</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2348,7 +2330,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Number of rows array elements are shaped into - M</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2366,7 +2348,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Number of columns array elements are shaped into - N</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2384,7 +2366,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>Number of array layers array elements are shaped into - Q</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2402,7 +2384,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Average distance between centers of nearby AE in horizontal direction (in array coordinates system)</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Meter</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2420,7 +2402,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Average distance between centers of nearby AE in vertical direction (in array coordinates system)</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Meter</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2450,7 +2432,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Azimuth angle, counter-clockwise rotation around z-axis. Value 'zero' points to broad-side, value '90' points to y-axis</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Degrees</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2468,7 +2450,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Zenith angle, counter-clockwise rotation around y-axis. Value 'zero' points to zenith, value '90' points to horizon</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Degrees</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2498,7 +2480,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>X dimension of position of leftmost, bottom array element</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Meter</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2516,7 +2498,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Y dimension of position of leftmost, bottom array element</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Meter</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2534,7 +2516,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Z dimension of position of leftmost, bottom array element</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Meter</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2565,7 +2547,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>Polarisation index. See CUS-plane</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2583,7 +2565,7 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Type of polarisation supported by array.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range>MINUS_45,ZERO,PLUS_45,PLUS_90</memory_range>
     <dft_val></dft_val>
@@ -2601,7 +2583,7 @@
     <data_type>module-capability/band-capabilities/band-number</data_type>
     <para_en_desc>This parameter informing which frequency band particular antenna array is serving for. Intended use is to deal with multiband solutions.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2619,7 +2601,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Max gain of RF path linked with array element (minimum over elements of array) or array layers</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>dB</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2637,7 +2619,7 @@
     <data_type>boolean</data_type>
     <para_en_desc>If true then every element of array has own, power budget independent from power budget of other elements. Else all elements of array that are at same row and column and have same polarization share power budget</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2681,7 +2663,7 @@
     <data_type>string</data_type>
     <para_en_desc>Unique name of array antenna</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2699,7 +2681,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Number of rows array elements are shaped into - M</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2717,7 +2699,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Number of columns array elements are shaped into - N</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2735,7 +2717,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>Number of array layers array elements are shaped into - Q</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2753,7 +2735,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Average distance between centers of nearby AE in horizontal direction (in array coordinates system)</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Meter</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2771,7 +2753,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Average distance between centers of nearby AE in vertical direction (in array coordinates system)</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Meter</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2801,7 +2783,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Azimuth angle, counter-clockwise rotation around z-axis. Value 'zero' points to broad-side, value '90' points to y-axis</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Degrees</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2819,7 +2801,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Zenith angle, counter-clockwise rotation around y-axis. Value 'zero' points to zenith, value '90' points to horizon</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Degrees</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2849,7 +2831,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>X dimension of position of leftmost, bottom array element</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Meter</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2867,7 +2849,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Y dimension of position of leftmost, bottom array element</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Meter</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2885,7 +2867,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Z dimension of position of leftmost, bottom array element</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>Meter</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2916,7 +2898,7 @@
     <data_type>uint8</data_type>
     <para_en_desc>Polarisation index. See CUS-plane</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2934,7 +2916,7 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Type of polarisation supported by array.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range>MINUS_45,ZERO,PLUS_45,PLUS_90</memory_range>
     <dft_val></dft_val>
@@ -2952,7 +2934,7 @@
     <data_type>module-capability/band-capabilities/band-number</data_type>
     <para_en_desc>This parameter informing which frequency band particular antenna array is serving for. Intended use is to deal with multiband solutions.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -2982,7 +2964,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Array gain correction factor - maximum allowed value</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>dB</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3000,7 +2982,7 @@
     <data_type>decimal64</data_type>
     <para_en_desc>Array gain correction factor - minimum allowed value</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit>dB</unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3044,7 +3026,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Relation entity. Used as a key for list of relations.</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3090,7 +3072,7 @@
     <data_type>-> /user-plane-configuration/tx-arrays/name</data_type>
     <para_en_desc>Leafref to tx array if such is choosen</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3116,7 +3098,7 @@
     <data_type>-> /user-plane-configuration/rx-arrays/name</data_type>
     <para_en_desc>Leafref to rx array if such is choosen</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3162,7 +3144,7 @@
     <data_type>-> /user-plane-configuration/tx-arrays/name</data_type>
     <para_en_desc>Leafref to tx array if such is choosen</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3188,7 +3170,7 @@
     <data_type>-> /user-plane-configuration/rx-arrays/name</data_type>
     <para_en_desc>Leafref to rx array if such is choosen</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3219,9 +3201,9 @@
     <data_type>enumeration</data_type>
     <para_en_desc>Type of relation between array elements</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range></memory_range>
+    <memory_range>SHARED,COALOCATED</memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -3250,7 +3232,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Tells about id of element from array1</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3268,7 +3250,7 @@
     <data_type>uint16</data_type>
     <para_en_desc>Tells about id of element from array2</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3309,7 +3291,7 @@
     <data_type>-> /user-plane-configuration/tx-array-carriers/name</data_type>
     <para_en_desc>name of tx-array-carriers is notified at state change</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3327,7 +3309,7 @@
     <data_type>-> /user-plane-configuration/tx-array-carriers/state</data_type>
     <para_en_desc>state of tx-array-carriers is notified at state change</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3366,7 +3348,7 @@
     <data_type>-> /user-plane-configuration/rx-array-carriers/name</data_type>
     <para_en_desc>name of rx-array-carriers is notified at state change</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>
@@ -3384,7 +3366,7 @@
     <data_type>-> /user-plane-configuration/rx-array-carriers/state</data_type>
     <para_en_desc>state of rx-array-carriers is notified at state change</para_en_desc>
     <para_ch_desc></para_ch_desc>
-    <is_dynamic_para>NO</is_dynamic_para>
+    <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
     <memory_range></memory_range>
     <dft_val></dft_val>

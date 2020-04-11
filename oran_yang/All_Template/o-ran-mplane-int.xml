@@ -195,7 +195,7 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/m-plane-sub-interfaces/client-info/mplane-ipv4-info/mplane-ipv4</para_path>
-    <data_type>string</data_type>
+    <data_type>ipv4-address</data_type>
     <para_en_desc>The IPv4 address of M-Plane client discovered by the O-RU or manually configured.</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
@@ -213,12 +213,12 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/m-plane-sub-interfaces/client-info/mplane-ipv4-info/port</para_path>
-    <data_type>uint16</data_type>
+    <data_type>port-number</data_type>
     <para_en_desc>The call home port number discovered or manually configured.</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range>0..65535</memory_range>
+    <memory_range></memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -244,7 +244,7 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/m-plane-sub-interfaces/client-info/mplane-ipv6-info/mplane-ipv6</para_path>
-    <data_type>string</data_type>
+    <data_type>ipv6-address</data_type>
     <para_en_desc>The IPv6 address of M-Plane client discovered by the O-RU or manually configured.</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
@@ -262,12 +262,12 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/m-plane-sub-interfaces/client-info/mplane-ipv6-info/port</para_path>
-    <data_type>uint16</data_type>
+    <data_type>port-number</data_type>
     <para_en_desc>The call home port number discovered or manually configured.</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range>0..65535</memory_range>
+    <memory_range></memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -280,7 +280,7 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/m-plane-sub-interfaces/client-info/mplane-fqdn</para_path>
-    <data_type>string</data_type>
+    <data_type>domain-name</data_type>
     <para_en_desc>The discovered FQDN(s) of M-Plane client(s).</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
@@ -310,12 +310,12 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/m-plane-ssh-ports/call-home-ssh-port</para_path>
-    <data_type>uint16</data_type>
+    <data_type>port-number</data_type>
     <para_en_desc>The configured call home server port number</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range>0..65535</memory_range>
+    <memory_range></memory_range>
     <dft_val>4334</dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -328,12 +328,12 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/m-plane-ssh-ports/server-ssh-port</para_path>
-    <data_type>uint16</data_type>
+    <data_type>port-number</data_type>
     <para_en_desc>The configured SSH server port number</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range>0..65535</memory_range>
+    <memory_range></memory_range>
     <dft_val>830</dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -359,7 +359,7 @@
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/m-plane-server-type/netconf-client-ip-type</para_path>
     <data_type>enumeration</data_type>
-    <para_en_desc></para_en_desc>
+    <para_en_desc>m-plane Netconf client IP discovery type</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
@@ -389,7 +389,7 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/m-plane-server-type/netconf-client-ipaddr/mplane-ipv4</para_path>
-    <data_type>string</data_type>
+    <data_type>ipv4-address</data_type>
     <para_en_desc>The IPv4 address of M-Plane client discovered by the O-RU or manually configured.</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
@@ -425,12 +425,12 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/m-plane-server-type/netconf-client-ipaddr/port</para_path>
-    <data_type>uint16</data_type>
+    <data_type>port-number</data_type>
     <para_en_desc>The call home port number discovered or manually configured.</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range>0..65535</memory_range>
+    <memory_range></memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -468,7 +468,7 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/configured-client-info/mplane-ipv4-info/mplane-ipv4</para_path>
-    <data_type>string</data_type>
+    <data_type>ipv4-address</data_type>
     <para_en_desc>The IPv4 address of configured M-Plane client.</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
@@ -486,12 +486,12 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/configured-client-info/mplane-ipv4-info/port</para_path>
-    <data_type>uint16</data_type>
+    <data_type>port-number</data_type>
     <para_en_desc>The configured call home port number.</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range>0..65535</memory_range>
+    <memory_range></memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -517,7 +517,7 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/configured-client-info/mplane-ipv6-info/mplane-ipv6</para_path>
-    <data_type>string</data_type>
+    <data_type>ipv6-address</data_type>
     <para_en_desc>The IPv6 address of configured M-Plane client..</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
@@ -535,12 +535,12 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/configured-client-info/mplane-ipv6-info/port</para_path>
-    <data_type>uint16</data_type>
+    <data_type>port-number</data_type>
     <para_en_desc>The configured call home port number.</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
     <unit></unit>
-    <memory_range>0..65535</memory_range>
+    <memory_range></memory_range>
     <dft_val></dft_val>
     <operation>MOD</operation>
     <listchildcount>0</listchildcount>
@@ -553,7 +553,7 @@
     <prefix>o-ran-mplane-int</prefix>
     <modulename>o-ran-mplane-int</modulename>
     <para_path>/mplane-info/m-plane-interfaces/configured-client-info/mplane-fqdn</para_path>
-    <data_type>string</data_type>
+    <data_type>domain-name</data_type>
     <para_en_desc>The configured FQDN(s) of M-Plane client(s).</para_en_desc>
     <para_ch_desc></para_ch_desc>
     <is_dynamic_para>YES</is_dynamic_para>
