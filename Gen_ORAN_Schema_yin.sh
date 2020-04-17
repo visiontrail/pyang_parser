@@ -2,21 +2,22 @@
 # pyang -f yin -o oran_yang/All_yin/o-ran-test.yin oran_yang/CommonModels/Operations/o-ran-test.yang \
 #       -p oran_yang/ImportedModels
 
-python pyang.py -f moxml --moXML-version=1.0 \
-                   oran_yang/ImportedModels/ietf-interfaces.yang \
-                -o oran_yang/All_Template/ietf-interfaces.xml
+python pyang.py -f yin -o oran_yang/All_yin/o-ran-software-management.yin oran_yang/CommonModels/Operations/o-ran-software-management.yang \
+                -p oran_yang/ImportedModels \
+                -p oran_yang/CommonModels/System \
+                -p oran_yang/CommonModels/Operations
 
-python pyang.py -f moxml --moXML-version=1.0 \
-                   oran_yang/CommonModels/Operations/o-ran-operations.yang \
-                -o oran_yang/All_Template/o-ran-operations.xml
+python pyang.py -f yin -o oran_yang/All_yin/ietf-hardware.yin oran_yang/ImportedModels/ietf-hardware.yang \
+                -p oran_yang/ImportedModels \
 
-python pyang.py -f moxml --moXML-version=1.0 \
-                   oran_yang/RUSpecificModels/Operations/o-ran-uplane-conf.yang \
-                -o oran_yang/All_Template/o-ran-uplane-conf.xml
+python pyang.py -f yin -o oran_yang/All_yin/iana-hardware.yin oran_yang/ImportedModels/iana-hardware.yang \
+                -p oran_yang/ImportedModels \
 
-python pyang.py -f moxml --moXML-version=1.0 \
-                   oran_yang/CommonModels/Interfaces/o-ran-mplane-int.yang \
-                -o oran_yang/All_Template/o-ran-mplane-int.xml
+python pyang.py -f yin -o oran_yang/All_yin/o-ran-hardware.yin oran_yang/CommonModels/System/o-ran-hardware.yang \
+                -p oran_yang/ImportedModels \
+
+python pyang.py -f yin -o oran_yang/All_yin/o-ran-file-management.yin oran_yang/CommonModels/Operations/o-ran-file-management.yang \
+                -p oran_yang/ImportedModels \
 
 
-cp oran_yang/All_Template/*.xml ../../modules/rru_manager/data_schema
+# cp oran_yang/All_Template/*.xml ../../modules/rru_manager/data_schema

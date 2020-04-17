@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="o-ran-file-management"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:o-ran-file-mgmt="urn:o-ran:file-management:1.0">
+  <yang-version value="1.1"/>
+  <namespace uri="urn:o-ran:file-management:1.0"/>
+  <prefix value="o-ran-file-mgmt"/>
+  <organization>
+    <text>O-RAN Alliance</text>
+  </organization>
+  <contact>
+    <text>www.o-ran.org</text>
+  </contact>
+  <description>
+    <text>This module defines the configuration and operations for handling upload.
+
+Copyright 2019 the O-RAN Alliance.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice,
+this list of conditions and the above disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the above disclaimer in the documentation
+and/or other materials provided with the distribution.
+* Neither the Members of the O-RAN Alliance nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.</text>
+  </description>
+  <revision date="2019-07-03">
+    <description>
+      <text>version 1.1.0
+
+1) backward compatible changes to correct sFTP Server Authentication .
+2) minor fixes according to lack of descriptions
+3) backward compatible changes to introduce groupings</text>
+    </description>
+    <reference>
+      <text>ORAN-WG4.M.0-v01.00</text>
+    </reference>
+  </revision>
+  <revision date="2019-02-04">
+    <description>
+      <text>version 1.0.0
+
+1) imported model from xRAN
+2) changed namespace and reference from xran to o-ran</text>
+    </description>
+    <reference>
+      <text>ORAN-WG4.M.0-v01.00</text>
+    </reference>
+  </revision>
+  <grouping name="file-path-grouping">
+    <description>
+      <text>Complete logical path of the file to upload/download
+(no wildcard is allowed) ex : /o-RAN/log/syslog.1</text>
+    </description>
+    <leaf name="local-logical-file-path">
+      <type name="string"/>
+      <mandatory value="true"/>
+      <description>
+        <text>Local logical file path</text>
+      </description>
+    </leaf>
+    <leaf name="remote-file-path">
+      <type name="string"/>
+      <mandatory value="true"/>
+      <description>
+        <text>URI specifying the remote-file-path on O-DU/NMS.
+Format:sftp://&lt;username&gt;@&lt;host&gt;[:port]/path</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="output-status-grouping">
+    <description>
+      <text>Status grouping</text>
+    </description>
+    <leaf name="status">
+      <type name="enumeration">
+        <enum name="SUCCESS">
+          <description>
+            <text></text>
+          </description>
+        </enum>
+        <enum name="FAILURE">
+          <description>
+            <text></text>
+          </description>
+        </enum>
+      </type>
+      <description>
+        <text>Operation status</text>
+      </description>
+    </leaf>
+    <leaf name="reject-reason">
+      <when condition="../status = 'FAILURE'"/>
+      <type name="string"/>
+      <description>
+        <text></text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="credential-information">
+    <description>
+      <text>Type of authentication to use for SFTP upload or download.</text>
+    </description>
+    <choice name="credentials">
+      <case name="password">
+        <container name="password">
+          <presence value="true"/>
+          <leaf name="password">
+            <type name="string"/>
+            <mandatory value="true"/>
+            <description>
+              <text>password needed for O-RU authentication.</text>
+            </description>
+          </leaf>
+          <description>
+            <text>password for O-RU authentication method in use</text>
+          </description>
+        </container>
+        <container name="server">
+          <description>
+            <text>Key for sFTP server authentication</text>
+          </description>
+        </container>
+      </case>
+      <case name="certificate">
+        <container name="certificate">
+          <presence value="true"/>
+          <description>
+            <text>certificate authentication method in use</text>
+          </description>
+        </container>
+      </case>
+      <description>
+        <text></text>
+      </description>
+    </choice>
+  </grouping>
+  <grouping name="retrieve-input">
+    <description>
+      <text>Grouping for information retrieval RPC input</text>
+    </description>
+    <leaf name="logical-path">
+      <type name="string"/>
+      <mandatory value="true"/>
+      <description>
+        <text>O-RAN unit of which the files are to be listed.
+ex :  O-RAN/log, o-RAN/PM, O-RAN/transceiver</text>
+      </description>
+    </leaf>
+    <leaf name="file-name-filter">
+      <type name="string"/>
+      <description>
+        <text>Filter which are to be applied on the result list of file names (* is allowed as wild-card).</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="retrieve-output">
+    <description>
+      <text>Grouping for information retrieval RPC output</text>
+    </description>
+    <uses name="output-status-grouping"/>
+    <leaf-list name="file-list">
+      <when condition="../status = 'SUCCESS'"/>
+      <type name="string"/>
+      <description>
+        <text>List of files in the unit with the filter applied.</text>
+      </description>
+    </leaf-list>
+  </grouping>
+  <rpc name="file-upload">
+    <description>
+      <text>File upload over SFTP from equipment to NETCONF client</text>
+    </description>
+    <input>
+      <uses name="file-path-grouping"/>
+      <uses name="credential-information"/>
+    </input>
+    <output>
+      <uses name="output-status-grouping"/>
+    </output>
+  </rpc>
+  <rpc name="retrieve-file-list">
+    <description>
+      <text>List all the files in the logical O-RAN unit (* is allowed as wild-card).</text>
+    </description>
+    <input>
+      <uses name="retrieve-input"/>
+    </input>
+    <output>
+      <uses name="retrieve-output"/>
+    </output>
+  </rpc>
+  <notification name="file-upload-notification">
+    <uses name="file-path-grouping"/>
+    <uses name="output-status-grouping"/>
+    <description>
+      <text></text>
+    </description>
+  </notification>
+  <rpc name="file-download">
+    <description>
+      <text>Management plane triggered to generate the download file of O-RU.</text>
+    </description>
+    <input>
+      <uses name="file-path-grouping"/>
+      <uses name="credential-information"/>
+    </input>
+    <output>
+      <uses name="output-status-grouping"/>
+    </output>
+  </rpc>
+  <notification name="file-download-event">
+    <uses name="file-path-grouping"/>
+    <uses name="output-status-grouping"/>
+    <description>
+      <text></text>
+    </description>
+  </notification>
+</module>

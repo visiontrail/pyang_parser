@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="o-ran-software-management"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:o-ran-swm="urn:o-ran:software-management:1.0"
+        xmlns:inet="urn:ietf:params:xml:ns:yang:ietf-inet-types"
+        xmlns:hw="urn:ietf:params:xml:ns:yang:ietf-hardware"
+        xmlns:o-ran-hw="urn:o-ran:hardware:1.0"
+        xmlns:o-ran-fm="urn:o-ran:file-management:1.0">
+  <yang-version value="1.1"/>
+  <namespace uri="urn:o-ran:software-management:1.0"/>
+  <prefix value="o-ran-swm"/>
+  <import module="ietf-inet-types">
+    <prefix value="inet"/>
+    <revision-date date="2013-07-15"/>
+  </import>
+  <import module="ietf-hardware">
+    <prefix value="hw"/>
+  </import>
+  <import module="o-ran-hardware">
+    <prefix value="o-ran-hw"/>
+  </import>
+  <import module="o-ran-file-management">
+    <prefix value="o-ran-fm"/>
+  </import>
+  <organization>
+    <text>O-RAN Alliance</text>
+  </organization>
+  <contact>
+    <text>www.o-ran.org</text>
+  </contact>
+  <description>
+    <text>This module defines operations and configuration for the management of software packages.
+This module is derived out of opencpe-firmware-mgmt@2014-02-06.yang
+
+Copyright 2019 the O-RAN Alliance.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice,
+this list of conditions and the above disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the above disclaimer in the documentation
+and/or other materials provided with the distribution.
+* Neither the Members of the O-RAN Alliance nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.</text>
+  </description>
+  <revision date="2019-07-03">
+    <description>
+      <text>version 1.0.2
+
+1) backward compatible changes to correct sFTP Server Authentication .
+2) simplifying file management and authentication to reuse from o-ran-file-management module
+3) minor fixes according to lack of descriptions
+4) removal of not used grouping
+5) backward compatible changes to introduce groupings.</text>
+    </description>
+    <reference>
+      <text>ORAN-WG4.M.0-v01.00</text>
+    </reference>
+  </revision>
+  <revision date="2019-02-04">
+    <description>
+      <text>version 1.0.0
+
+1) imported model from xRAN
+2) changed namespace and reference from xran to o-ran</text>
+    </description>
+    <reference>
+      <text>ORAN-WG4.M.0-v01.00</text>
+    </reference>
+  </revision>
+  <grouping name="slot-group">
+    <description>
+      <text>Contains information about each software slot and its content.</text>
+    </description>
+    <list name="software-slot">
+      <key value="name"/>
+      <min-elements value="2"/>
+      <description>
+        <text>Information about available software-slots and their software.</text>
+      </description>
+      <leaf name="name">
+        <type name="string"/>
+        <description>
+          <text>Name of the software package. This shall be unique to identify the software-slot.</text>
+        </description>
+      </leaf>
+      <leaf name="status">
+        <type name="enumeration">
+          <enum name="VALID">
+            <description>
+              <text>Slot Contains software build considered as proven valid</text>
+            </description>
+          </enum>
+          <enum name="INVALID">
+            <description>
+              <text>software build is not currently used by O-RU. The software is considered by O-RU as damaged (e.g. wrong CRC)</text>
+            </description>
+          </enum>
+          <enum name="EMPTY">
+            <description>
+              <text>W slot does not contain software package.</text>
+            </description>
+          </enum>
+        </type>
+        <config value="false"/>
+        <mandatory value="true"/>
+        <description>
+          <text>Indicates the status of the software slot</text>
+        </description>
+      </leaf>
+      <leaf name="active">
+        <type name="boolean"/>
+        <must condition="../status = 'VALID'"/>
+        <config value="false"/>
+        <description>
+          <text>informs if software stored in particular slot is activated at the moment</text>
+        </description>
+      </leaf>
+      <leaf name="running">
+        <type name="boolean"/>
+        <must condition="../status = 'VALID'"/>
+        <config value="false"/>
+        <description>
+          <text>informs if software stored in particular slot is used at the moment</text>
+        </description>
+      </leaf>
+      <leaf name="access">
+        <type name="enumeration">
+          <enum name="READ_ONLY">
+            <description>
+              <text>slot intended only for factory software,
+activation of such software slot means getting back to factory defaults</text>
+            </description>
+          </enum>
+          <enum name="READ_WRITE">
+            <description>
+              <text>slot used for updating software</text>
+            </description>
+          </enum>
+        </type>
+        <default value="READ_WRITE"/>
+        <config value="false"/>
+        <description>
+          <text>Indicates the writability of the slot.
+A Read-Only software slot is one which has a factory installed software-slot</text>
+        </description>
+      </leaf>
+      <leaf name="product-code">
+        <type name="leafref">
+          <path value="/hw:hardware/hw:component/o-ran-hw:product-code"/>
+        </type>
+        <config value="false"/>
+        <description>
+          <text>product code provided by the vendor, specific to the product. This is derived from manifest file.</text>
+        </description>
+      </leaf>
+      <leaf name="vendor-code">
+        <type name="string">
+          <length value="1..2"/>
+        </type>
+        <config value="false"/>
+        <description>
+          <text>Unique code of the vendor. This is derived from manifest file.</text>
+        </description>
+      </leaf>
+      <leaf name="build-id">
+        <type name="string"/>
+        <config value="false"/>
+        <description>
+          <text>Identity associated with the software build. This is derived from manifest file.</text>
+        </description>
+      </leaf>
+      <leaf name="build-name">
+        <type name="string"/>
+        <config value="false"/>
+        <description>
+          <text>Name of the build. This is derived from manifest file.</text>
+        </description>
+      </leaf>
+      <leaf name="build-version">
+        <type name="string"/>
+        <description>
+          <text>The vendor-specific version string of the software build.</text>
+        </description>
+      </leaf>
+      <list name="files">
+        <key value="name"/>
+        <config value="false"/>
+        <description>
+          <text>List of all the files present in the software package.</text>
+        </description>
+        <leaf name="name">
+          <type name="string"/>
+          <description>
+            <text>Name of the file installed in the slot.</text>
+          </description>
+        </leaf>
+        <leaf name="version">
+          <type name="string"/>
+          <description>
+            <text>Version of the file installed in the slot</text>
+          </description>
+        </leaf>
+        <leaf name="local-path">
+          <type name="string"/>
+          <mandatory value="true"/>
+          <description>
+            <text>Complete path of the file stored locally</text>
+          </description>
+        </leaf>
+        <leaf name="integrity">
+          <type name="enumeration">
+            <enum name="OK">
+              <description>
+                <text>OK - indicates that file integrity is correct</text>
+              </description>
+            </enum>
+            <enum name="NOK">
+              <description>
+                <text>NOK - indicates corrupted file</text>
+              </description>
+            </enum>
+          </type>
+          <config value="false"/>
+          <description>
+            <text>Result of the file integrity check (checksum calculation) during installation.</text>
+          </description>
+        </leaf>
+      </list>
+    </list>
+  </grouping>
+  <grouping name="download-input">
+    <description>
+      <text>Grouping for sw download rpc input</text>
+    </description>
+    <leaf name="remote-file-path">
+      <type name="inet:uri"/>
+      <mandatory value="true"/>
+      <description>
+        <text>URI of the software image including username.
+The following format is possible:
+sftp://&lt;username&gt;@&lt;host&gt;[:&lt;port&gt;]/path</text>
+      </description>
+    </leaf>
+    <uses name="o-ran-fm:credential-information"/>
+  </grouping>
+  <grouping name="download-output">
+    <description>
+      <text>Grouping for sw download rpc output</text>
+    </description>
+    <leaf name="status">
+      <type name="enumeration">
+        <enum name="STARTED">
+          <description>
+            <text>Operation has been started without error.</text>
+          </description>
+        </enum>
+        <enum name="FAILED">
+          <description>
+            <text>Operation cannot be started because of error, more detailed information can be found in error-message.</text>
+          </description>
+        </enum>
+      </type>
+      <mandatory value="true"/>
+      <description>
+        <text>Status of the software files download</text>
+      </description>
+    </leaf>
+    <leaf name="error-message">
+      <when condition="../status = 'FAILED'"/>
+      <type name="string"/>
+      <description>
+        <text>Detailed error Message when the status is failed.</text>
+      </description>
+    </leaf>
+    <leaf name="notification-timeout">
+      <type name="int32"/>
+      <units name="seconds"/>
+      <default value="30"/>
+      <description>
+        <text>Notification timeout is the time NETCONF client shall
+wait for a 'download-event' notification from O-RU. If there is no
+'download-event' notification received within notification-timeout,
+NETCONF client shall assume the download timeout/failure, and follow necessary steps.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="install-input">
+    <description>
+      <text>Grouping for sw installation rpc input</text>
+    </description>
+    <leaf name="slot-name">
+      <type name="leafref">
+        <path value="/software-inventory/software-slot/name"/>
+      </type>
+      <must condition="/software-inventory/software-slot[name = current()][active = 'false' and running = 'false']">
+        <error-message>
+          <value>software-install may be requested only against active::false and running::false slot!</value>
+        </error-message>
+      </must>
+      <mandatory value="true"/>
+      <description>
+        <text>software-slot to which the software shall be installed to.</text>
+      </description>
+    </leaf>
+    <leaf-list name="file-names">
+      <type name="string"/>
+      <description>
+        <text>Names of the files within software package to be installed</text>
+      </description>
+    </leaf-list>
+  </grouping>
+  <grouping name="install-output">
+    <description>
+      <text>Grouping for sw installation rpc output</text>
+    </description>
+    <leaf name="status">
+      <type name="enumeration">
+        <enum name="STARTED">
+          <description>
+            <text>Operation has been started without error.</text>
+          </description>
+        </enum>
+        <enum name="FAILED">
+          <description>
+            <text>Operation cannot be started because of error, more detailed information can be found in error-message.</text>
+          </description>
+        </enum>
+      </type>
+      <mandatory value="true"/>
+      <description>
+        <text>Status of the software package install.</text>
+      </description>
+    </leaf>
+    <leaf name="error-message">
+      <when condition="../status = 'FAILED'"/>
+      <type name="string"/>
+      <description>
+        <text>Detailed error Message when the status is failed.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="activate-input">
+    <description>
+      <text>Grouping for sw activation rpc input</text>
+    </description>
+    <leaf name="slot-name">
+      <type name="leafref">
+        <path value="/software-inventory/software-slot/name"/>
+      </type>
+      <must condition="/software-inventory/software-slot[name = current()][status = 'VALID']">
+        <error-message>
+          <value>software activation may be requested only on VALID slot!</value>
+        </error-message>
+      </must>
+      <mandatory value="true"/>
+      <description>
+        <text>Slot name on which software has to be activated.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="activate-output">
+    <description>
+      <text>Grouping for sw activation rpc output</text>
+    </description>
+    <leaf name="status">
+      <type name="enumeration">
+        <enum name="STARTED">
+          <description>
+            <text>Operation has been started without error.</text>
+          </description>
+        </enum>
+        <enum name="FAILED">
+          <description>
+            <text>Operation cannot be started because of error, more detailed information can be found in error-message.</text>
+          </description>
+        </enum>
+      </type>
+      <mandatory value="true"/>
+      <description>
+        <text>Status of the software files activation</text>
+      </description>
+    </leaf>
+    <leaf name="error-message">
+      <when condition="../status = 'FAILED'"/>
+      <type name="string"/>
+      <description>
+        <text>Detailed error Message when the status is failed.</text>
+      </description>
+    </leaf>
+    <leaf name="notification-timeout">
+      <type name="int32"/>
+      <units name="seconds"/>
+      <default value="30"/>
+      <description>
+        <text>Timeout on client waiting for the activate event</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="download-notification">
+    <description>
+      <text>Grouping for notification event structure for download completion</text>
+    </description>
+    <leaf name="file-name">
+      <type name="string"/>
+      <mandatory value="true"/>
+      <description>
+        <text>File name of downloaded software package</text>
+      </description>
+    </leaf>
+    <leaf name="status">
+      <type name="enumeration">
+        <enum name="COMPLETED">
+          <description>
+            <text>Operation completed succesfully</text>
+          </description>
+        </enum>
+        <enum name="AUTHENTICATION_ERROR">
+          <description>
+            <text>source available, wrong credentials</text>
+          </description>
+        </enum>
+        <enum name="PROTOCOL_ERROR">
+          <description>
+            <text>SFTP errors</text>
+          </description>
+        </enum>
+        <enum name="FILE_NOT_FOUND">
+          <description>
+            <text>source not available.</text>
+          </description>
+        </enum>
+        <enum name="APPLICATION_ERROR">
+          <description>
+            <text>Application related errors</text>
+          </description>
+        </enum>
+        <enum name="TIMEOUT">
+          <description>
+            <text>Timeout waiting for download</text>
+          </description>
+        </enum>
+      </type>
+      <description>
+        <text>Status of finished operation execution</text>
+      </description>
+    </leaf>
+    <leaf name="error-message">
+      <when condition="../status != 'COMPLETED'"/>
+      <type name="string"/>
+      <description>
+        <text>Detailed description of faulty situation</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="install-notification">
+    <description>
+      <text>Grouping for notification event structure for installation completion</text>
+    </description>
+    <leaf name="slot-name">
+      <type name="leafref">
+        <path value="/software-inventory/software-slot/name"/>
+      </type>
+      <description>
+        <text>Name of the slot to which software was installed.</text>
+      </description>
+    </leaf>
+    <leaf name="status">
+      <type name="enumeration">
+        <enum name="COMPLETED">
+          <description>
+            <text>Operation completed succesfully</text>
+          </description>
+        </enum>
+        <enum name="FILE_ERROR">
+          <description>
+            <text>operation on the file resulted in in error, disk failure, not enough disk space,
+incompatible file format</text>
+          </description>
+        </enum>
+        <enum name="INTEGRITY_ERROR">
+          <description>
+            <text>file is corrupted</text>
+          </description>
+        </enum>
+        <enum name="APPLICATION_ERROR">
+          <description>
+            <text>operation failed due to internal reason</text>
+          </description>
+        </enum>
+      </type>
+      <description>
+        <text>Status of finished operation execution</text>
+      </description>
+    </leaf>
+    <leaf name="error-message">
+      <when condition="../status != 'COMPLETED'"/>
+      <type name="string"/>
+      <description>
+        <text>Detailed description of faulty situation</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="activation-notification">
+    <description>
+      <text>Grouping for notification event structure for activation completion</text>
+    </description>
+    <leaf name="slot-name">
+      <type name="leafref">
+        <path value="/software-inventory/software-slot/name"/>
+      </type>
+      <description>
+        <text>Name of the slot which was activated</text>
+      </description>
+    </leaf>
+    <leaf name="status">
+      <type name="enumeration">
+        <enum name="COMPLETED">
+          <description>
+            <text>Operation completed succesfully</text>
+          </description>
+        </enum>
+        <enum name="APPLICATION_ERROR">
+          <description>
+            <text>Operation finished with error, more details can by found in error-message</text>
+          </description>
+        </enum>
+      </type>
+      <description>
+        <text>Status of finished operation execution</text>
+      </description>
+    </leaf>
+    <leaf name="return-code">
+      <type name="uint8"/>
+      <description>
+        <text>status code return when the software is tried to activate</text>
+      </description>
+    </leaf>
+    <leaf name="error-message">
+      <when condition="../status != 'COMPLETED'"/>
+      <type name="string"/>
+      <description>
+        <text>Detailed description of faulty situation</text>
+      </description>
+    </leaf>
+  </grouping>
+  <container name="software-inventory">
+    <config value="false"/>
+    <description>
+      <text>Contains information about each software slot and its content.</text>
+    </description>
+    <uses name="slot-group"/>
+  </container>
+  <rpc name="software-download">
+    <description>
+      <text>Rpc needed to perform software download operation.</text>
+    </description>
+    <input>
+      <uses name="download-input"/>
+    </input>
+    <output>
+      <uses name="download-output"/>
+    </output>
+  </rpc>
+  <rpc name="software-install">
+    <description>
+      <text>Install a previously downloaded software package.</text>
+    </description>
+    <input>
+      <uses name="install-input"/>
+    </input>
+    <output>
+      <uses name="install-output"/>
+    </output>
+  </rpc>
+  <rpc name="software-activate">
+    <description>
+      <text>Activate a previously installed software.</text>
+    </description>
+    <input>
+      <uses name="activate-input"/>
+    </input>
+    <output>
+      <uses name="activate-output"/>
+    </output>
+  </rpc>
+  <notification name="download-event">
+    <description>
+      <text>Notification event structure for download completion</text>
+    </description>
+    <uses name="download-notification"/>
+  </notification>
+  <notification name="install-event">
+    <description>
+      <text>Notification event structure for installation completion</text>
+    </description>
+    <uses name="install-notification"/>
+  </notification>
+  <notification name="activation-event">
+    <description>
+      <text>Notification event structure for activation completion</text>
+    </description>
+    <uses name="activation-notification"/>
+  </notification>
+</module>

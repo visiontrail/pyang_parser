@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="o-ran-hardware"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:o-ran-hw="urn:o-ran:hardware:1.0"
+        xmlns:hw="urn:ietf:params:xml:ns:yang:ietf-hardware"
+        xmlns:ianahw="urn:ietf:params:xml:ns:yang:iana-hardware">
+  <yang-version value="1.1"/>
+  <namespace uri="urn:o-ran:hardware:1.0"/>
+  <prefix value="o-ran-hw"/>
+  <import module="ietf-hardware">
+    <prefix value="hw"/>
+  </import>
+  <import module="iana-hardware">
+    <prefix value="ianahw"/>
+  </import>
+  <organization>
+    <text>O-RAN Alliance</text>
+  </organization>
+  <contact>
+    <text>www.o-ran.org</text>
+  </contact>
+  <description>
+    <text>This module defines the YANG definitions for managng the O-RAN hardware.
+
+Copyright 2019 the O-RAN Alliance.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice,
+this list of conditions and the above disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the above disclaimer in the documentation
+and/or other materials provided with the distribution.
+* Neither the Members of the O-RAN Alliance nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.</text>
+  </description>
+  <revision date="2019-07-03">
+    <description>
+      <text>version 1.1.0
+
+1) added new identities to accommodate cross working group use of
+o-ran-hardware and assoicated set of augmentations that are backwards
+compatible to version 1.0.0</text>
+    </description>
+    <reference>
+      <text>ORAN-WG4.M.0-v01.00</text>
+    </reference>
+  </revision>
+  <revision date="2019-02-04">
+    <description>
+      <text>version 1.0.0
+
+1) imported model from xRAN
+2) changed namespace and reference from xran to o-ran</text>
+    </description>
+    <reference>
+      <text>ORAN-WG4.M.0-v01.00</text>
+    </reference>
+  </revision>
+  <feature name="ENERGYSAVING">
+    <description>
+      <text>Indicates that the Radio Unit supports energy saving state.</text>
+    </description>
+  </feature>
+  <identity name="O-RAN-RADIO">
+    <base name="ianahw:module"/>
+    <description>
+      <text>Module used as it represents a self-contained sub-system
+used in /hw:/hardware/hw:component/hw:class to represent
+an O-RAN RU</text>
+    </description>
+  </identity>
+  <identity name="O-RAN-HW-COMPONENT">
+    <base name="ianahw:module"/>
+    <description>
+      <text>Module used as it represents a self-contained sub-system
+used in /hw:/hardware/hw:component/hw:class to represent
+any O-RAN hardware component</text>
+    </description>
+  </identity>
+  <identity name="O-DU-COMPONENT">
+    <base name="O-RAN-HW-COMPONENT"/>
+    <description>
+      <text>Used in /hw:/hardware/hw:component/hw:class to represent
+any O-RAN defined O-DU hardware component</text>
+    </description>
+  </identity>
+  <identity name="O-RU-COMPONENT">
+    <base name="O-RAN-HW-COMPONENT"/>
+    <description>
+      <text>Used in /hw:/hardware/hw:component/hw:class to represent
+any O-RAN defined O-RU hardware component, including a stand-alone
+O-RU or an O-RU component integrated into a multi-module system.</text>
+    </description>
+  </identity>
+  <typedef name="energysaving-state">
+    <type name="enumeration">
+      <enum name="UNKNOWN">
+        <description>
+          <text>The Radio Unit is unable to report energy saving state.</text>
+        </description>
+      </enum>
+      <enum name="SLEEPING">
+        <description>
+          <text>The Radio Unit is in a sleep state. The NETCONF management plane
+connection is functioning. Other functions and hardware which are
+not needed for management plane may be in energy saving mode.</text>
+        </description>
+      </enum>
+      <enum name="AWAKE">
+        <description>
+          <text>The Radio Unit is not in an energy saving state.</text>
+        </description>
+      </enum>
+    </type>
+    <description>
+      <text>new typedef since ietf-hardware only covers pwer-state
+for redundancy purposes and not power saving operations.</text>
+    </description>
+  </typedef>
+  <typedef name="availability-type">
+    <type name="enumeration">
+      <enum name="UNKNOWN">
+        <description>
+          <text>The Radio Unit is unable to report its availability state.</text>
+        </description>
+      </enum>
+      <enum name="NORMAL">
+        <description>
+          <text>The equipment is functioning correctly.</text>
+        </description>
+      </enum>
+      <enum name="DEGRADED">
+        <description>
+          <text>The equipment may be reporting a major alarm or may be reporting a critical
+alarm that is only impacting one or more subcomponent, but where the
+equipment's implementation permit it to continue operation (server traffic)
+in a degraded state.
+
+Used for example, when the equipment has M identical sub-components and
+when a critical alarm is imapcting only N subcomponents, where N&lt;M.</text>
+        </description>
+      </enum>
+      <enum name="FAULTY">
+        <description>
+          <text>The (sub-)components impacted by the critical alarm(s) impact the
+ability of the equipment to continue operation (serve traffic).</text>
+        </description>
+      </enum>
+    </type>
+    <description>
+      <text>Equipment's availability-state is derived by matching active faults
+and their impact to module's operation and enables an equipment to indicate
+that even though it may have one or more critical alarms, it can continue
+to serve traffic.</text>
+    </description>
+  </typedef>
+  <augment target-node="/hw:hardware/hw:component">
+    <when condition="(derived-from-or-self(hw:class, 'o-ran-hw:O-RAN-RADIO')) or&#10;(derived-from-or-self(hw:class, 'o-ran-hw:O-RAN-HW-COMPONENT'))"/>
+    <description>
+      <text>New O-RAN parameters for o-ran hardware</text>
+    </description>
+    <container name="label-content">
+      <config value="false"/>
+      <description>
+        <text>Which set of attributes are printed on the Radio Unit's label</text>
+      </description>
+      <leaf name="model-name">
+        <type name="boolean"/>
+        <description>
+          <text>indicates whether model-name is included on the equipment's label</text>
+        </description>
+      </leaf>
+      <leaf name="serial-number">
+        <type name="boolean"/>
+        <description>
+          <text>indicates whether serial number is included on the equipment's label</text>
+        </description>
+      </leaf>
+    </container>
+    <leaf name="product-code">
+      <type name="string"/>
+      <config value="false"/>
+      <mandatory value="true"/>
+      <description>
+        <text>O-RAN term that is distinct from model-name in ietf-hardware.</text>
+      </description>
+    </leaf>
+    <leaf name="energy-saving-enabled">
+      <if-feature name="ENERGYSAVING"/>
+      <type name="boolean"/>
+      <config value="true"/>
+      <default value="false"/>
+      <description>
+        <text>This parameter can enable O-RAN unit to be switched to energy
+saving mode.
+TRUE indicates to switch the energy saving mode.
+FALSE indicates to cancel the energy saving mode.
+At the energy saving mode, all power of whole O-RAN unit becomes
+lowest level whereas M-plane is still available</text>
+      </description>
+    </leaf>
+  </augment>
+  <augment target-node="/hw:hardware/hw:component">
+    <when condition="(derived-from-or-self(hw:class, 'o-ran-hw:O-RAN-RADIO')) or&#10;(derived-from-or-self(hw:class, 'ianahw:port')) or&#10;(derived-from-or-self(hw:class, 'o-ran-hw:O-RAN-HW-COMPONENT'))"/>
+    <description>
+      <text>New O-RAN parameters for o-ran naming</text>
+    </description>
+    <leaf name="o-ran-name">
+      <type name="leafref">
+        <path value="/hw:hardware/hw:component/hw:name"/>
+      </type>
+      <must condition="re-match(current(),'[a-zA-Z0-9][a-zA-Z0-9\.\-_]{0,253}[a-zA-Z0-9]')">
+        <error-message>
+          <value>Name must match pattern and length.</value>
+        </error-message>
+      </must>
+      <mandatory value="true"/>
+      <description>
+        <text>O-RAN name needed to bind and match with the name of hw element,
+to be compliant with O-RAN naming convention.</text>
+      </description>
+    </leaf>
+  </augment>
+  <augment target-node="/hw:hardware/hw:component/hw:state">
+    <when condition="(derived-from-or-self(../hw:class, 'o-ran-hw:O-RAN-RADIO')) or&#10;(derived-from-or-self(../hw:class, 'o-ran-hw:O-RAN-HW-COMPONENT'))"/>
+    <description>
+      <text>new O-RAN defined state</text>
+    </description>
+    <leaf name="power-state">
+      <if-feature name="ENERGYSAVING"/>
+      <type name="energysaving-state"/>
+      <config value="false"/>
+      <description>
+        <text>The current power saving state for this component.
+Note - hw:/hardware/compnent/state/standby-state defined in RFC 4268 is
+used for redundancy purposes and not power saving operations.</text>
+      </description>
+    </leaf>
+    <leaf name="availability-state">
+      <type name="availability-type"/>
+      <config value="false"/>
+      <description>
+        <text>Equipment's availability-state is derived by matching active faults
+and their impact to module's operation and enables an equipment to indicate
+that even though it may have one or more critical alarms, it can continue
+to serve traffic.</text>
+      </description>
+    </leaf>
+  </augment>
+  <augment target-node="/hw:hardware-state-oper-enabled">
+    <description>
+      <text>new availability state</text>
+    </description>
+    <leaf name="availability-state">
+      <type name="leafref">
+        <path value="/hw:hardware/hw:component/hw:state/o-ran-hw:availability-state"/>
+      </type>
+      <description>
+        <text>The availability-state of the O-RU.</text>
+      </description>
+    </leaf>
+  </augment>
+  <augment target-node="/hw:hardware-state-oper-disabled">
+    <description>
+      <text>new availability state</text>
+    </description>
+    <leaf name="availability-state">
+      <type name="leafref">
+        <path value="/hw:hardware/hw:component/hw:state/o-ran-hw:availability-state"/>
+      </type>
+      <description>
+        <text>The availability-state of the O-RU.</text>
+      </description>
+    </leaf>
+  </augment>
+</module>
