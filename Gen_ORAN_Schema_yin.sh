@@ -19,5 +19,11 @@ python pyang.py -f yin -o oran_yang/All_yin/o-ran-hardware.yin oran_yang/CommonM
 python pyang.py -f yin -o oran_yang/All_yin/o-ran-file-management.yin oran_yang/CommonModels/Operations/o-ran-file-management.yang \
                 -p oran_yang/ImportedModels \
 
+python pyang.py -f yin -o oran_yang/All_yin/o-ran-supervision.yin oran_yang/CommonModels/System/o-ran-supervision.yang \
+                -p oran_yang/ImportedModels \
+                
+python pyang.py -f yin -o oran_yang/All_yin/o-ran-fm.yin oran_yang/CommonModels/System/o-ran-fm.yang \
+                -p oran_yang/ImportedModels \
 
-# cp oran_yang/All_Template/*.xml ../../modules/rru_manager/data_schema
+
+cp oran_yang/All_yin/*.yin ../../modules/rru_manager/data_schema_yin

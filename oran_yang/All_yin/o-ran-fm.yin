@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="o-ran-fm"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:o-ran-fm="urn:o-ran:fm:1.0"
+        xmlns:yang="urn:ietf:params:xml:ns:yang:ietf-yang-types">
+  <yang-version value="1.1"/>
+  <namespace uri="urn:o-ran:fm:1.0"/>
+  <prefix value="o-ran-fm"/>
+  <import module="ietf-yang-types">
+    <prefix value="yang"/>
+    <revision-date date="2013-07-15"/>
+  </import>
+  <organization>
+    <text>O-RAN Alliance</text>
+  </organization>
+  <contact>
+    <text>www.o-ran.org</text>
+  </contact>
+  <description>
+    <text>This module defines alarm reporting mechanism.
+
+Copyright 2019 the O-RAN Alliance.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice,
+this list of conditions and the above disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the above disclaimer in the documentation
+and/or other materials provided with the distribution.
+* Neither the Members of the O-RAN Alliance nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.</text>
+  </description>
+  <revision date="2019-02-04">
+    <description>
+      <text>version 1.0.0
+
+1) imported model from xRAN
+2) changed namespace and reference from xran to o-ran</text>
+    </description>
+    <reference>
+      <text>ORAN-WG4.M.0-v01.00</text>
+    </reference>
+  </revision>
+  <grouping name="alarm">
+    <description>
+      <text>Gropuping which can uniquely identify alarm</text>
+    </description>
+    <leaf name="fault-id">
+      <type name="uint16"/>
+      <mandatory value="true"/>
+      <description>
+        <text>Fault specific Id that identifies the fault.</text>
+      </description>
+    </leaf>
+    <leaf name="fault-source">
+      <type name="string">
+        <length value="1..255"/>
+      </type>
+      <mandatory value="true"/>
+      <description>
+        <text>Represents the Object or source that is suspected to be faulty.</text>
+      </description>
+    </leaf>
+    <list name="affected-objects">
+      <leaf name="name">
+        <type name="string">
+          <length value="1..255"/>
+        </type>
+        <mandatory value="true"/>
+        <description>
+          <text>Represents the Object or source that is suspected to be affected by this fault</text>
+        </description>
+      </leaf>
+      <min-elements value="1"/>
+      <max-elements value="100"/>
+      <description>
+        <text>List of affected-objects</text>
+      </description>
+    </list>
+    <leaf name="fault-severity">
+      <type name="enumeration">
+        <enum name="CRITICAL">
+          <description>
+            <text>Critical alarm means that this device is not able to perform any further service</text>
+          </description>
+        </enum>
+        <enum name="MAJOR">
+          <description>
+            <text>Major alarm appeared on the device</text>
+          </description>
+        </enum>
+        <enum name="MINOR">
+          <description>
+            <text>Minor alarm appeared on the device</text>
+          </description>
+        </enum>
+        <enum name="WARNING">
+          <description>
+            <text>Warning is being reported by the device</text>
+          </description>
+        </enum>
+      </type>
+      <mandatory value="true"/>
+      <description>
+        <text>Fault severity defines the severity level of the fault. A notification, whose fault severity has the value 'warning',
+is a special type of an alarm notification. For these alarm notifications,
+the Master Agent does not expect to receive a clear alarm notification.</text>
+      </description>
+    </leaf>
+    <leaf name="is-cleared">
+      <type name="boolean"/>
+      <mandatory value="true"/>
+      <description>
+        <text>Fault state determines the type of the event. Not used if faultSeverity is WARNING.</text>
+      </description>
+    </leaf>
+    <leaf name="fault-text">
+      <type name="string">
+        <length value="0..255"/>
+      </type>
+      <description>
+        <text>Textual description of the fault.</text>
+      </description>
+    </leaf>
+    <leaf name="event-time">
+      <type name="yang:date-and-time"/>
+      <mandatory value="true"/>
+      <description>
+        <text>Timestamp to indicate the time when the fault is detected/cleared.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <container name="active-alarm-list">
+    <list name="active-alarms">
+      <uses name="alarm"/>
+      <description>
+        <text>List of currenty active alarms</text>
+      </description>
+    </list>
+    <config value="false"/>
+    <description>
+      <text>List of currently active alarms. An alarm is removed from this table when the state transitions to clear.</text>
+    </description>
+  </container>
+  <notification name="alarm-notif">
+    <uses name="alarm"/>
+    <description>
+      <text>Notification sent on initial alarm creation, as well as any time the alarm changes state, including clear</text>
+    </description>
+  </notification>
+</module>
