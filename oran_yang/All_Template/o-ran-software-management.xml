@@ -1,0 +1,801 @@
+<module name="flexoran-oam-modules"
+  xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+  xmlns:modules="http://certusnet.com.cn/flexoran/oam/flexoran-oam-modules">
+  <namespace uri="http://certusnet.com.cn/flexoran/oam/flexoran-oam-modules"/>
+  <prefix value="modules"/>
+  <organization>
+    <text>CertusNet</text>
+  </organization>
+  <description>
+    <text>This module defines modules configuration.</text>
+  </description>
+  <version>
+    <text>1.1</text>
+  </version>
+  <software-inventory>
+    <para_name>software-inventory</para_name>
+    <type>container</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory</para_path>
+    <key_list></key_list>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </software-inventory>
+  <software-slot>
+    <para_name>software-slot</para_name>
+    <type>list</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot</para_path>
+    <element_num>2</element_num>
+    <key_list>name</key_list>
+    <operation>ADD RMV MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </software-slot>
+  <name>
+    <para_name>name</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/name</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Name of the software package. This shall be unique to identify the software-slot.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </name>
+  <status>
+    <para_name>status</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/status</para_path>
+    <data_type>enumeration</data_type>
+    <para_en_desc>Indicates the status of the software slot</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>VALID,INVALID,EMPTY</memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </status>
+  <active>
+    <para_name>active</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/active</para_path>
+    <data_type>boolean</data_type>
+    <para_en_desc>informs if software stored in particular slot is activated at the moment</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </active>
+  <running>
+    <para_name>running</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/running</para_path>
+    <data_type>boolean</data_type>
+    <para_en_desc>informs if software stored in particular slot is used at the moment</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </running>
+  <access>
+    <para_name>access</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/access</para_path>
+    <data_type>enumeration</data_type>
+    <para_en_desc>Indicates the writability of the slot. A Read-Only software slot is one which has a factory installed software-slot</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>READ_ONLY,READ_WRITE</memory_range>
+    <dft_val>READ_WRITE</dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </access>
+  <product-code>
+    <para_name>product-code</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/product-code</para_path>
+    <data_type>product-code</data_type>
+    <para_en_desc>product code provided by the vendor, specific to the product. This is derived from manifest file.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </product-code>
+  <vendor-code>
+    <para_name>vendor-code</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/vendor-code</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Unique code of the vendor. This is derived from manifest file.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </vendor-code>
+  <build-id>
+    <para_name>build-id</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/build-id</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Identity associated with the software build. This is derived from manifest file.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </build-id>
+  <build-name>
+    <para_name>build-name</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/build-name</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Name of the build. This is derived from manifest file.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </build-name>
+  <build-version>
+    <para_name>build-version</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/build-version</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>The vendor-specific version string of the software build.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </build-version>
+  <files>
+    <para_name>files</para_name>
+    <type>list</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/files</para_path>
+    <element_num></element_num>
+    <key_list>name</key_list>
+    <operation>ADD RMV MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </files>
+  <name>
+    <para_name>name</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/files/name</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Name of the file installed in the slot.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </name>
+  <version>
+    <para_name>version</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/files/version</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Version of the file installed in the slot</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </version>
+  <local-path>
+    <para_name>local-path</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/files/local-path</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Complete path of the file stored locally</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </local-path>
+  <integrity>
+    <para_name>integrity</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>/software-inventory/software-slot/files/integrity</para_path>
+    <data_type>enumeration</data_type>
+    <para_en_desc>Result of the file integrity check (checksum calculation) during installation.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>OK,NOK</memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </integrity>
+
+  rpcs:
+  <software-download>
+    <para_name>software-download</para_name>
+    <type>rpc</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-download</para_path>
+  </software-download>
+  <input>
+    <para_name>input</para_name>
+    <type>input</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-download/input</para_path>
+  </input>
+  <remote-file-path>
+    <para_name>remote-file-path</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-download/input/remote-file-path</para_path>
+    <data_type>uri</data_type>
+    <para_en_desc>URI of the software image including username. The following format is possible: sftp://<username>@<host>[:<port>]/path</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </remote-file-path>
+  <output>
+    <para_name>output</para_name>
+    <type>output</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-download/output</para_path>
+  </output>
+  <status>
+    <para_name>status</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-download/output/status</para_path>
+    <data_type>enumeration</data_type>
+    <para_en_desc>Status of the software files download</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>STARTED,FAILED</memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </status>
+  <error-message>
+    <para_name>error-message</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-download/output/error-message</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Detailed error Message when the status is failed.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </error-message>
+  <notification-timeout>
+    <para_name>notification-timeout</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-download/output/notification-timeout</para_path>
+    <data_type>int32</data_type>
+    <para_en_desc>Notification timeout is the time NETCONF client shall wait for a 'download-event' notification from O-RU. If there is no 'download-event' notification received within notification-timeout, NETCONF client shall assume the download timeout/failure, and follow necessary steps.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit>seconds</unit>
+    <memory_range></memory_range>
+    <dft_val>30</dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </notification-timeout>
+  <software-install>
+    <para_name>software-install</para_name>
+    <type>rpc</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-install</para_path>
+  </software-install>
+  <input>
+    <para_name>input</para_name>
+    <type>input</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-install/input</para_path>
+  </input>
+  <slot-name>
+    <para_name>slot-name</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-install/input/slot-name</para_path>
+    <data_type>-> /software-inventory/software-slot/name</data_type>
+    <para_en_desc>software-slot to which the software shall be installed to.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </slot-name>
+  <file-names>
+    <para_name>file-names</para_name>
+    <type>leaf-list</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-install/input/file-names</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Names of the files within software package to be installed</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </file-names>
+  <output>
+    <para_name>output</para_name>
+    <type>output</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-install/output</para_path>
+  </output>
+  <status>
+    <para_name>status</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-install/output/status</para_path>
+    <data_type>enumeration</data_type>
+    <para_en_desc>Status of the software package install.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>STARTED,FAILED</memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </status>
+  <error-message>
+    <para_name>error-message</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-install/output/error-message</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Detailed error Message when the status is failed.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </error-message>
+  <software-activate>
+    <para_name>software-activate</para_name>
+    <type>rpc</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-activate</para_path>
+  </software-activate>
+  <input>
+    <para_name>input</para_name>
+    <type>input</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-activate/input</para_path>
+  </input>
+  <slot-name>
+    <para_name>slot-name</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-activate/input/slot-name</para_path>
+    <data_type>-> /software-inventory/software-slot/name</data_type>
+    <para_en_desc>Slot name on which software has to be activated.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </slot-name>
+  <output>
+    <para_name>output</para_name>
+    <type>output</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-activate/output</para_path>
+  </output>
+  <status>
+    <para_name>status</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-activate/output/status</para_path>
+    <data_type>enumeration</data_type>
+    <para_en_desc>Status of the software files activation</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>STARTED,FAILED</memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </status>
+  <error-message>
+    <para_name>error-message</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-activate/output/error-message</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Detailed error Message when the status is failed.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </error-message>
+  <notification-timeout>
+    <para_name>notification-timeout</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /software-activate/output/notification-timeout</para_path>
+    <data_type>int32</data_type>
+    <para_en_desc>Timeout on client waiting for the activate event</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit>seconds</unit>
+    <memory_range></memory_range>
+    <dft_val>30</dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </notification-timeout>
+
+  notifications:
+  <download-event>
+    <para_name>download-event</para_name>
+    <type>notification</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /download-event</para_path>
+  </download-event>
+  <file-name>
+    <para_name>file-name</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /download-event/file-name</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>File name of downloaded software package</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </file-name>
+  <status>
+    <para_name>status</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /download-event/status</para_path>
+    <data_type>enumeration</data_type>
+    <para_en_desc>Status of finished operation execution</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>COMPLETED,AUTHENTICATION_ERROR,PROTOCOL_ERROR,FILE_NOT_FOUND,APPLICATION_ERROR,TIMEOUT</memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </status>
+  <error-message>
+    <para_name>error-message</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /download-event/error-message</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Detailed description of faulty situation</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </error-message>
+  <install-event>
+    <para_name>install-event</para_name>
+    <type>notification</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /install-event</para_path>
+  </install-event>
+  <slot-name>
+    <para_name>slot-name</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /install-event/slot-name</para_path>
+    <data_type>-> /software-inventory/software-slot/name</data_type>
+    <para_en_desc>Name of the slot to which software was installed.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </slot-name>
+  <status>
+    <para_name>status</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /install-event/status</para_path>
+    <data_type>enumeration</data_type>
+    <para_en_desc>Status of finished operation execution</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>COMPLETED,FILE_ERROR,INTEGRITY_ERROR,APPLICATION_ERROR</memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </status>
+  <error-message>
+    <para_name>error-message</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /install-event/error-message</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Detailed description of faulty situation</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </error-message>
+  <activation-event>
+    <para_name>activation-event</para_name>
+    <type>notification</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /activation-event</para_path>
+  </activation-event>
+  <slot-name>
+    <para_name>slot-name</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /activation-event/slot-name</para_path>
+    <data_type>-> /software-inventory/software-slot/name</data_type>
+    <para_en_desc>Name of the slot which was activated</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </slot-name>
+  <status>
+    <para_name>status</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /activation-event/status</para_path>
+    <data_type>enumeration</data_type>
+    <para_en_desc>Status of finished operation execution</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>COMPLETED,APPLICATION_ERROR</memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </status>
+  <return-code>
+    <para_name>return-code</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /activation-event/return-code</para_path>
+    <data_type>uint8</data_type>
+    <para_en_desc>status code return when the software is tried to activate</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </return-code>
+  <error-message>
+    <para_name>error-message</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:software-management:1.0</namespace>
+    <prefix>o-ran-swm</prefix>
+    <modulename>o-ran-software-management</modulename>
+    <para_path>  /activation-event/error-message</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>Detailed description of faulty situation</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </error-message>
+</module>
