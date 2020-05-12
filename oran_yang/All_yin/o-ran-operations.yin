@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="o-ran-operations"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:o-ran-ops="urn:o-ran:operations:1.0"
+        xmlns:yang="urn:ietf:params:xml:ns:yang:ietf-yang-types"
+        xmlns:nacm="urn:ietf:params:xml:ns:yang:ietf-netconf-acm"
+        xmlns:hw="urn:ietf:params:xml:ns:yang:ietf-hardware"
+        xmlns:tailf="http://tail-f.com/yang/common">
+  <yang-version value="1.1"/>
+  <namespace uri="urn:o-ran:operations:1.0"/>
+  <prefix value="o-ran-ops"/>
+  <import module="ietf-yang-types">
+    <prefix value="yang"/>
+  </import>
+  <import module="ietf-netconf-acm">
+    <prefix value="nacm"/>
+    <reference>
+      <text>RFC 8341: Network Configuration Access Control Model</text>
+    </reference>
+  </import>
+  <import module="ietf-hardware">
+    <prefix value="hw"/>
+  </import>
+  <import module="tailf-common">
+    <prefix value="tailf"/>
+  </import>
+  <organization>
+    <text>O-RAN Alliance</text>
+  </organization>
+  <contact>
+    <text>www.o-ran.org</text>
+  </contact>
+  <description>
+    <text>This module defines the YANG model used for O-RAN operations.
+
+Copyright 2019 the O-RAN Alliance.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice,
+this list of conditions and the above disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the above disclaimer in the documentation
+and/or other materials provided with the distribution.
+* Neither the Members of the O-RAN Alliance nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.</text>
+  </description>
+  <revision date="2019-07-03">
+    <description>
+      <text>version 2.0.0
+
+1) added timezone-name
+2) added ru-instance-id
+3) backward compatible changes to introduce groupings.</text>
+    </description>
+    <reference>
+      <text>ORAN-WG4.M.0-v01.00</text>
+    </reference>
+  </revision>
+  <revision date="2019-02-04">
+    <description>
+      <text>version 1.0.0
+
+1) imported model from xRAN
+2) changed namespace and reference from xran to o-ran</text>
+    </description>
+    <reference>
+      <text>ORAN-WG4.M.0-v01.00</text>
+    </reference>
+  </revision>
+  <typedef name="timezone-name">
+    <type name="string"/>
+    <description>
+      <text>A time zone name as used by the Time Zone Database,
+sometimes referred to as the 'Olson Database'.
+
+The complete set of valid values is defined in
+https://www.iana.org/time-zones.
+
+The exact set of supported values is an
+implementation-specific matter.</text>
+    </description>
+    <reference>
+      <text>RFC 6557: Procedures for Maintaining the Time Zone Database
+IANA Time Zone Database https://www.iana.org/time-zones </text>
+    </reference>
+  </typedef>
+  <typedef name="version">
+    <type name="string">
+      <pattern value="[0-9]+(\.[0-9]+){1,2}"/>
+    </type>
+    <description>
+      <text>this type definition is used to represent the version of the WG4
+fronthaul interface.</text>
+    </description>
+  </typedef>
+  <grouping name="operational-group">
+    <container name="declarations">
+      <config value="false"/>
+      <description>
+        <text>WG4 Specific Declarations of supported version of standards</text>
+      </description>
+      <tailf:callpoint id="show-operational-info-declarations"/>
+      <leaf name="ru-instance-id">
+        <type name="string"/>
+        <must condition="re-match(current(), concat(/hw:hardware/hw:component/hw:mfg-name,&#10;'_', /hw:hardware/hw:component/hw:model-name, '_',&#10;/hw:hardware/hw:component/hw:serial-num ))"/>
+        <description>
+          <text>a unique instance identifier that may be used to identify a
+particular hardware instance, e.g., when used performing hierarchical
+management via the O-DU.</text>
+        </description>
+      </leaf>
+      <leaf name="supported-mplane-version">
+        <type name="version"/>
+        <default value="1.0.0"/>
+        <description>
+          <text>Parameter provides highest M-Plane specification version device is compliant with.</text>
+        </description>
+      </leaf>
+      <leaf name="supported-cusplane-version">
+        <type name="version"/>
+        <default value="1.0.0"/>
+        <description>
+          <text>Parameter provides highest CUS-Plane specification version device is compliant with.</text>
+        </description>
+      </leaf>
+      <list name="supported-header-mechanism">
+        <description>
+          <text>list provides information regarding type and version of headers.</text>
+        </description>
+        <key value="protocol"/>
+        <leaf name="protocol">
+          <type name="enumeration">
+            <enum name="ECPRI">
+              <description>
+                <text>Indicates that an O-RU supports the ecpri header format
+for the C/U plane</text>
+              </description>
+            </enum>
+            <enum name="IEEE-1914-3">
+              <description>
+                <text>Indicates that an O-RU supports the 1914.3 header format
+for the C/U plane</text>
+              </description>
+            </enum>
+          </type>
+          <description>
+            <text>Transport protocol type.</text>
+          </description>
+        </leaf>
+        <leaf name="ecpri-concatenation-support">
+          <when condition="../protocol = 'ECPRI'"/>
+          <type name="boolean"/>
+          <default value="false"/>
+          <description>
+            <text>This leaf is used to indicate whether the O-RU supports the optional
+eCPRI concatenation capability</text>
+          </description>
+        </leaf>
+        <leaf name="protocol-version">
+          <type name="version"/>
+          <default value="1.0"/>
+          <description>
+            <text>Header protocol version.</text>
+          </description>
+        </leaf>
+      </list>
+    </container>
+    <container name="operational-state">
+      <config value="false"/>
+      <description>
+        <text>Operational state for the O-RAN network element</text>
+      </description>
+      <tailf:callpoint id="show-operational-info-operational-state"/>
+      <leaf name="restart-cause">
+        <type name="enumeration">
+          <enum name="POWER-ON">
+            <description>
+              <text>Equipment restarted because it was powered on</text>
+            </description>
+          </enum>
+          <enum name="SUPERVISION-WATCHDOG">
+            <description>
+              <text>Equipment restarted because it's supervision wathcdog timer wasn't reset
+by a NETCONF client (inferring loss of NETCONF connectivity)</text>
+            </description>
+          </enum>
+          <enum name="MPLANE-TRIGGERED-RESTART">
+            <description>
+              <text>Equipment restarted because of an M-plane issued  rpc</text>
+            </description>
+          </enum>
+          <enum name="SOFTWARE-FAILURE">
+            <description>
+              <text>Equipment restarted because of software failure</text>
+            </description>
+          </enum>
+          <enum name="OTHER-WATCHDOG-TIMER">
+            <description>
+              <text>Equipment restarted because of some other non NETCONF watchdog timer</text>
+            </description>
+          </enum>
+          <enum name="UNKNOWN">
+            <description>
+              <text>The restart reason for the Equipment is unknown</text>
+            </description>
+          </enum>
+        </type>
+        <description>
+          <text>the cause for the last restart of the O-RAN Network Element</text>
+        </description>
+      </leaf>
+      <leaf name="restart-datetime">
+        <type name="yang:date-and-time"/>
+        <description>
+          <text>The system date and time when the system last restarted.</text>
+        </description>
+      </leaf>
+    </container>
+    <container name="clock">
+      <description>
+        <text>System date and time properties used by all working groups.</text>
+      </description>
+      <leaf name="timezone-name">
+        <type name="timezone-name"/>
+        <description>
+          <text>An optional TZ database name to use for the system,
+such as 'Europe/Stockholm'
+
+Time zone name is an informative leaf and is NOT used in the
+managed element to convert local time zone.
+
+The managed element may include time zone name in measurement or
+fault data.</text>
+        </description>
+      </leaf>
+      <leaf name="timezone-utc-offset">
+        <type name="int16">
+          <range value="-720 .. 840"/>
+        </type>
+        <units name="minutes"/>
+        <default value="0"/>
+        <description>
+          <text>The number of minutes to add to UTC time to
+identify the time zone for this system.  For example,
+'UTC - 8:00 hours' would be represented as '-480'.</text>
+        </description>
+      </leaf>
+    </container>
+    <leaf name="re-call-home-no-ssh-timer">
+      <type name="uint16"/>
+      <units name="seconds"/>
+      <default value="60"/>
+      <description>
+        <text>A common timer used by the O-RAN equipment to trigger the repeated call
+home procedure to all identified call home servers to which the O-RAN
+equipment has not already an established SSH connection.
+
+A value of 0 means that the O-RAN equipment shall disable operation
+of the timer triggered NETCONF call home procedure.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <container name="operational-info">
+    <description>
+      <text>a collection of operational infor for the O-RU</text>
+    </description>
+    <uses name="operational-group"/>
+  </container>
+  <rpc name="reset">
+    <nacm:default-deny-all/>
+    <description>
+      <text>Management plane triggered restart of the radio unit.
+A server SHOULD send an rpc reply to the client before
+restarting the system.</text>
+    </description>
+  </rpc>
+</module>

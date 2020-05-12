@@ -25,5 +25,8 @@ python pyang.py -f yin -o oran_yang/All_yin/o-ran-supervision.yin oran_yang/Comm
 python pyang.py -f yin -o oran_yang/All_yin/o-ran-fm.yin oran_yang/CommonModels/System/o-ran-fm.yang \
                 -p oran_yang/ImportedModels \
 
+python pyang.py -f yin -o oran_yang/All_yin/o-ran-operations.yin oran_yang/CommonModels/Operations/o-ran-operations.yang \
+                -p oran_yang/ImportedModels \
+
 
 cp oran_yang/All_yin/*.yin ../../modules/rru_manager/data_schema_yin
