@@ -1,4 +1,4 @@
-python pyang.py -f moxml --moXML-version=RadisysDU_1.8_version1.0.2 \
+python pyang.py -f moxml --moXML-version=RadisysDU_1.8_version1.0.3 \
                    ../../yang/develop/yang/oam/flexoran-5gnr-modules.yang \
                    -p ../../yang/develop/yang/oam/fap_mgr \
                    -p ../../yang/develop/yang/oam/alarm_mgr \
@@ -8,7 +8,7 @@ python pyang.py -f moxml --moXML-version=RadisysDU_1.8_version1.0.2 \
                    -p ../../yang/develop/yang/oam/swm \
                 -o ../../yang/develop/schema/flexoran-omc-oam-getschema.yin
 
-python pyang.py -f moxml --moXML-version=RadisysDU_1.8_version1.0.2 \
+python pyang.py -f moxml --moXML-version=RadisysDU_1.8_version1.0.3 \
                    ../../yang/develop/yang/du/ngran-gNBDUFunction.yang \
                    -p ../../yang/develop/yang/du \
                    -p ../../yang/develop/yang/ImportedModels \
