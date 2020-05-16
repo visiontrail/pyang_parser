@@ -14,13 +14,4 @@ python pyang.py -f moxml --moXML-version=RadisysDU_1.8_version1.0.3 \
                    -p ../../yang/develop/yang/ImportedModels \
                 -o ../../yang/develop/schema/DuGetschema.yin
 
-# python pyang.py -f moxml --moXML-version=1.0 \
-#                    oran_yang/ImportedModels/ietf-interfaces.yang \
-#                 -o oran_yang/All_Template/ietf-interfaces.xml
-
-# python pyang.py -f moxml --moXML-version=1.0 \
-#                    oran_yang/CommonModels/Operations/o-ran-operations.yang \
-#                 -o oran_yang/All_Template/o-ran-operations.xml
-
-
 # cp oran_yang/All_Template/*.xml ../../modules/rru_manager/data_schema

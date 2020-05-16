@@ -22,5 +22,14 @@ python pyang.py -f moxml --moXML-version=1.1 \
                    oran_yang/CommonModels/Operations/o-ran-software-management.yang \
                 -o oran_yang/All_Template/o-ran-software-management.xml
 
+python pyang.py -f moxml --moXML-version=1.1 \
+                   oran_yang/CommonModels/System/o-ran-hardware.yang \
+                -p oran_yang/ImportedModels \
+                -o oran_yang/All_Template/o-ran-hardware.xml
+
+python pyang.py -f moxml --moXML-version=1.1 \
+                   oran_yang/ImportedModels/ietf-hardware.yang \
+                -o oran_yang/All_Template/ietf-hardware.xml
+
 
 cp oran_yang/All_Template/*.xml ../../modules/rru_manager/data_schema

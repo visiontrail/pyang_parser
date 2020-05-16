@@ -1,0 +1,195 @@
+
+<module name="flexoran-oam-modules"
+  xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+  xmlns:modules="http://certusnet.com.cn/flexoran/oam/flexoran-oam-modules">
+  <namespace uri="http://certusnet.com.cn/flexoran/oam/flexoran-oam-modules"/>
+  <prefix value="modules"/>
+  <organization>
+    <text>CertusNet</text>
+  </organization>
+  <description>
+    <text>This module defines modules configuration.</text>
+  </description>
+  <version>
+    <text>1.1</text>
+  </version>
+  augment /hw:hardware/hw:component:
+  <label-content>
+    <para_name>label-content</para_name>
+    <type>container</type>
+    <namespace>urn:o-ran:hardware:1.0</namespace>
+    <prefix>o-ran-hw</prefix>
+    <modulename>o-ran-hardware</modulename>
+    <para_path>  /label-content</para_path>
+    <key_list></key_list>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </label-content>
+  <model-name>
+    <para_name>model-name</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:hardware:1.0</namespace>
+    <prefix>o-ran-hw</prefix>
+    <modulename>o-ran-hardware</modulename>
+    <para_path>  /label-content/model-name</para_path>
+    <data_type>boolean</data_type>
+    <para_en_desc>indicates whether model-name is included on the equipment's label</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </model-name>
+  <serial-number>
+    <para_name>serial-number</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:hardware:1.0</namespace>
+    <prefix>o-ran-hw</prefix>
+    <modulename>o-ran-hardware</modulename>
+    <para_path>  /label-content/serial-number</para_path>
+    <data_type>boolean</data_type>
+    <para_en_desc>indicates whether serial number is included on the equipment's label</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </serial-number>
+  <product-code>
+    <para_name>product-code</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:hardware:1.0</namespace>
+    <prefix>o-ran-hw</prefix>
+    <modulename>o-ran-hardware</modulename>
+    <para_path>  /product-code</para_path>
+    <data_type>string</data_type>
+    <para_en_desc>O-RAN term that is distinct from model-name in ietf-hardware.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </product-code>
+  <energy-saving-enabled>
+    <para_name>energy-saving-enabled</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:hardware:1.0</namespace>
+    <prefix>o-ran-hw</prefix>
+    <modulename>o-ran-hardware</modulename>
+    <para_path>  /energy-saving-enabled</para_path>
+    <data_type>boolean</data_type>
+    <para_en_desc>This parameter can enable O-RAN unit to be switched to energy saving mode. TRUE indicates to switch the energy saving mode. FALSE indicates to cancel the energy saving mode. At the energy saving mode, all power of whole O-RAN unit becomes lowest level whereas M-plane is still available</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val>false</dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </energy-saving-enabled>
+  augment /hw:hardware/hw:component:
+  <o-ran-name>
+    <para_name>o-ran-name</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:hardware:1.0</namespace>
+    <prefix>o-ran-hw</prefix>
+    <modulename>o-ran-hardware</modulename>
+    <para_path>  /o-ran-name</para_path>
+    <data_type>hardware/component/name</data_type>
+    <para_en_desc>O-RAN name needed to bind and match with the name of hw element, to be compliant with O-RAN naming convention.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </o-ran-name>
+  augment /hw:hardware/hw:component/hw:state:
+  <power-state>
+    <para_name>power-state</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:hardware:1.0</namespace>
+    <prefix>o-ran-hw</prefix>
+    <modulename>o-ran-hardware</modulename>
+    <para_path>  /power-state</para_path>
+    <data_type>enumeration</data_type>
+    <para_en_desc>The current power saving state for this component. Note - hw:/hardware/compnent/state/standby-state defined in RFC 4268 is used for redundancy purposes and not power saving operations.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>UNKNOWN,SLEEPING,AWAKE</memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </power-state>
+  <availability-state>
+    <para_name>availability-state</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:hardware:1.0</namespace>
+    <prefix>o-ran-hw</prefix>
+    <modulename>o-ran-hardware</modulename>
+    <para_path>  /availability-state</para_path>
+    <data_type>enumeration</data_type>
+    <para_en_desc>Equipment's availability-state is derived by matching active faults and their impact to module's operation and enables an equipment to indicate that even though it may have one or more critical alarms, it can continue to serve traffic.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>UNKNOWN,NORMAL,DEGRADED,FAULTY</memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </availability-state>
+  augment /hw:hardware-state-oper-enabled:
+  <availability-state>
+    <para_name>availability-state</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:hardware:1.0</namespace>
+    <prefix>o-ran-hw</prefix>
+    <modulename>o-ran-hardware</modulename>
+    <para_path>  /availability-state</para_path>
+    <data_type>availability-state</data_type>
+    <para_en_desc>The availability-state of the O-RU.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </availability-state>
+  augment /hw:hardware-state-oper-disabled:
+  <availability-state>
+    <para_name>availability-state</para_name>
+    <type>leaf</type>
+    <namespace>urn:o-ran:hardware:1.0</namespace>
+    <prefix>o-ran-hw</prefix>
+    <modulename>o-ran-hardware</modulename>
+    <para_path>  /availability-state</para_path>
+    <data_type>availability-state</data_type>
+    <para_en_desc>The availability-state of the O-RU.</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </availability-state>
+</module>
