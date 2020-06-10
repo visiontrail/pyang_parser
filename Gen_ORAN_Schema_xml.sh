@@ -31,5 +31,9 @@ python pyang.py -f moxml --moXML-version=1.1 \
                    oran_yang/ImportedModels/ietf-hardware.yang \
                 -o oran_yang/All_Template/ietf-hardware.xml
 
+python pyang.py -f moxml --moXML-version=1.1 \
+                   oran_yang/CertusNet/eulowphy.yang \
+                -o oran_yang/All_Template/eulowphy.xml
+
 
 cp oran_yang/All_Template/*.xml ../../modules/rru_manager/data_schema

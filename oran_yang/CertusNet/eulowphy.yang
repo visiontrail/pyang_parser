@@ -1,0 +1,62 @@
+module eulowphy {
+    yang-version 1.1;
+    namespace "http://certusnet.com.cn/oam/o-eu-lowphy";
+    prefix "eu-lowphy";
+   
+//    import cellSubConfig { 
+//       prefix cell-sub; 
+//       //revision-date "2018-07-31"; 
+//    }
+    // import tailf-common {
+    //     prefix tailf;
+    // }
+
+    organization "CertusNet 5G NR";
+    description "base on eulowphy.yang";
+
+    revision 2020-06-05 {
+        description "Initial revision.";
+    }
+
+    list eu-lowphy-config {
+        //tailf:callpoint "eu-lowphy";
+        key "cellId";
+        leaf cellId {
+            type uint32 {
+                    range "0..268435455" {
+                    error-message "valuse should be in Between 0 to 268435455";
+                }
+            }
+            description "This shows the cellId";
+        }
+        leaf prachCfgIndex {
+            type uint8 {
+                range "0..255";
+            }
+            default 81;
+            description "This contains the prach configuration index";
+        }
+        leaf prachFreqStart {
+            type uint16 {
+                range "0..274" {
+                error-message "valuse Should be in between 0 to 274";
+                }
+            }
+            default 0;
+            description "This contains prach frequency start";
+        }
+        leaf prachSubcSpacing {
+            type uint8 ;/*{
+                        range "0..1" {
+                        error-message "valuse Should be in between 0 to 1";
+                        }
+                        }
+                        */
+            default 3;
+            description "This contains the prach sub spacing";
+        }
+    // uses cell-sub:pLMNIdentityInfoT;
+    // uses cell-sub:l1PrachCfgInfoT;
+  }
+
+}

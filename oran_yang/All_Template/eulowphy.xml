@@ -1,0 +1,100 @@
+<module name="flexoran-oam-modules"
+  xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+  xmlns:modules="http://certusnet.com.cn/flexoran/oam/flexoran-oam-modules">
+  <namespace uri="http://certusnet.com.cn/flexoran/oam/flexoran-oam-modules"/>
+  <prefix value="modules"/>
+  <organization>
+    <text>CertusNet</text>
+  </organization>
+  <description>
+    <text>This module defines modules configuration.</text>
+  </description>
+  <version>
+    <text>1.1</text>
+  </version>
+  <eu-lowphy-config>
+    <para_name>eu-lowphy-config</para_name>
+    <type>list</type>
+    <namespace>http://certusnet.com.cn/oam/o-eu-lowphy</namespace>
+    <prefix>eu-lowphy</prefix>
+    <modulename>eulowphy</modulename>
+    <para_path>/eu-lowphy-config</para_path>
+    <element_num></element_num>
+    <key_list>cellId</key_list>
+    <operation>ADD RMV MOD</operation>
+    <listchildcount>4</listchildcount>
+    <son_list>cellId,prachCfgIndex,prachFreqStart,prachSubcSpacing</son_list>
+  </eu-lowphy-config>
+  <cellId>
+    <para_name>cellId</para_name>
+    <type>leaf</type>
+    <namespace>http://certusnet.com.cn/oam/o-eu-lowphy</namespace>
+    <prefix>eu-lowphy</prefix>
+    <modulename>eulowphy</modulename>
+    <para_path>/eu-lowphy-config/cellId</para_path>
+    <data_type>uint32</data_type>
+    <para_en_desc>This shows the cellId</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>0..268435455</memory_range>
+    <dft_val></dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </cellId>
+  <prachCfgIndex>
+    <para_name>prachCfgIndex</para_name>
+    <type>leaf</type>
+    <namespace>http://certusnet.com.cn/oam/o-eu-lowphy</namespace>
+    <prefix>eu-lowphy</prefix>
+    <modulename>eulowphy</modulename>
+    <para_path>/eu-lowphy-config/prachCfgIndex</para_path>
+    <data_type>uint8</data_type>
+    <para_en_desc>This contains the prach configuration index</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>0..255</memory_range>
+    <dft_val>81</dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </prachCfgIndex>
+  <prachFreqStart>
+    <para_name>prachFreqStart</para_name>
+    <type>leaf</type>
+    <namespace>http://certusnet.com.cn/oam/o-eu-lowphy</namespace>
+    <prefix>eu-lowphy</prefix>
+    <modulename>eulowphy</modulename>
+    <para_path>/eu-lowphy-config/prachFreqStart</para_path>
+    <data_type>uint16</data_type>
+    <para_en_desc>This contains prach frequency start</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range>0..274</memory_range>
+    <dft_val>0</dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </prachFreqStart>
+  <prachSubcSpacing>
+    <para_name>prachSubcSpacing</para_name>
+    <type>leaf</type>
+    <namespace>http://certusnet.com.cn/oam/o-eu-lowphy</namespace>
+    <prefix>eu-lowphy</prefix>
+    <modulename>eulowphy</modulename>
+    <para_path>/eu-lowphy-config/prachSubcSpacing</para_path>
+    <data_type>uint8</data_type>
+    <para_en_desc>This contains the prach sub spacing</para_en_desc>
+    <para_ch_desc></para_ch_desc>
+    <is_dynamic_para>YES</is_dynamic_para>
+    <unit></unit>
+    <memory_range></memory_range>
+    <dft_val>3</dft_val>
+    <operation>MOD</operation>
+    <listchildcount>0</listchildcount>
+    <son_list></son_list>
+  </prachSubcSpacing>
+</module>
